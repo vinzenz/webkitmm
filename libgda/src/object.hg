@@ -1,0 +1,97 @@
+/* $Id: object.hg,v 1.3 2006/11/08 00:07:37 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* error.h
+ *
+ * Copyright 2006 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or(at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+//#include <libgdamm/dict.h>
+
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+_WRAP_ENUM(ValueAttribute, GdaValueAttribute)
+
+class Dict;
+
+/** @defgroup Miscellaneous Miscellaneous
+ */
+
+/** The base class for many of the libgda objects.
+ *
+ * @ingroup Miscellaneous
+ */
+class Object : public Glib::Object
+{
+  _CLASS_GOBJECT(Object, GdaObject, GDA_OBJECT, Glib::Object, GObject)
+protected:
+
+ _CTOR_DEFAULT
+
+public:
+  _WRAP_CREATE()
+
+  _WRAP_METHOD(Glib::RefPtr<Dict> get_dict(), gda_object_get_dict, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Dict> get_dict() const, gda_object_get_dict, constversion)
+
+  _WRAP_METHOD(void set_id(const Glib::ustring& strid), gda_object_set_id)
+  _WRAP_METHOD(void set_name(const Glib::ustring& name), gda_object_set_name)
+  _WRAP_METHOD(void set_description(const Glib::ustring& descr), gda_object_set_description)
+  _WRAP_METHOD(void set_owner(const Glib::ustring& owner), gda_object_set_owner)
+
+  _WRAP_METHOD(Glib::ustring get_id() const, gda_object_get_id)
+  _WRAP_METHOD(Glib::ustring get_name() const, gda_object_get_name)
+  _WRAP_METHOD(Glib::ustring get_description() const, gda_object_get_description)
+  _WRAP_METHOD(Glib::ustring get_owner() const, gda_object_get_owner)
+
+  //We ignore the *destroy methods because they are not appropriate for C++ and don't even seem necessary as public API.
+  _IGNORE(gda_object_destroy, gda_object_destroy_check, gda_object_connect_destroy)
+
+  // Ignore this debugging method
+  _IGNORE(gda_object_dump)
+
+  _WRAP_METHOD(void signal_emit_changed(), gda_object_signal_emit_changed)
+  _WRAP_METHOD(void block_changed(), gda_object_block_changed)
+  _WRAP_METHOD(void unblock_changed(), gda_object_unblock_changed)
+
+  // IMHO, this one might be useful because it is emitted when a Gda::Parameter changes for example
+  _WRAP_SIGNAL(void signal_changed(), "changed")
+
+  /* TODO: Ignore these signals for now because they look strange and not useful:
+  _WRAP_SIGNAL(void id_changed, "id_changed")
+  _WRAP_SIGNAL(void name_changed, "name_changed")
+  _WRAP_SIGNAL(void descr_changed, "descr_changed")
+  _WRAP_SIGNAL(void owner_changed, "owner_changed")
+
+  _WRAP_SIGNAL(void to_be_destroyed, "to_be_destroyed")
+  _WRAP_SIGNAL(void destroyed, "destroyed")
+  */
+
+};
+
+} // namespace Gda
+} // namespace Gnome
+

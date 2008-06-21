@@ -1,0 +1,74 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* queryfield.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/dict.h>
+#include <libgdamm/datamodel.h>
+
+#include <libgdamm/xmlstorage.h>
+#include <libgdamm/queryobject.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/queryobject_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Parent class for any query's field.
+ * @ingroup Queries
+ */
+class QueryField
+ : public QueryObject
+{
+  _CLASS_GOBJECT(QueryField, GdaQueryField, GDA_QUERY_FIELD, QueryObject, GdaQueryObject)
+
+public:
+  _WRAP_METHOD(Glib::RefPtr<QueryField> copy() const, gda_query_field_new_copy)
+
+  // TODO: Constructors use GError* argument
+  _WRAP_METHOD(Glib::RefPtr<DictType> get_dict_type(), gda_query_field_get_dict_type, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictType> get_dict_type() const, gda_query_field_get_dict_type, constversion)
+  
+  _WRAP_METHOD(bool is_equal(const Glib::RefPtr<const QueryField>& qfield2) const, gda_query_field_is_equal)
+  
+  // TODO: GList* gda_query_field_get_parameters
+  _WRAP_METHOD(void set_alias(const Glib::ustring& alias), gda_query_field_set_alias)
+  _WRAP_METHOD(Glib::ustring get_alias() const, gda_query_field_get_alias)
+
+  // TODO: use get_ instead of is_?
+  _WRAP_METHOD(void set_visible(bool visible = true), gda_query_field_set_visible)
+  _WRAP_METHOD(bool get_visible() const, gda_query_field_is_visible)
+  _WRAP_METHOD(void set_internal(bool internal = true), gda_query_field_set_internal)
+  _WRAP_METHOD(bool get_internal() const, gda_query_field_is_internal)
+  _WRAP_METHOD(bool is_list() const, gda_query_field_is_list)
+
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<Parameter> >', `$2($3, Glib::OWNERSHIP_SHALLOW)')
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<const Parameter> >', `$2($3, Glib::OWNERSHIP_SHALLOW)')
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<Parameter> > get_parameters(), gda_query_field_get_parameters)
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<const Parameter> > get_parameters() const, gda_query_field_get_parameters)
+};
+
+} // namespace Gda
+} // namespace Gnome
+

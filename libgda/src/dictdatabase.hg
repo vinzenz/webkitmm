@@ -1,0 +1,117 @@
+/* $Id: dictdatabase.hg,v 1.1 2006/05/08 10:18:53 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* dictdatabase.h
+ *
+ * Copyright 2006 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or(at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/object.h>
+#include <libgdamm/xmlstorage.h>
+#include <libgdamm/dicttable.h>
+#include <libgdamm/dictfield.h>
+#include <libgdamm/dictconstraint.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+class Connection;
+
+/** Represents a database structure in the DBMS server.
+ * This object manages an internal dictionary mirroring the real database structure 
+ * with objects such as DictTable (composed of Dictfield objects) and DictConstraint.
+ * 
+ * @ingroup Dictionaries.
+ */
+class DictDatabase
+: public Gda::Object,
+  public Gda::XmlStorage
+{
+  _CLASS_GOBJECT(DictDatabase, GdaDictDatabase, GDA_DICT_DATABASE, Gda::Object, GdaObject)
+  _IMPLEMENTS_INTERFACE(XmlStorage)
+protected:
+
+ _CTOR_DEFAULT
+
+public:
+  _WRAP_CREATE()
+
+  _WRAP_METHOD(Glib::RefPtr<Dict> get_dict(), gda_dict_database_get_dict, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Dict> get_dict() const, gda_dict_database_get_dict, constversion)
+
+  _WRAP_METHOD(bool update_dbms_data(GType limit_to_type, const Glib::ustring& limit_obj_name), gda_dict_database_update_dbms_data, errthrow)
+  _WRAP_METHOD(void stop_update_dbms_data() const, gda_dict_database_stop_update_dbms_data)
+
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<DictTable> >', `$2($3, Glib::OWNERSHIP_SHALLOW)')
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<const DictTable> >', `$2($3, Glib::OWNERSHIP_SHALLOW)')
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<DictTable> > get_tables(), gda_dict_database_get_tables)
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<const DictTable> > get_tables() const, gda_dict_database_get_tables)
+
+  _WRAP_METHOD(Glib::RefPtr<DictTable> get_table_by_name(const Glib::ustring& name), gda_dict_database_get_table_by_name, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictTable> get_table_by_name(const Glib::ustring& name) const, gda_dict_database_get_table_by_name, constversion)
+
+  _WRAP_METHOD(Glib::RefPtr<DictTable> get_table_by_xml_id(const Glib::ustring& xml_id), gda_dict_database_get_table_by_xml_id, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictTable> get_table_by_xml_id(const Glib::ustring& xml_id) const, gda_dict_database_get_table_by_xml_id, constversion)
+
+  _WRAP_METHOD(Glib::RefPtr<DictField> get_field_by_name(const Glib::ustring& fullname), gda_dict_database_get_field_by_name, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictField> get_field_by_name(const Glib::ustring& fullname) const, gda_dict_database_get_field_by_name, refreturn)
+
+  _WRAP_METHOD(Glib::RefPtr<DictField> get_field_by_xml_id(const Glib::ustring& xml_id), gda_dict_database_get_field_by_xml_id, constversion)
+  _WRAP_METHOD(Glib::RefPtr<const DictField> get_field_by_xml_id(const Glib::ustring& xml_id) const, gda_dict_database_get_field_by_xml_id, constversion)
+
+  _WRAP_METHOD(void add_constraint(const Glib::RefPtr<DictConstraint>& cstr), gda_dict_database_add_constraint)
+
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<DictConstraint> >', `$2($3, Glib::OWNERSHIP_SHALLOW)')
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<const DictConstraint> >', `$2($3, Glib::OWNERSHIP_SHALLOW)')
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<DictConstraint> > get_all_constraints(), gda_dict_database_get_all_constraints)
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<const DictConstraint> > get_all_constraints() const, gda_dict_database_get_all_constraints)
+
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<DictConstraint> > get_all_fk_constraints(), gda_dict_database_get_all_fk_constraints)
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<const DictConstraint> > get_all_fk_constraints() const, gda_dict_database_get_all_fk_constraints)
+
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<DictConstraint> > get_table_constraints(const Glib::RefPtr<DictTable>& table), gda_dict_database_get_table_constraints)
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<const DictConstraint> > get_table_constraints(const Glib::RefPtr<DictTable>& table) const, gda_dict_database_get_table_constraints)
+
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<DictConstraint> > get_tables_fk_constraints(const Glib::RefPtr<DictTable>& table1, const Glib::RefPtr<DictTable>& table2, bool table1_has_fk = true), gda_dict_database_get_tables_fk_constraints)
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<const DictConstraint> > get_tables_fk_constraints(const Glib::RefPtr<DictTable>& table1, const Glib::RefPtr<DictTable>& table2, bool table1_has_fk = true) const, gda_dict_database_get_tables_fk_constraints)
+
+  _WRAP_SIGNAL(void table_added(const Glib::RefPtr<DictTable>& table), "table_added")
+  _WRAP_SIGNAL(void table_removed(const Glib::RefPtr<DictTable>& table), "table_removed")
+  _WRAP_SIGNAL(void table_updated(const Glib::RefPtr<DictTable>& table), "table_updated")
+  _WRAP_SIGNAL(void field_added(const Glib::RefPtr<DictField>& field), "field_added")
+  _WRAP_SIGNAL(void field_removed(const Glib::RefPtr<DictField>& field), "field_removed")
+  _WRAP_SIGNAL(void field_updated(const Glib::RefPtr<DictField>& field), "field_updated")
+  _WRAP_SIGNAL(void constraint_added(const Glib::RefPtr<DictConstraint>& constraint), "constraint_added")
+  _WRAP_SIGNAL(void constraint_removed(const Glib::RefPtr<DictConstraint>& constraint), "constraint_removed")
+  _WRAP_SIGNAL(void constraint_updated(const Glib::RefPtr<DictConstraint>& constraint), "constraint_updated")
+  _WRAP_SIGNAL(void data_update_started(), "data_update_started")
+
+  #m4 _CONVERSION(`const char*',`const Glib::ustring&',__GCHARP_TO_USTRING)
+  _WRAP_SIGNAL(void update_progress(const Glib::ustring& msg, guint now, guint total), "update_progress")
+
+  _WRAP_SIGNAL(void data_update_finished(), "data_update_finished")
+};
+
+} // namespace Gda
+} // namespace Gnome
+

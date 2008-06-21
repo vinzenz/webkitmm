@@ -1,0 +1,35 @@
+;; -*- scheme -*-
+; virtual function definitions
+; define-vfunc is gtkmm-specific
+
+; We do not bother to wrap the vfuncs in libgda.
+; They are only useful for implementing new backends,
+; and they would add code size and per-object size.
+
+(define-vfunc get_entity
+  (of-object "GdaEntityField")
+  (return-type "GdaEntity*")
+)
+
+(define-vfunc get_g_type
+  (of-object "GdaEntityField")
+  (return-type "GType")
+)
+
+(define-vfunc set_dict_type
+  (of-object "GdaEntityField")
+  (return-type "void")
+  (parameters
+    '("GdaDictType*" "type")
+  )
+)
+
+(define-vfunc get_dict_type
+  (of-object "GdaEntityField")
+  (return-type "GdaDictType*")
+)
+
+(define-vfunc get_alias
+  (of-object "GdaEntityField")
+  (return-type "const-gchar*")
+)

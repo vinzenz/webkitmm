@@ -1,0 +1,181 @@
+3.0.0: (stable)
+
+* DictConstraint: Removed fkey_set_fields().
+* DictDatabase: update_progress(): 
+  Corrected int to guint for parameters.
+* DictField:
+  - Added table and entry-plugin properties.
+  - get_constraints(): Return a Listhandle.
+* DictFuntion: get_arg_dict_types(): Return a Listhandle.
+* DictTable:
+  - Added db and is-view properties.
+  - get_parents(), get_constraints(): Return a Listhandle.
+* DictType: get_synonyms(): Return a Listhandle.
+* Entiry: get_fields(): Return a Listhandle.
+* Row: Added row property.
+* ServerOperation.hg: Added get_node_type().
+* EntityField.hg: Removed some vfuncs.
+* QueryFieldValue: Added get_is_parameter().
+
+2.9.82: (unstable)
+
+* .so name change to please Ubuntu.
+  (Stefan Potyra. Launchpad bug 190744.)
+* Windows build fixes.
+  (Armin Burgmeier)
+
+2.9.81
+
+* DataModel: describe_column(): Use refreturn to avoid 
+  a reference-counting problem.
+* Connection: Added execute_select_command() and execute_non_select_command() that 
+  take the command as a string and that take a parameter list, for convenience.
+* ParameterList: Remove add_param_*() methods, because we already have add_parameter() 
+  methods that wrap the same C functions. Ref the return, to avoid a crash.
+  None of these could have worked before.
+* ConnectionEvent: Put the enums inside the Gnome::Gda namespace 
+  instead of inside Gnome::.
+* Value:
+  Added get_ulong() and set_ulong() and a constructor.
+  (Murray Cumming)
+* Build: Fix build when exceptions are disabled in glibmm.
+  (Armin Burgmeier)
+* Documentation: Added simple_iter example to show the use 
+  of ITER_MODEL_ONLY models.
+  (Murray Cumming)
+
+2.9.8:
+
+* Value:
+  - Rename set(GType) to set_g_type(GType).
+  - set(Glib::Date): Correct the GValue initialization.
+
+2.9.7:
+
+* DictConstraint: pkey_set_fields(), pkey_get_fields(), 
+  fkey_set_fields(), fkey_set_actions(), fkey_get_actions(), 
+  unique_set_fields(), unique_get_fields(): Use SListHandle, so the 
+  application coder can use standard C++ containers.
+
+2.9.6:
+
+* Config: get_provider_by_name(), get_providers(), get_value_string(): 
+  Fix memory problems, fixing crashes.
+  (Murray Cumming)
+
+2.9.5:
+
+* ServerProvider: Added get_value_at() and set_value_at().
+  (Armin Burgmeier, Openismus) 
+* Removed Gnome::Gda::value_compare(), Gnome::Gda::value_compare_ext()
+  and Gnome::Gda::value_equal(). There is Gnome::Gda::Value::operator== 
+  to test for equality.  (Armin Burgmeier, Openismus)
+* Parameter: Added set_entry_plugin(). (Armin Burgmeier, Openismus)
+* Build: Cope with newer versions of m4. (Yselkowitz)
+ 
+2.9.4:
+
+* Added DictFunction and QueryFieldFunc.
+  (Johannes Schmid, Openismus)
+* Added QueryJoin
+* DataModel:
+  - Added import_from_model() and emit_signal_changed().
+   (Armin Burgmeier, Openismus)
+  - Added set_column_position(), set_values()
+   (Murray Cumming, Openismus)
+* Parameter:
+  - Constructor: Set the g-type property, as in the C code.
+  - Added const char* create().
+* ParameterList: Added find_param_for_user().
+* Value:
+  - Deal better with NULL pointer GValue*s.
+  - Make sure that the underlying GValue has the correct type before setting a new value.
+  - Renamed some set*() methods to avoid ambiguities on 64-bit systems.
+* Build: Builds with exceptions disabled in glibmm.
+ (Armin Burgmeier, Openismus)
+* Documentation: Added doxygen groups, add fixed minor doxygen warnings.
+  (Johannes Schmid, Openismus)
+
+2.9.3:
+
+Skipped, I think.
+
+2.9.2:
+
+* Correct constructors, after fixing the underlying libgda source code:
+  ParameterList, 
+* Query: Renamed is_modif_query() to is_modify_query().
+* Added Query, QueryFieldField, QueryFieldAll, QueryFieldValue, QueryCondition,
+  GdaQueryTarget and explained them in the tutorial.
+  (Armin Burgmeier)
+* Added DictConstraint, DictField, DictFunction, DictTable, DictDatabase,
+  DataModelFilterSql, DataModelHash, and DataModelImort.
+  (Murray Cumming)
+* Added DataModelArray. (Armin Burgmeier)
+* Added DataProxy. (Armin Burgmeier)
+* Value: Added set(const char*) overload, otherwise the Value(const char*) 
+  constructor calls set(bool). (Armin Burgmeier)
+* Many new methods wrapped.
+* Lots of reference-counting corrections, const corrections, hierarchy corrections, 
+  etc. And updated for latest libgda API, which should really be quite stable now.
+  (Armin Burgmeier, Johannes Schmid, Murray Cumming)
+* Added lots of documentation (tutorial and API reference)
+  (Armin Burgmeier, Johannes Schmid, Murray Cumming)
+
+
+2.9.1:
+
+* First version that wraps libgda-3.0.
+* NOTE TO PACKAGERS:
+  This installs in parallel with libgdamm 1.3.x.
+  You should NOT take this opportunity to remove libgdamm 1.3.x 
+  from your distribution because that would break applications such as Glom.
+
+1.3.5:
+
+* Some gcc 3.4 fixes. (Murray Cumming)
+
+1.3.4:
+
+* Value:
+  - Added operator==() and operator!=().
+  - Added C++ typedefs for Date, Time, Timestamp, and GeometricPoint, 
+  and used them by value/reference.
+  (Murray Cumming)
+
+1.3.3:
+
+* Now depends on glibmm 2.4.
+* Added and used FieldAttributes.
+* Connection:
+  - The destructor closes the connection.
+  - Added get_last_insert_id().
+* DataModel: get_value_at() memory management fixed.
+* Transaction: constructor fixed.
+* Value:
+  - Implemented the constuctors. 
+  - Added type_to_string() and type_from_string().
+(Murray Cumming)
+
+1.3.2:
+
+* Command, Connection: Added default parameter values, so you don't have to specify so much.
+* Added Parameter, ParameterList, Value, and used them in the API.
+* Added "simple" and "introspection" examples, which work.
+(Murray Cumming)
+
+1.3.1:
+
+* Now depends on glibmm 2.4 instead of gtkmm 2.2
+* Updated for libgda API changes (Billy O'Connor)
+* pkgconfig file fixed (Alexander Nedotsukov)
+* Added Client, DataSourceInfo, Config, ProviderInfo, Row.
+* ServerProvider: Added new methods.
+* Wrapped some GList* return types as ListHandles.
+* Added Gnome::Gda::init().
+
+* examples: They now work with out crashing, though they don't do much.
+
+1.3.0:
+
+This is an initial tarball version, to try to get some attention. A fairly random part of the libgda API has been wrapped, and there are no examples yet (I have some problems with my local mysql installation.). So the chances of anything working are small. If you'd like this stuff to work, you should try to create an example and submit patches.

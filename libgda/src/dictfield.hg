@@ -1,0 +1,93 @@
+/* $Id: dictfield.hg,v 1.2 2006/11/08 00:07:37 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* dictfield.h
+ *
+ * Copyright 2006 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or(at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/object.h>
+#include <libgdamm/xmlstorage.h>
+#include <libgdamm/value.h>
+#include <libgdamm/dicttype.h>
+
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+_WRAP_ENUM(DictFieldAttribute, GdaDictFieldAttribute)
+
+class Connection;
+
+/** Represents a field in a table or a view in the database.
+ * Unlike DataModelArray, this data model implementation stores the Row in a hash table. So it only retrieves from the 
+ * database backend exactly the requested rows (while in DataModelArray you have to retrieve all the rows until the one 
+ * requested).
+ * 
+ * @ingroup Dictionaries
+ */
+class DictField
+: public Gda::Object,
+  public XmlStorage
+{
+  _CLASS_GOBJECT(DictField, GdaDictField, GDA_DICT_FIELD, Gda::Object, GdaObject)
+  _IMPLEMENTS_INTERFACE(XmlStorage)
+protected:
+
+  _WRAP_CTOR(DictField(const Glib::RefPtr<Dict>& dict, const Glib::RefPtr<DictType>& type), gda_dict_field_new)
+
+public:
+  _WRAP_CREATE(const Glib::RefPtr<Dict>& dict, const Glib::RefPtr<DictType>& type)
+
+  _WRAP_METHOD(void set_length(int length), gda_dict_field_set_length)
+  _WRAP_METHOD(int get_length() const, gda_dict_field_get_length)
+  _WRAP_METHOD(void set_scale(int length), gda_dict_field_set_scale)
+  _WRAP_METHOD(int get_scale() const, gda_dict_field_get_scale)
+
+ #m4 _CONVERSION(`GSList*',`Glib::SListHandle< Glib::RefPtr<Connection> >',`$2($3, Glib::OWNERSHIP_SHALLOW)')
+ #m4 _CONVERSION(`GSList*',`Glib::SListHandle< Glib::RefPtr<const Connection> >',`$2($3, Glib::OWNERSHIP_SHALLOW)')
+  _WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<Connection> > get_constraints(), gda_dict_field_get_constraints)
+  _WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<const Connection> > get_constraints() const, gda_dict_field_get_constraints)
+
+  _WRAP_METHOD(void set_default_value(const Value& value), gda_dict_field_set_default_value)
+  Value get_default_value() const;
+  _IGNORE(gda_dict_field_get_default_value)
+
+  _WRAP_METHOD(bool is_null_allowed() const, gda_dict_field_is_null_allowed)
+  _WRAP_METHOD(bool is_pkey_part() const, gda_dict_field_is_pkey_part)
+  _WRAP_METHOD(bool is_pkey_alone() const, gda_dict_field_is_pkey_alone)
+  _WRAP_METHOD(bool is_fkey_part() const, gda_dict_field_is_fkey_part)
+  _WRAP_METHOD(bool is_fkey_alone() const, gda_dict_field_is_fkey_alone)
+
+  _WRAP_METHOD(void set_attributes(DictFieldAttribute attributes), gda_dict_field_set_attributes)
+  _WRAP_METHOD(DictFieldAttribute get_attributes() const, gda_dict_field_get_attributes)
+
+  _WRAP_PROPERTY("table", Glib::RefPtr<DictTable>)
+  _WRAP_PROPERTY("entry-plugin", std::string)
+
+  //There are no signals or vfuncs.
+};
+
+} // namespace Gda
+} // namespace Gnome
+

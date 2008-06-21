@@ -1,0 +1,111 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* queryjoin.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/dict.h>
+#include <libgdamm/datamodel.h>
+
+#include <libgdamm/entity.h>
+#include <libgdamm/xmlstorage.h>
+#include <libgdamm/referer.h>
+#include <libgdamm/queryobject.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/queryobject_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+class Query;
+class QueryTarget;
+class QueryCondition;
+
+_WRAP_ENUM(QueryJoinType, GdaQueryJoinType)
+
+/** This object is a join, within a SELECT query, between two different
+ * entities participating in the query; the entities are themselves
+ * represented by GdaQueryTarget objects. It is important to specify
+ * joining conditions as joins and not simply as WHERE conditions because
+ * the joins carry more information than a simple condition and because
+ * some features of Libmergeant rely on the joins analysis.
+ *
+ * @ingroup Queries
+ */
+class QueryJoin
+ : public QueryObject,
+   public XmlStorage,
+   public Referer
+{
+  _CLASS_GOBJECT(QueryJoin, GdaQueryJoin, GDA_QUERY_JOIN, QueryObject, GdaQueryObject)
+
+  _IMPLEMENTS_INTERFACE(XmlStorage)
+  _IMPLEMENTS_INTERFACE(Referer)
+
+protected:
+  QueryJoin(const Glib::RefPtr<Query>& query, const Glib::RefPtr<QueryTarget>& target_1, const Glib::RefPtr<QueryTarget>& target_2);
+  QueryJoin(const Glib::RefPtr<Query>& query, const Glib::ustring& target_1_xml_id, const Glib::ustring& target_2_xml_id);
+  _IGNORE(gda_query_join_new_with_targets)
+  _IGNORE(gda_query_join_new_with_xml_ids)
+
+public:
+  _WRAP_CREATE(const Glib::RefPtr<Query>& query, const Glib::RefPtr<QueryTarget>& target_1, const Glib::RefPtr<QueryTarget>& target_2)
+  _WRAP_CREATE(const Glib::RefPtr<Query>& query, const Glib::ustring& target_1_xml_id, const Glib::ustring& target_2_xml_id)
+
+  // TODO: How to wrap GHashTable? armin.
+  //_WRAP_METHOD(Glib::RefPtr<QueryJoin> copy(GHashTable* replacements), gda_query_join_new_copy)
+
+  _WRAP_METHOD(void set_join_type(QueryJoinType type), gda_query_join_set_join_type)
+  _WRAP_METHOD(QueryJoinType get_join_type() const, gda_query_join_get_join_type)
+
+  _WRAP_METHOD(Glib::RefPtr<Query> get_query(), gda_query_join_get_query, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Query> get_query() const, gda_query_join_get_query, refreturn, constversion)
+
+  _WRAP_METHOD(Glib::RefPtr<QueryTarget> get_target_1(), gda_query_join_get_target_1, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const QueryTarget> get_target_1() const, gda_query_join_get_target_1, refreturn, constversion)
+  _WRAP_METHOD(Glib::RefPtr<QueryTarget> get_target_2(), gda_query_join_get_target_2, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const QueryTarget> get_target_2() const, gda_query_join_get_target_2, refreturn, constversion)
+
+  _WRAP_METHOD(void swap_targets(), gda_query_join_swap_targets)
+  _WRAP_METHOD(bool set_condition_from_fkcons(), gda_query_join_set_condition_from_fkcons)
+  _WRAP_METHOD(bool set_condition_from_sql(const Glib::ustring& cond), gda_query_join_set_condition_from_sql, errthrow)
+  _WRAP_METHOD(bool set_condition(const Glib::RefPtr<QueryCondition>& cond), gda_query_join_set_condition)
+
+  _WRAP_METHOD(Glib::RefPtr<QueryCondition> get_condition(), gda_query_join_get_condition, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const QueryCondition> get_condition() const, gda_query_join_get_condition, refreturn, constversion)
+
+  _WRAP_METHOD(Glib::ustring render_type() const, gda_query_join_render_type)
+
+  _WRAP_PROPERTY("query", Glib::RefPtr<Query>)
+  _WRAP_PROPERTY("target1", Glib::RefPtr<QueryTarget>)
+  _WRAP_PROPERTY("target1-id", Glib::ustring)
+  _WRAP_PROPERTY("target2", Glib::RefPtr<QueryTarget>)
+  _WRAP_PROPERTY("target2-id", Glib::ustring)
+
+  _WRAP_SIGNAL(void condition_changed(), "condition_changed")
+  _WRAP_SIGNAL(void type_changed(), "type_changed")
+};
+
+} // namespace Gda
+} // namespace Gnome
+

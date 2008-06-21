@@ -1,0 +1,359 @@
+/* $Id: connection.hg,v 1.35 2006/11/30 06:58:55 murrayc Exp $ */
+// -*- C++ -*- // 
+
+/* connection.h
+ * 
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/transactionstatus.h>
+#include <libgdamm/connectionevent.h>
+#include <libgdamm/command.h>
+#include <libgdamm/datamodel.h>
+#include <libgdamm/parameterlist.h>
+#include <libgdamm/datamodelindex.h>
+#include <libgdamm/dict.h>
+//#include <libgdamm/serverprovider.h>
+//#include <libgda/gda-connection.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+class ServerProvider;
+typedef GdaServerProviderInfo ServerProviderInfo;
+
+/** Exception class for Gda errors.
+ */
+_WRAP_GERROR(GeneralError, GdaGeneralError, GDA_GENERAL_ERROR)
+
+/** Exception class for Gda connection errors.
+ */
+_WRAP_GERROR(ConnectionError, GdaConnectionError, GDA_CONNECTION_ERROR)
+
+class Client;
+
+_WRAP_ENUM(ConnectionFeature, GdaConnectionFeature)
+_WRAP_ENUM(ConnectionSchema, GdaConnectionSchema)
+_WRAP_ENUM(ConnectionOptions, GdaConnectionOptions)
+
+/** Manages a connection to a data source.
+ * This class offers access to all operations involving an opened connection to a database. 
+ * Connection objects are obtained via the Client class.
+ * 
+ * Once obtained, applications can use a Connection to execute commands, run transactions, and get information about all 
+ * objects stored in the underlying database.
+ *
+ * @ingroup Connections
+ */
+class Connection : public Glib::Object
+{
+  _CLASS_GOBJECT(Connection, GdaConnection, GDA_CONNECTION, Glib::Object, GObject)
+protected:
+
+  _CTOR_DEFAULT
+  _CUSTOM_DTOR()
+
+public:
+  _WRAP_CREATE()
+
+  _WRAP_METHOD(bool open(), gda_connection_open, errthrow)
+
+  /** Closes the connection to the underlying data source, but first emits the "conn_to_close" signal.
+   */
+  void close();
+  _IGNORE(gda_connection_close, gda_connection_close_no_warning)
+
+  _IGNORE(gda_connection_internal_transaction_started, gda_connection_internal_savepoint_added,
+          gda_connection_internal_treat_sql, gda_connection_internal_transaction_rolledback,
+          gda_connection_internal_savepoint_removed, gda_connection_internal_transaction_committed,
+          gda_connection_internal_savepoint_rolledback, gda_connection_execute_command,
+          gda_connection_internal_sql_executed, gda_connection_internal_change_transaction_state)
+
+  _WRAP_METHOD(bool is_opened() const, gda_connection_is_opened)
+
+  _WRAP_METHOD(Glib::RefPtr<Client> get_client(), gda_connection_get_client, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Client> get_client() const, gda_connection_get_client, constversion)
+
+  _WRAP_METHOD(ConnectionOptions get_options() const, gda_connection_get_options)
+  _WRAP_METHOD(Glib::ustring get_server_version() const, gda_connection_get_server_version)
+
+  _WRAP_METHOD(Glib::ustring get_database() const, gda_connection_get_database)
+  _WRAP_METHOD(Glib::ustring get_dsn() const, gda_connection_get_dsn)
+  _WRAP_METHOD(bool set_dsn(const Glib::ustring& datasource), gda_connection_set_dsn)
+  _WRAP_METHOD(Glib::ustring get_cnc_string() const, gda_connection_get_cnc_string)
+
+  _WRAP_METHOD(Glib::ustring get_provider() const, gda_connection_get_provider)
+  _WRAP_METHOD(Glib::RefPtr<ServerProvider> get_provider_obj(), gda_connection_get_provider_obj, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const ServerProvider> get_provider_obj() const, gda_connection_get_provider_obj, constversion)
+
+  //Let's not bother trying to copy the ServerProviderInfo by value.
+  //Its (boolean) contents should just be examined quickly and then forgotten.
+  #m4 _CONVERSION(`GdaServerProviderInfo*', `const ServerProviderInfo*', `static_cast<ServerProviderInfo*>($3)')
+  _WRAP_METHOD(const ServerProviderInfo* get_infos() const, gda_connection_get_infos)
+
+  _WRAP_METHOD(Glib::ustring get_username() const, gda_connection_get_username)
+  _WRAP_METHOD(bool set_username(const Glib::ustring& username), gda_connection_set_username)
+  _WRAP_METHOD(Glib::ustring get_password() const, gda_connection_get_password)
+  _WRAP_METHOD(bool set_password(const Glib::ustring& password), gda_connection_set_password)
+
+  _WRAP_METHOD(void add_event(const Glib::RefPtr<ConnectionEvent>& event), gda_connection_add_event)
+  _WRAP_METHOD( Glib::RefPtr<ConnectionEvent> add_event_string(const Glib::ustring& str), gda_connection_add_event_string)
+
+  //TODO: Use ListHandle, and watch out because the C function frees the input list parameter.
+  //However, this is not high-priority because this is apparently just a convenience function.
+  //You canuse add_event() repeatedly instead.
+  //_WRAP_METHOD(void add_events_list(GList *error_list), gda_connection_add_events_list)
+  _IGNORE(gda_connection_add_events_list)
+
+  _WRAP_METHOD(void clear_events_list(), gda_connection_clear_events_list)
+
+  _WRAP_METHOD(bool change_database(const Glib::ustring& name), gda_connection_change_database)
+
+  #m4 //Use deep ownership because we own both the list and its elements;
+  #m4 _CONVERSION(`GList*',`Glib::ListHandle< Glib::RefPtr<DataModel> >',`$2($3, Glib::OWNERSHIP_SHALLOW)')
+
+
+  _WRAP_METHOD(Glib::RefPtr<DataModel> execute_select_command(const Command& cmd, const Glib::RefPtr<ParameterList>& params), gda_connection_execute_select_command, errthrow)
+
+  /** Executes a selection command on the given connection.
+   *
+   * Note that no check is made regarding the actual number of statements in @a cmd or if it really contains a SELECT
+   * statement. This function is just a convenience function around the execute_command()
+   * method. If @a cmd contains several statements, only the last DataModel is returned.
+   *
+   * @param cmd A Command.
+   * @result A DataModel containing the data returned by the data source, or a null DataModel if an error occurred.
+   *
+   * @throw ConnectionError
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  Glib::RefPtr<DataModel> execute_select_command(const Command& cmd);
+#else
+  Glib::RefPtr<DataModel> execute_select_command(const Command& cmd, std::auto_ptr<Glib::Error>& error);
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+
+  /** Executes a selection command on the given connection.
+   *
+   * Note that no check is made regarding the actual number of statements in @a cmd or if it really contains a SELECT
+   * statement. This function is just a convenience function around the execute_command()
+   * method. If @a cmd contains several statements, only the last DataModel is returned.
+   *
+   * @param cmd A SQL command string.
+   * @result A DataModel containing the data returned by the
+   * data source, or a null DataModel if an error occurred.
+   *
+   * @throw ConnectionError
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  Glib::RefPtr<DataModel> execute_select_command(const Glib::ustring& cmd);
+#else
+  Glib::RefPtr<DataModel> execute_select_command(const Glib::ustring& cmd, std::auto_ptr<Glib::Error>& error);
+#endif
+
+  /** Executes a selection command on the given connection.
+   *
+   * Note that no check is made regarding the actual number of statements in @a cmd or if it really contains a SELECT
+   * statement. This function is just a convenience function around the execute_command()
+   * method. If @a cmd contains several statements, only the last DataModel is returned.
+   * See the documentation of the execute_command() for information
+   * about the @a params  list of parameters.
+   *
+   * @param cmd A Command.
+   * @param params Parameter list for the command.
+   * @result A DataModel containing the data returned by the
+   * data source, or a null DataModel if an error occurred.
+   *
+   * @throw ConnectionError
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  Glib::RefPtr<DataModel> execute_select_command(const Glib::ustring& cmd, const Glib::RefPtr<ParameterList>& params);
+#else
+  Glib::RefPtr<DataModel> execute_select_command(const Glib::ustring& cmd, const Glib::RefPtr<ParameterList>& params, std::auto_ptr<Glib::Error>& error);
+#endif
+
+  _WRAP_METHOD(int execute_non_select_command(const Command& cmd, const Glib::RefPtr<ParameterList>& params), gda_connection_execute_non_select_command, errthrow)
+
+  /** Executes a non-selection command on the given connection.
+   *
+   * This function returns the number of rows impacted by the execution of @a cmd, or -1
+   * if an error occurred, or -2 if the provider does not return the number of rows impacted.
+   *
+   * Note that no check is made regarding the actual number of statements in @a cmd or if it really contains a non SELECT
+   * statement. This function is just a convenience function around the execute_command()
+   * function. If @a cmd contains several statements, the last ParameterList is returned.
+   *
+   * @param cmd A Command.
+   * @result the number of rows affected (>=0) or -1 or -2 
+   *
+   * @throw ConnectionError
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  int execute_non_select_command(const Command& cmd);
+#else
+  int execute_non_select_command(const Command& cmd, std::auto_ptr<Glib::Error>& error);
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+
+  /** Executes a non-selection command on the given connection.
+   *
+   * This function returns the number of rows impacted by the execution of @a cmd, or -1
+   * if an error occurred, or -2 if the provider does not return the number of rows impacted.
+   *
+   * Note that no check is made regarding the actual number of statements in @a cmd or if it really contains a non SELECT
+   * statement. This function is just a convenience function around the execute_command()
+   * function. If @a cmd contains several statements, the last ParameterList is returned.
+   *
+   * @param cmd A Command.
+   * @result the number of rows affected (>=0) or -1 or -2 
+   *
+   * @throw ConnectionError
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  int execute_non_select_command(const Glib::ustring& cmd);
+#else
+  int execute_non_select_command(const Glib::ustring& cmd, std::auto_ptr<Glib::Error>& error);
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+
+  /** Executes a non-selection command on the given connection.
+   *
+   * This function returns the number of rows impacted by the execution of @a cmd, or -1
+   * if an error occurred, or -2 if the provider does not return the number of rows impacted.
+   *
+   * Note that no check is made regarding the actual number of statements in @a cmd or if it really contains a non SELECT
+   * statement. This function is just a convenience function around the execute_command()
+   * function. If @a cmd contains several statements, the last ParameterList is returned.
+   * See the documentation of the execute_command() for information
+   * about the @a params  list of parameters.
+   *
+   * @param cmd A Command.
+   * @param params Parameter list for the command.
+   * @result the number of rows affected (>=0) or -1 or -2 
+   *
+   * @throw ConnectionError
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  int execute_non_select_command(const Glib::ustring& cmd, const Glib::RefPtr<ParameterList>& params);
+#else
+  int execute_non_select_command(const Glib::ustring& cmd, const Glib::RefPtr<ParameterList>& params, std::auto_ptr<Glib::Error>& error);
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+
+  //Note that we do not add a non-const version of this because the documentation says that it should not be modified:
+  _WRAP_METHOD(Glib::RefPtr<const TransactionStatus> get_transaction_status() const, gda_connection_get_transaction_status, errthrow, refreturn)
+
+
+/*
+gint                 gda_connection_execute_non_select_command (GdaConnection *cnc, GdaCommand *cmd,
+								GdaParameterList *params, GError **error);
+
+
+  typedef ListHandle<DataModel> ListDataModels
+  ListDataModels execute_command(const Command& cmd, Glib::RefPtr<ParameterList>& params), gda_connection_execute_command, errthrow)
+  _IGNORE(gda_connection_execute_command)
+
+  Glib::RefPtr<DataModel> execute_command(const Command& cmd);
+  Glib::RefPtr<DataModel> execute_command(const Glib::ustring& cmd);
+ 
+  //_WRAP_METHOD(Glib::RefPtr<DataModel> execute_command(const Command& cmd, const Glib::RefPtr<ParameterList>& params), gda_connection_execute_command_l, errthrow)
+*/
+
+
+  _WRAP_METHOD(bool begin_transaction(const Glib::ustring& name, TransactionIsolation level), gda_connection_begin_transaction, errthrow)
+  _WRAP_METHOD(bool commit_transaction(const Glib::ustring& name), gda_connection_commit_transaction, errthrow)
+  _WRAP_METHOD(bool rollback_transaction(const Glib::ustring& name), gda_connection_rollback_transaction, errthrow)
+
+  _WRAP_METHOD(bool add_savepoint(const Glib::ustring& name), gda_connection_add_savepoint, errthrow)
+  _WRAP_METHOD(bool rollback_savepoint(const Glib::ustring& name), gda_connection_rollback_savepoint, errthrow)
+  _WRAP_METHOD(bool delete_savepoint(const Glib::ustring& name), gda_connection_delete_savepoint, errthrow)
+
+
+   //Use a special conversion here, because we should not own any part of the returned GList, 
+   //according to the documentation for gda_connection_get_events(), 
+   //and because we need to unconst the GList.:
+   #m4 _CONVERSION(`const GList*',`Glib::ListHandle< Glib::RefPtr<ConnectionEvent> >',`$2((GList*)$3, Glib::OWNERSHIP_NONE)')
+   #m4 _CONVERSION(`const GList*',`Glib::ListHandle< Glib::RefPtr<const ConnectionEvent> >',`$2((GList*)$3, Glib::OWNERSHIP_NONE)')
+
+  _WRAP_METHOD(Glib::ListHandle< Glib::RefPtr<ConnectionEvent> > get_events(), gda_connection_get_events)
+  _WRAP_METHOD(Glib::ListHandle< Glib::RefPtr<const ConnectionEvent> > get_events() const, gda_connection_get_events)
+
+
+  _WRAP_METHOD(Glib::ustring value_to_sql_string(const Value& from) const, gda_connection_value_to_sql_string)
+
+  _WRAP_METHOD(bool supports_feature(ConnectionFeature feature) const, gda_connection_supports_feature)
+
+  _WRAP_METHOD(Glib::RefPtr<DataModel> get_schema(ConnectionSchema schema, const Glib::RefPtr<ParameterList>& params), gda_connection_get_schema, errthrow, refreturn)
+  // TODO: This is not constversion because the generated code does not pass
+  // error to the non-const function if exceptions are disabled.
+  _WRAP_METHOD(Glib::RefPtr<const DataModel> get_schema(ConnectionSchema schema, const Glib::RefPtr<ParameterList>& params) const, gda_connection_get_schema, refreturn, errthrow)
+
+  /** Asks the underlying data source for a list of database objects.
+   * This is the function that lets applications ask the different providers about all their database objects (tables,
+   * views, procedures, etc). The set of database objects that are retrieved are given by the 2 parameters of this 
+   * function: schema, which specifies the specific schema required, and params, which is a list of parameters that can 
+   * be used to give more detail about the objects to be returned.
+   *
+   * The list of parameters is specific to each schema type, see the get_schema() virtual method for providers for more details.
+   *
+   * @param schema Database schema to get.
+   * @result A DataModel containing the data required.
+   *
+   * @throw Gda::ConnectionError
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  Glib::RefPtr<DataModel> get_schema(ConnectionSchema schema);
+#else
+  Glib::RefPtr<DataModel> get_schema(ConnectionSchema schema, std::auto_ptr<Glib::Error>& error);
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+
+  /** Asks the underlying data source for a list of database objects.
+   * This is the function that lets applications ask the different providers about all their database objects (tables,
+   * views, procedures, etc). The set of database objects that are retrieved are given by the 2 parameters of this 
+   * function: schema, which specifies the specific schema required, and params, which is a list of parameters that can 
+   * be used to give more detail about the objects to be returned.
+   *
+   * The list of parameters is specific to each schema type, see the get_schema() virtual method for providers for more details.
+   *
+   * @param schema Database schema to get.
+   * @result A DataModel containing the data required.
+   *
+   * @throw Gda::ConnectionError
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  Glib::RefPtr<const DataModel> get_schema(ConnectionSchema schema) const;
+#else
+  Glib::RefPtr<const DataModel> get_schema(ConnectionSchema schema, std::auto_ptr<Glib::Error>& error) const;
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+
+  _WRAP_METHOD(Glib::ustring get_last_insert_id(const Glib::RefPtr<DataModel>& recset) const, gda_connection_get_last_insert_id) 
+
+_CONVERSION(`GdaConnectionEvent*',`const Glib::RefPtr<ConnectionEvent>&',Glib::wrap($3, true))
+  _WRAP_SIGNAL(void error(const Glib::RefPtr<ConnectionEvent>& error), "error")
+
+  _WRAP_SIGNAL(void conn_opened(), "conn_opened")
+  _WRAP_SIGNAL(void conn_to_close(), "conn_to_close")
+  _WRAP_SIGNAL(void conn_closed(), "conn_closed")
+  _WRAP_SIGNAL(void dsn_changed(), "dsn_changed")
+  _WRAP_SIGNAL(void transaction_status_changed(), "transaction_status_changed")
+};
+
+} // namespace Gda
+} // namespace Gnome
+

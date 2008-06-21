@@ -1,0 +1,59 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* queryobject.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/object.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** defgroup Queryies Queries
+ */
+
+/** Parent class for any object participating in a GdaQuery query.
+ *
+ * @ingroup Queries
+ */
+class QueryObject
+ : public Object
+{
+  _CLASS_GOBJECT(QueryObject, GdaQueryObject, GDA_QUERY_OBJECT, Object, GdaObject)
+public:
+  // TODO: gmmproc does not get unsigned int correctly
+  #m4 _CONVERSION(`guint', `int', `($3)')
+  #m4 _CONVERSION(`int', `guint', `($3)')
+
+//TODO: Maybe libgda should use just "numid", "num_id", or "int_id" everywhere:
+  _WRAP_METHOD(void set_int_id(int id), gda_query_object_set_int_id)
+  _WRAP_METHOD(int get_int_id() const, gda_query_object_get_int_id)
+
+  _WRAP_SIGNAL(void numid_changed(), "numid_changed")
+};
+
+} // namespace Gda
+} // namespace Gnome
+

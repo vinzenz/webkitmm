@@ -1,0 +1,71 @@
+/* $Id: serverprovider.ccg,v 1.5 2006/05/08 10:18:53 murrayc Exp $ */
+// -*- C++ -*- // this is for the .ccg, I realize gensig puts one in
+
+/* connection.cc
+ * 
+ * Copyright 2001      Free Software Foundation
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/connection.h>
+#include <libgda/gda-enum-types.h>
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+Glib::RefPtr<DataModel> ServerProvider::get_schema(const Glib::RefPtr<Connection>& cnc, ConnectionSchema schema)
+#else
+Glib::RefPtr<DataModel> ServerProvider::get_schema(const Glib::RefPtr<Connection>& cnc, ConnectionSchema schema, std::auto_ptr<Glib::Error>& error)
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+{
+  GError *gerror = 0;
+  Glib::RefPtr<DataModel> retvalue = Glib::wrap(gda_server_provider_get_schema(const_cast<GdaServerProvider*>(gobj()), Glib::unwrap(cnc), ((GdaConnectionSchema)(schema)), 0, &(gerror)));
+
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  if(gerror) ::Glib::Error::throw_exception(gerror);
+#else
+  if(gerror) error = ::Glib::Error::throw_exception(gerror);
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+
+  return retvalue;
+}
+
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+Glib::RefPtr<const DataModel> ServerProvider::get_schema(const Glib::RefPtr<Connection>& cnc, ConnectionSchema schema) const
+#else
+Glib::RefPtr<const DataModel> ServerProvider::get_schema(const Glib::RefPtr<Connection>& cnc, ConnectionSchema schema, std::auto_ptr<Glib::Error>& error) const
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+{
+  ServerProvider* this_nonconst = const_cast<ServerProvider*>(this);
+
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  return this_nonconst->get_schema(cnc, schema);
+#else
+  return this_nonconst->get_schema(cnc, schema, error);
+#endif
+}
+
+
+} // namespace Gda
+
+} // namespace Gnome
+
+

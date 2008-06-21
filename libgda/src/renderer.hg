@@ -1,0 +1,55 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* renderer.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/interface.h>
+#include <libgdamm/parameterlist.h>
+#include <libgda/gda-renderer.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/interface_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+_WRAP_ENUM(RendererOptions, GdaRendererOptions)
+
+/** Base class to get representations of objects as SQL statements, XML nodes or human readable text.
+ *
+ * @ingroup Miscellaneous
+ */
+class Renderer : public Glib::Interface
+{
+  _CLASS_INTERFACE(Renderer, GdaRenderer, GDA_RENDERER, GdaRendererIface)
+public:
+ 
+  // TODO: Wrap GSList* output parameter:
+  //_WRAP_METHOD(Glib::ustring render_as_sql(const Glib::RefPtr<GdaParameterList> context, GSList **out_params_used, RendererOptions options), gda_renderer_render_as_sql, errthrow)
+
+  _WRAP_METHOD(Glib::ustring render_as_str(const Glib::RefPtr<ParameterList>& context) const, gda_renderer_render_as_str)
+  _WRAP_METHOD(bool is_valid(const Glib::RefPtr<ParameterList>& context) const, gda_renderer_is_valid, errthrow)
+};
+
+} // namespace Gda
+} // namespace Gnome
+

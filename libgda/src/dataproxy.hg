@@ -1,0 +1,114 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* dataproxy.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/object.h>
+#include <libgdamm/datamodel.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Proxy to hold modifications for any DataModel, providing the DataModel interface itself.
+ *  This object stores modifications made to a DataModel object which is proxied until asked to make the changes 
+ * inside the DataModel. It also filters the proxied data model to show only a sample (a defined number of continuous 
+ * rows) of it.
+ *
+ * Specifically, for a proxied data model having nb_cols columns and nb_rows rows, the DataProxy object has the following attributes:
+ * - 2 * nb_cols columns:
+ *  - The first (>= 0) nb_cols columns are the current values stored in the proxy (which correspond to the values of the proxied data model if the considered row has not been changed). The associated values are writable.
+ *  - The last nb_cols columns are the values stored in the proxied data model, at column col - nb_cols.
+ * - A variable number of rows depending on the following attributes:
+ *  - Whether the proxy is configured to have an empty row as the first row.
+ *  - Whether the proxy only displays parts of the proxied data model.
+ *  - Whether new rows have been added to the proxy.
+ *
+ * Note that unless explicitely mentioned, the columns are read-only. 
+ *
+ * @ingroup DataModels
+ */
+class DataProxy
+ : public Object,
+   public DataModel
+{
+  _CLASS_GOBJECT(DataProxy, GdaDataProxy, GDA_DATA_PROXY, Object, GdaObject)
+  _IMPLEMENTS_INTERFACE(DataModel)
+protected:
+  _WRAP_CTOR(DataProxy(const Glib::RefPtr<DataModel>& model), gda_data_proxy_new)
+
+public:
+  _WRAP_CREATE(const Glib::RefPtr<DataModel>& model)
+
+  _WRAP_METHOD(Glib::RefPtr<DataModel> get_proxied_model(), gda_data_proxy_get_proxied_model, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DataModel> get_proxied_model() const, gda_data_proxy_get_proxied_model, constversion)
+  _WRAP_METHOD(int get_proxied_model_n_cols() const, gda_data_proxy_get_proxied_model_n_cols)
+  _WRAP_METHOD(int get_proxied_model_n_rows() const, gda_data_proxy_get_proxied_model_n_rows)
+  _WRAP_METHOD(bool is_read_only() const, gda_data_proxy_is_read_only)
+
+  ValueSList get_values(int proxy_row, const Glib::ArrayHandle<int>& cols_index) const;
+  _IGNORE(gda_data_proxy_get_values)
+
+  _WRAP_METHOD(ValueAttribute get_value_attributes(int proxy_row, int col) const, gda_data_proxy_get_value_attributes)
+  _WRAP_METHOD(void alter_value_attributes(int proxy_row, int col, ValueAttribute alter_flags), gda_data_proxy_alter_value_attributes)
+
+  _WRAP_METHOD(int get_proxied_model_row(int proxy_row) const, gda_data_proxy_get_proxied_model_row)
+
+  // Renamed delete/undelete to erase/unerase because delete is a C++ keyword
+  _WRAP_METHOD(void erase(int proxy_row), gda_data_proxy_delete)
+  _WRAP_METHOD(void unerase(int proxy_row), gda_data_proxy_undelete)
+  _WRAP_METHOD(bool row_is_deleted(int proxy_row) const, gda_data_proxy_row_is_deleted)
+  _WRAP_METHOD(bool row_is_inserted(int proxy_row) const, gda_data_proxy_row_is_inserted)
+
+  #m4 _CONVERSION(`const ValueSList&', `GSList*', `($3).data()')
+  #m4 _CONVERSION(`const Glib::ArrayHandle<int>&', `gint*', `const_cast<gint*>(($3).data())')
+  _WRAP_METHOD(int find_row_from_values(const ValueSList& values, const Glib::ArrayHandle<int>& cols_index) const, gda_data_proxy_find_row_from_values)
+  _WRAP_METHOD(void cancel_row_changes(int proxy_row, int col), gda_data_proxy_cancel_row_changes)
+  _WRAP_METHOD(void apply_row_changes(int proxy_row), gda_data_proxy_apply_row_changes, errthrow)
+  _WRAP_METHOD(bool has_changed() const, gda_data_proxy_has_changed)
+  _WRAP_METHOD(bool row_has_changed(int proxy_row) const, gda_data_proxy_row_has_changed)
+  _WRAP_METHOD(int get_n_new_rows() const, gda_data_proxy_get_n_new_rows)
+  _WRAP_METHOD(int get_n_modified_rows() const, gda_data_proxy_get_n_modified_rows)
+  _WRAP_METHOD(void set_sample_size(int sample_size), gda_data_proxy_set_sample_size)
+  _WRAP_METHOD(int get_sample_size() const, gda_data_proxy_get_sample_size)
+  _WRAP_METHOD(void set_sample_start(int sample_start), gda_data_proxy_set_sample_start)
+  _WRAP_METHOD(int get_sample_start() const, gda_data_proxy_get_sample_start)
+  _WRAP_METHOD(int get_sample_end() const, gda_data_proxy_get_sample_end)
+  _WRAP_METHOD(bool apply_all_changes(), gda_data_proxy_apply_all_changes, errthrow)
+  _WRAP_METHOD(bool cancel_all_changes(), gda_data_proxy_cancel_all_changes)
+
+  _WRAP_PROPERTY("model", Glib::RefPtr<DataModel>)
+  _WRAP_PROPERTY("prepend-null-entry", bool)
+
+  _WRAP_SIGNAL(void row_delete_changed(int row, bool to_be_deleted), "row-delete-changed")
+  _WRAP_SIGNAL(void sample_changed(int sample_start, int sample_end), "sample-changed")
+  _WRAP_SIGNAL(void sample_size_changed(int sample_size), "sample-size-changed")
+  _WRAP_SIGNAL(bool pre_changes_applied(int row, int proxied_row), "pre-changes-applied")
+  _WRAP_SIGNAL(void post_changes_applied(int row, int proxied_row), "post-changes-applied")
+};
+
+} // namespace Gda
+} // namespace Gnome
+

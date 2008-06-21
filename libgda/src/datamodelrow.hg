@@ -1,0 +1,82 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* datamodelrow.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/object.h>
+#include <libgdamm/datamodel.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Base implementation for other objects to implement the DataModel interface based on the use of rows.
+ * This object is not intended to be instantiated directly, but to be used as a base class.
+ *
+ * @ingroup DataModels
+ */
+class DataModelRow
+ : public Object,
+   public DataModel
+{
+  _CLASS_GOBJECT(DataModelRow, GdaDataModelRow, GDA_DATA_MODEL_ROW, Gda::Object, GdaObject)
+  _IMPLEMENTS_INTERFACE(DataModel)
+
+protected:
+  // There is no create() method because there is no _new function in the C API either.
+
+public:
+  _WRAP_PROPERTY("command-text", Glib::ustring)
+  _WRAP_PROPERTY("command-type", int)
+  _WRAP_PROPERTY("read-only", bool)
+
+  _WRAP_METHOD(const Glib::RefPtr<Row> get_row(int row), gda_data_model_row_get_row, errthrow, refreturn)
+  // TODO: This is not constversion because the generated code does not pass
+  // error to the non-const function if exceptions are disabled.
+  _WRAP_METHOD(const Glib::RefPtr<const Row> get_row(int row) const, gda_data_model_row_get_row, errthrow, refreturn)
+
+
+/* TODO: 
+  _WRAP_VFUNC(int get_n_rows() const, get_n_rows)
+  _WRAP_VFUNC(int get_n_columns) const, get_n_columns)
+*/
+
+ // TODO: Vfuncs:
+  /*
+	GdaRow             *(* get_row)         (GdaDataModelRow *model, gint row, GError **error);
+	const GValue       *(* get_value_at)    (GdaDataModelRow *model, gint col, gint row);
+	
+	gboolean            (* is_updatable)    (GdaDataModelRow *model);
+
+	GdaRow             *(* append_values)   (GdaDataModelRow *model, const GList *values, GError **error);
+	gboolean            (* append_row)      (GdaDataModelRow *model, GdaRow *row, GError **error);
+	gboolean            (* update_row)      (GdaDataModelRow *model, GdaRow *row, GError **error);
+	gboolean            (* remove_row)      (GdaDataModelRow *model, GdaRow *row, GError **error);
+  */
+};
+
+} // namespace Gda
+} // namespace Gnome
+

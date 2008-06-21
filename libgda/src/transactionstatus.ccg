@@ -1,0 +1,46 @@
+/* $Id: transactionstatus.ccg,v 1.2 2006/12/23 09:34:17 murrayc Exp $ */
+// -*- C++ -*- // this is for the .ccg, I realize gensig puts one in
+
+/* transactionstatus.cc
+ * 
+ * Copyright 2001      Free Software Foundation
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgda/gda-transaction-status.h>
+#include <libgda/gda-enum-types.h>
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+//We custom-implement this, copying stuff from the gda_transaction_status_new() implemenation:
+TransactionStatus::TransactionStatus(const Glib::ustring& name)
+:
+  _CONSTRUCT()
+{
+  // Cannot use set_name because it just doesn't exist anymore. //TODO: Is it a property instead? File a bug with libgda if necessary. murrayc.
+  if(!name.empty())
+    gobj()->name = g_strdup(name.c_str());
+}
+
+} //namespace Gda
+
+
+} /* namespace Gnome */
+

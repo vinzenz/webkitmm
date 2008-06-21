@@ -1,0 +1,148 @@
+/* $Id: parameter.hg,v 1.12 2006/11/08 01:42:01 murrayc Exp $ */
+// -*- C++ -*- //
+
+/* parameter.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/object.h>
+#include <libgdamm/value.h>
+#include <libgdamm/entityfield.h>
+#include <libgdamm/referer.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Exception class for Gda parameter errors.
+ */
+_WRAP_GERROR(ParameterError, GdaParameterError, GDA_PARAMETER_ERROR)
+
+class DataModel;
+
+/** Represents a Value with various attributes.
+ *
+ * @ingroup DataModels
+ */
+class Parameter
+  : public Object,
+    public Referer
+{
+  _CLASS_GOBJECT(Parameter, GdaParameter, GDA_PARAMETER, Object, GdaObject)
+  _IMPLEMENTS_INTERFACE(Referer)
+protected:
+
+  _CTOR_DEFAULT
+
+  Parameter(const Glib::ustring& name, const Value& value);
+  _IGNORE(gda_parameter_new_from_value)
+  Parameter(const Glib::ustring& name, bool value);
+  _IGNORE(gda_parameter_new_boolean)
+  Parameter(const Glib::ustring& name, const Glib::ustring& value);
+  _IGNORE(gda_parameter_new_string)
+
+  // Parameter("foo", "bar") calls Parameter(ustring, bool) without this.
+  Parameter(const Glib::ustring& name, const char* value);
+
+public:
+  _WRAP_CREATE()
+  _WRAP_CREATE(const Glib::ustring& name, bool value)
+  _WRAP_CREATE(const Glib::ustring& name, const Glib::ustring& value)
+  _WRAP_CREATE(const Glib::ustring& name, const gchar* value)
+
+  typedef Glib::SListHandle< Glib::RefPtr<EntityField> > ListHandleEntityField; 
+  #m4 _CONVERSION(`GSList*',`ListHandleEntityField',`$2($3, Glib::OWNERSHIP_NONE)')
+
+  Value get_value() const;
+  _IGNORE(gda_parameter_get_value)
+
+  _WRAP_METHOD(Glib::RefPtr<Parameter> copy() const, gda_parameter_new_copy)
+  
+  _WRAP_METHOD(Glib::ustring get_alphanum_name() const, gda_parameter_get_alphanum_name)
+  
+  
+  _WRAP_METHOD(GType get_g_type() const, gda_parameter_get_g_type)
+
+  _WRAP_METHOD(void set_value(const Value& value), gda_parameter_set_value)
+  _WRAP_METHOD(bool set_value(const Glib::ustring& value), gda_parameter_set_value_str)
+
+
+  _WRAP_METHOD(void declare_invalid(), gda_parameter_declare_invalid)
+  _WRAP_METHOD(bool is_valid() const, gda_parameter_is_valid)
+
+  Value get_default_value() const;
+  _IGNORE(gda_parameter_get_default_value)
+
+  _WRAP_METHOD(void set_default_value(const Value& value), gda_parameter_set_default_value)
+  _WRAP_METHOD(bool get_exists_default_value(), gda_parameter_get_exists_default_value)
+  _WRAP_METHOD(void set_exists_default_value(bool default_value_exists = true), gda_parameter_set_exists_default_value)
+
+  _WRAP_METHOD(void set_not_null(bool not_null = true), gda_parameter_set_not_null)
+  _WRAP_METHOD(bool get_not_null() const, gda_parameter_get_not_null)
+
+  _WRAP_METHOD(bool restrict_values(const Glib::RefPtr<DataModel>& model, int col), gda_parameter_restrict_values, errthrow)
+
+  bool has_restrict_values() const;
+  bool has_restrict_values(Glib::RefPtr<DataModel>& model, int& col) const;
+  _IGNORE(gda_parameter_has_restrict_values)
+
+  _WRAP_METHOD(void bind_to_param(const Glib::RefPtr<Parameter>& bind_to), gda_parameter_bind_to_param)
+
+  _WRAP_METHOD(Glib::RefPtr<Parameter> get_bind_param(), gda_parameter_get_bind_param, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Parameter> get_bind_param() const, gda_parameter_get_bind_param, constversion)
+
+  _IGNORE(gda_parameter_get_value_str)
+  // Hand-code because it might return NULL;
+  // TODO: That shouldn't be a problem. murrayc
+  Glib::ustring get_value_str() const;
+
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<EntityField> >', `$2($3, Glib::OWNERSHIP_NONE)')
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<const EntityField> >', `$2($3, Glib::OWNERSHIP_NONE)')
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<EntityField> > get_param_users(), gda_parameter_get_param_users)
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<const EntityField> > get_param_users() const, gda_parameter_get_param_users)
+
+  // TODO: How to wrap GHashTable?
+  //_WRAP_METHOD(void replace_param_users(GHashTable* param), gda_parameter_replace_param_users)
+
+  _WRAP_METHOD(void declare_param_user(const Glib::RefPtr<Object>& user), gda_parameter_declare_param_user)
+
+  /** This is a convenience method that sets the value of the "entry-plugin" 
+   * property.
+   */
+  void set_entry_plugin(const Glib::ustring& plugin);
+
+  _WRAP_PROPERTY("g-type", GType)
+  _WRAP_PROPERTY("entry-plugin", Glib::ustring)
+  _WRAP_PROPERTY("use-default-value", bool)
+  _WRAP_PROPERTY("not-null", bool)
+  _WRAP_PROPERTY("simple-bind", Glib::RefPtr<Parameter>)
+  _WRAP_PROPERTY("full-bind", Glib::RefPtr<Parameter>)
+  _WRAP_PROPERTY("restrict-model", Glib::RefPtr<DataModel>)
+  _WRAP_PROPERTY("restrict-column", int)
+
+  _WRAP_SIGNAL(void restrict_changed(), "restrict-changed")
+};
+
+} // namespace Gda
+} // namespace Gnome
+

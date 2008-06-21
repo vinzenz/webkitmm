@@ -1,0 +1,90 @@
+/* $Id: dicttable.hg,v 1.2 2006/11/08 00:07:37 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* dicttable.h
+ *
+ * Copyright 2007 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or(at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/object.h>
+#include <libgdamm/xmlstorage.h>
+#include <libgdamm/entity.h>
+
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+class Connection;
+class DictDatabase;
+class DictConstraint;
+
+/** Represents a table or a view in the database.
+ * Use this object to query the real structure of the table it represents.
+ * 
+ * @ingroup Dictionaries
+ */
+class DictTable
+: public Gda::Object,
+  public XmlStorage,
+  public Entity
+{
+  _CLASS_GOBJECT(DictTable, GdaDictTable, GDA_DICT_TABLE, Gda::Object, GdaObject)
+  _IMPLEMENTS_INTERFACE(XmlStorage)
+  _IMPLEMENTS_INTERFACE(Entity)
+protected:
+
+  _CTOR_DEFAULT()
+  _IGNORE(gda_dict_table_new)
+
+public:
+  _WRAP_CREATE()
+
+  _WRAP_METHOD(Glib::RefPtr<DictDatabase> get_database(), gda_dict_table_get_database)
+  _WRAP_METHOD(Glib::RefPtr<const DictDatabase> get_database() const, gda_dict_table_get_database)
+
+  _WRAP_METHOD(bool is_view() const, gda_dict_table_is_view)
+
+
+#m4 _CONVERSION(`const GSList*',`Glib::SListHandle< Glib::RefPtr<const DictTable> >',`$2((GSList*)$3, Glib::OWNERSHIP_NONE)')
+  _WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<const DictTable> > get_parents() const, gda_dict_table_get_parents)
+
+#m4 _CONVERSION(`GSList*',`Glib::SListHandle< Glib::RefPtr<DictConstraint> >',`$2($3, Glib::OWNERSHIP_SHALLOW)')
+  _WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<DictConstraint> > get_constraints(), gda_dict_table_get_constraints)
+
+#m4 _CONVERSION(`GSList*',`Glib::SListHandle< Glib::RefPtr<const DictConstraint> >',`$2((GSList*)$3, Glib::OWNERSHIP_SHALLOW)')
+  _WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<const DictConstraint> > get_constraints() const, gda_dict_table_get_constraints)
+
+  _WRAP_METHOD(Glib::RefPtr<DictConstraint> get_pk_constraint(), gda_dict_table_get_pk_constraint, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictConstraint> get_pk_constraint() const, gda_dict_table_get_pk_constraint, constversion)
+
+  _WRAP_METHOD(bool update_dbms_data(), gda_dict_table_update_dbms_data, errthrow)
+
+  _WRAP_PROPERTY("db", Glib::RefPtr<DictDatabase>)
+  _WRAP_PROPERTY("is-view", bool)
+
+ //There are no signals or vfuncs.
+};
+
+} // namespace Gda
+} // namespace Gnome
+

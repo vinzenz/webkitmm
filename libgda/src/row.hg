@@ -1,0 +1,86 @@
+/* $Id: row.hg,v 1.10 2006/11/06 04:38:05 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* row.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+
+#include <libgdamm/value.h>
+#include <glibmm/object.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+class DataModel;
+class Value;
+
+//TODO:
+class Row : public Glib::Object
+{
+protected:
+  _CLASS_GOBJECT(Row, GdaRow, GDA_ROW, Glib::Object, GObject)
+
+  _WRAP_CTOR(Row(const Glib::RefPtr<DataModel>& model, int count), gda_row_new)
+
+//TODO: Use C++ type:
+  _WRAP_CTOR(Row(const Glib::RefPtr<DataModel>& model, const GList *values), gda_row_new_from_list)
+
+public:
+  _WRAP_METHOD(Glib::RefPtr<Row> copy() const, gda_row_copy)
+  
+  _WRAP_CREATE(const Glib::RefPtr<DataModel>& model, int count)
+  _WRAP_CREATE(const Glib::RefPtr<DataModel>& model, const GList *values)
+
+  _WRAP_METHOD(int get_number() const, gda_row_get_number)
+  _WRAP_METHOD(void set_number(int number), gda_row_set_number)
+  _WRAP_METHOD(Glib::ustring get_id() const, gda_row_get_id)
+  _WRAP_METHOD(void set_id(const Glib::ustring& id), gda_row_set_id)
+
+  Value get_value(int num) const;
+  _IGNORE(gda_row_get_value)
+
+  _WRAP_METHOD(bool set_value(int num, const Value& value), gda_row_set_value)
+
+  _WRAP_METHOD(Glib::RefPtr<DataModel> get_model(), gda_row_get_model, refreturn)  
+  _WRAP_METHOD(Glib::RefPtr<const DataModel> get_model() const, gda_row_get_model, constversion) 
+
+  _WRAP_METHOD(void set_model(const Glib::RefPtr<DataModel>& model), gda_row_set_model)
+
+  _WRAP_METHOD(int get_length() const, gda_row_get_length)
+
+  _WRAP_METHOD(void set_is_default(int num, bool is_default = true), gda_row_set_is_default)
+  _WRAP_METHOD(bool get_is_default(int num) const, gda_row_get_is_default)
+
+  //TODO: Properties.
+
+  _WRAP_PROPERTY("model", Glib::RefPtr<DataModel>)
+  //These are not sensible for libgdamm:
+  //_WRAP_PROPERTY("values", GList*)
+  //_WRAP_PROPERTY("nb_values", int)
+};
+
+} // namespace Gda
+} // namespace Gnome
+

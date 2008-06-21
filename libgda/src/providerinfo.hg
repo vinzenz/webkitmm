@@ -1,0 +1,52 @@
+/* $Id: providerinfo.hg,v 1.4 2006/05/08 10:18:53 murrayc Exp $ */
+// -*- C++ -*- //
+
+/* providerinfo.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/parameterlist.h>
+#include <glibmm/object.h>
+#include <libgda/gda-config.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+//TODO: 
+class ProviderInfo
+{
+  _CLASS_OPAQUE_COPYABLE(ProviderInfo, GdaProviderInfo, NONE, gda_provider_info_copy, gda_provider_info_free)
+public:
+
+  _MEMBER_GET(id, id, Glib::ustring, const char*)
+  _MEMBER_GET(location, location, Glib::ustring, const char*)
+  _MEMBER_GET(description, description, Glib::ustring, const char*)
+  
+  Glib::RefPtr<ParameterList> get_gda_params();
+  Glib::RefPtr<const ParameterList> get_gda_params() const;
+};
+
+} // namespace Gda
+} // namespace Gnome
+

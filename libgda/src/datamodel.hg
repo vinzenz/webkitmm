@@ -1,0 +1,223 @@
+/* $Id: datamodel.hg,v 1.32 2006/12/15 15:02:27 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* datamodel.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/command.h>
+#include <libgdamm/row.h>
+#include <libgdamm/column.h>
+#include <libgdamm/parameterlist.h>
+#include <libgdamm/datamodeliter.h>
+//#include <libgdamm/serverprovider.h>
+#include <libgda/gda-data-model.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+class Row;
+class ServerProvider;
+
+_WRAP_ENUM(DataModelAccessFlags, GdaDataModelAccessFlags)
+_WRAP_ENUM(DataModelHint, GdaDataModelHint)
+_WRAP_ENUM(DataModelIOFormat, GdaDataModelIOFormat)
+
+
+/** @defgroup DataModels Data Models
+ */
+
+/** Abstract DataModel (Base class for all DataModels)
+ *
+ * A DataModel represents an array of values organized in rows and columns. 
+ * All the data in the same column have the same type, and all the data in each row have the same semantic meaning. 
+ * The DataModel is actually an interface implemented by other objects to support various kinds of data storage and 
+ * operations.
+ *
+ * Depending on the real implementation, the contents of data models may be modified by the user by using functions 
+ * provided by the model. The actual operations that a data model permits can be discovered using the 
+ * get_access_flags() method.
+ *
+ * Again, depending on the real implementation, data retreival can be done either by accessing direct random values 
+ * located by their row and column, or by using a DataModelIter cursor, or both. Use the get_access_flags() method to 
+ * discover how the data model can be accessed. Note that a Datamodel which can be accessed in a random way can also 
+ * be accessed using cursors (and several cusrors may be used at the same time), whereas a data model which can only 
+ * be accessed using cursors can only have one cursor for iterating.
+ *
+ * Random access data models are easier to use since picking a value is very simple by using the get_value_at(), 
+ * but they consume more memory since all the accessible values must generally be present in memory even if they 
+ * are not used. Thus, if a data model must handle large quantities of data, it is generally wiser to use a data 
+ * model which can be only accessed using a cursor.
+ *
+ * As a side note there are also data models which wrap other data models such as:
+ * - The DataProxy data model which stores temporary modifications and shows only some parts of the wrapped data model.
+ * - The DataAccessWrapper data model which offers memory-efficient random access on top of a wrapped cursor based access data model.
+ *
+ * @ingroup DataModels
+ */
+class DataModel : public Glib::Interface
+{
+  _CLASS_INTERFACE(DataModel, GdaDataModel, GDA_DATA_MODEL, GdaDataModelClass)
+public:
+  // This does not belong into this class
+  _IGNORE(gda_data_model_iter_new, gda_data_model_array_copy_model)
+
+  _WRAP_METHOD(void freeze(), gda_data_model_freeze)  
+  _WRAP_METHOD(void thaw(), gda_data_model_thaw)
+
+  _WRAP_METHOD(int get_n_rows() const, gda_data_model_get_n_rows)
+  _WRAP_METHOD(int get_n_columns() const, gda_data_model_get_n_columns)
+
+  _WRAP_METHOD(Glib::RefPtr<Column> describe_column(int col), gda_data_model_describe_column, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Column> describe_column(int col) const, gda_data_model_describe_column, refreturn, constversion)
+
+  _WRAP_METHOD(int get_column_index(const Glib::ustring& name) const, gda_data_model_get_column_index_by_name)
+  _WRAP_METHOD(Glib::ustring get_column_title(int col) const, gda_data_model_get_column_title)
+  _WRAP_METHOD(void set_column_title(int col, const Glib::ustring& title), gda_data_model_set_column_title)
+
+  //We use a custom conversion here, because we need to copy the value:
+  //#m4 _CONVERSION(`GValue*',`Value',`Glib::wrap($3, true /* take_copy=true */)')
+  //#m4 _CONVERSION(`const GValue*',`Value',`Glib::wrap(const_cast<GValue*>($3), true /* take_copy */)')
+ 
+  Value get_value_at(int col, int row) const;
+  _IGNORE(gda_data_model_get_value_at)
+
+  Value get_value_at(const Glib::ustring& column_name, int row) const;
+  _IGNORE(gda_data_model_get_value_at_col_name)
+
+  _WRAP_METHOD(ValueAttribute get_attributes_at(int col, int row), gda_data_model_get_attributes_at)
+
+  _WRAP_METHOD(Glib::RefPtr<DataModelIter> create_iter(), gda_data_model_create_iter)
+   
+  //Ignore private functions:
+  _IGNORE(gda_data_model_move_iter_at_row, gda_data_model_move_iter_next, gda_data_model_move_iter_prev)
+
+  _WRAP_METHOD(bool set_value_at(int col, int row, const Value& value), gda_data_model_set_value_at, errthrow)
+
+  #m4 _CONVERSION(`const ValueList&',`const GList*',`$3.data()')
+  #m4 _CONVERSION(`const ValueList&',`GList*',`$3.data()')
+  _WRAP_METHOD(bool set_values(int row, const ValueList& values), gda_data_model_set_values, errthrow)
+
+  _WRAP_METHOD(bool is_updatable() const, gda_data_model_is_updatable)
+  _WRAP_METHOD(DataModelAccessFlags get_access_flags() const, gda_data_model_get_access_flags)
+
+  _WRAP_METHOD(int append_values(const ValueList& values), gda_data_model_append_values, errthrow)
+
+  _WRAP_METHOD(bool append_row(), gda_data_model_append_row, errthrow)
+  _WRAP_METHOD(bool remove_row(int row), gda_data_model_remove_row, errthrow)
+
+  //TODO: Maybe wrap the two input parameters (list of values, and list of their column indexes) as a map,
+  //but it's not urgent. murrayc.
+  #m4 _CONVERSION(`const Glib::ArrayHandle<int>&', `gint*', `const_cast<gint*>(($3).data())')
+  #m4 _CONVERSION(`const ValueSList&', `GSList*', `$3.data()')
+  _WRAP_METHOD(int get_row_from_values(const ValueSList& values, const Glib::ArrayHandle<int>& cols_index), gda_data_model_get_row_from_values)
+
+  _WRAP_METHOD(void send_hint(DataModelHint hint, const Value& hint_value), gda_data_model_send_hint)
+
+
+  /** Exports data contained in @a model to the a string; the format is specified using the @a format argument.
+   *
+   * Specifically, the parameters in the @options list can be:
+   * - SEPARATOR: a string value of which the first character is used as a separator in case of CSV export.
+   * -"NAME: a string value used to name the exported data if the export format is XML.
+   * - OVERWRITE: a boolean value which tells if the file must be over-written if it already exists.  
+   *
+   * @param format The format in which to export data.
+   * @param cols An array containing which columns of @model will be exported.
+   * @param rows An array containing which rows of @model will be exported.
+   * @param options List of options for the export.
+   * @result The string.
+   */
+  _IGNORE(gda_data_model_export_to_string)
+  Glib::ustring export_to_string(DataModelIOFormat format, const Glib::ArrayHandle<int>& cols, const Glib::ArrayHandle<int>& rows, const Glib::RefPtr<ParameterList>& options);
+
+  /** Exports data contained in @a model to the @a file; the format is specified using the @a format argument.
+   *
+   * Specifically, the parameters in the @options list can be:
+   * - SEPARATOR: a string value of which the first character is used as a separator in case of CSV export.
+   * -"NAME: a string value used to name the exported data if the export format is XML.
+   * - OVERWRITE: a boolean value which tells if the file must be over-written if it already exists.  
+   *
+   * @param format The format in which to export data.
+   * @param file The filename to export to.
+   * @param cols An array containing which columns of @model will be exported.
+   * @param rows An array containing which rows of @model will be exported.
+   * @param options List of options for the export.
+   * @result true if no error occurred.
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  bool export_to_file(DataModelIOFormat format, const std::string& file, const Glib::ArrayHandle<int>& cols, const Glib::ArrayHandle<int>& rows, const Glib::RefPtr<ParameterList>& options);
+#else
+  bool export_to_file(DataModelIOFormat format, const std::string& file, const Glib::ArrayHandle<int>& cols, const Glib::ArrayHandle<int>& rows, const Glib::RefPtr<ParameterList>& options, std::auto_ptr<Glib::Error>& error);
+#endif
+  _IGNORE(gda_data_model_export_to_file)
+
+  _WRAP_METHOD(bool import_from_model(const Glib::RefPtr<DataModel>& from,  bool overwrite, GHashTable *cols_trans), gda_data_model_import_from_model, errthrow)
+  _WRAP_METHOD(bool import_from_string(const Glib::ustring& string, GHashTable *cols_trans, const Glib::RefPtr<const ParameterList>& options), gda_data_model_import_from_string, errthrow)
+  _WRAP_METHOD(bool import_from_file(const std::string& file, GHashTable *cols_trans, const Glib::RefPtr<const ParameterList>& options), gda_data_model_import_from_file, errthrow)
+
+  //Let's not wrap these. They are ugly and do not seem useful. murrayc.
+  _IGNORE(gda_data_model_to_xml_node, gda_data_model_add_data_from_xml_node)
+  //_WRAP_METHOD(xmlNodePtr to_xml(const GLib::ustring& name), gda_data_model_to_xml_node)
+  //_WRAP_METHOD(bool add_data(xmlNodePtr node), gda_data_model_add_data_from_xml_node)
+
+  _WRAP_METHOD(void dump(FILE* to_stream) const, gda_data_model_dump)
+  _WRAP_METHOD(Glib::ustring dump_as_string() const, gda_data_model_dump_as_string)
+
+  //These are from gda-datamodel-extra.h:
+  //TODO: Are these meant to be public API?
+  //See http://bugzilla.gnome.org/show_bug.cgi?id=513543
+  /* Let's assume not. It's safer to add them later if necessary:
+  _WRAP_METHOD(void signal_emit_changed(), gda_data_model_signal_emit_changed)
+  _WRAP_METHOD(void row_inserted(int row), gda_data_model_row_inserted)
+  _WRAP_METHOD(void row_updated(int row), gda_data_model_row_updated)
+  _WRAP_METHOD(void row_removed(int row), gda_data_model_row_removed)
+  */
+
+  _WRAP_METHOD(bool move_iter_at_row_default(const Glib::RefPtr<DataModelIter>& iter, int row), gda_data_model_move_iter_at_row_default)
+  _WRAP_METHOD(bool move_iter_next_default(const Glib::RefPtr<DataModelIter>& iter), gda_data_model_move_iter_next_default)
+  _WRAP_METHOD(bool move_iter_prev_default(const Glib::RefPtr<DataModelIter>& iter), gda_data_model_move_iter_prev_default)
+
+  _WRAP_METHOD(void signal_emit_changed(), gda_data_model_signal_emit_changed)
+
+  //These are in a private header. Ignore them:
+  _IGNORE(gda_data_model_changed, gda_data_model_row_inserted, gda_data_model_row_updated, gda_data_model_row_removed, 
+          gda_data_model_get_command_text, gda_data_model_set_command_text, gda_data_model_get_command_type, 
+          gda_data_model_set_command_type, gda_data_model_to_xml_node, gda_data_model_add_data_from_xml_node, gda_data_model_reset)
+
+  _WRAP_SIGNAL(void row_inserted(int row), row_inserted)
+  _WRAP_SIGNAL(void row_updated(int row), row_updated)
+  _WRAP_SIGNAL(void row_removed(int row), row_removed)
+  _WRAP_SIGNAL(void reset(), reset)
+
+protected:
+
+  //We don't wrap the vfuncs because they are only useful for creating new backends,
+  //and they have a high code-size and per-object memory cost.
+};
+
+} // namespace Gda
+} // namespace Gnome
+

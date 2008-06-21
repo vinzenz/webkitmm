@@ -1,0 +1,99 @@
+/* $Id: column.hg,v 1.14 2006/11/30 06:58:55 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* modelcolumnattributes.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/transactionstatus.h>
+#include <glibmm/object.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+
+#include <libgdamm/value.h>
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Management of DataModel column attributes.
+ *
+ * @ingroup DataHandlers
+ */
+class Column : public Glib::Object
+{
+  _CLASS_GOBJECT(Column, GdaColumn, GDA_COLUMN, Glib::Object, GObject)
+protected:
+  _CTOR_DEFAULT()
+
+public:
+  _WRAP_CREATE()
+  _IGNORE(gda_column_new)
+
+  _WRAP_METHOD(Glib::RefPtr<Column> copy() const, gda_column_copy)
+  bool equal(const Glib::RefPtr<const Column>& src) const;
+
+  _WRAP_METHOD(Glib::ustring get_title() const, gda_column_get_title)
+  _WRAP_METHOD(void set_title(const Glib::ustring& title), gda_column_set_title)
+
+  _WRAP_METHOD(glong get_defined_size() const, gda_column_get_defined_size)
+  _WRAP_METHOD(void set_defined_size(glong size), gda_column_set_defined_size)
+  _WRAP_METHOD(Glib::ustring get_name() const, gda_column_get_name)
+  _WRAP_METHOD(void set_name(const Glib::ustring& name), gda_column_set_name)
+  _WRAP_METHOD(Glib::ustring get_table() const, gda_column_get_table)
+  _WRAP_METHOD(void set_table(const Glib::ustring& table), gda_column_set_table)
+  _WRAP_METHOD(Glib::ustring get_caption() const, gda_column_get_caption)
+  _WRAP_METHOD(void set_caption(const Glib::ustring& caption), gda_column_set_caption)
+  _WRAP_METHOD(glong get_scale() const, gda_column_get_scale)
+  _WRAP_METHOD(void set_scale(glong scale), gda_column_set_scale)
+  _WRAP_METHOD(Glib::ustring get_dbms_type() const, gda_column_get_dbms_type)
+  _WRAP_METHOD(void set_dbms_type(const Glib::ustring& dbms_type), gda_column_set_dbms_type)
+
+  _WRAP_METHOD(GType get_g_type() const, gda_column_get_g_type)
+  _WRAP_METHOD(void set_g_type(GType type), gda_column_set_g_type)
+  _WRAP_METHOD(bool get_allow_null() const, gda_column_get_allow_null)
+  _WRAP_METHOD(void set_allow_null(bool allow = true), gda_column_set_allow_null)
+  _WRAP_METHOD(bool get_primary_key() const, gda_column_get_primary_key)
+  _WRAP_METHOD(void set_primary_key(bool pk = true), gda_column_set_primary_key)
+  _WRAP_METHOD(bool get_unique_key() const, gda_column_get_unique_key)
+  _WRAP_METHOD(void set_unique_key(bool uk = true), gda_column_set_unique_key)
+  _WRAP_METHOD(Glib::ustring get_references() const, gda_column_get_references)
+  _WRAP_METHOD(void set_references(const Glib::ustring& ref), gda_column_set_references)
+  _WRAP_METHOD(bool get_auto_increment() const, gda_column_get_auto_increment)
+  _WRAP_METHOD(void set_auto_increment(bool is_auto = true), gda_column_set_auto_increment)
+  _WRAP_METHOD(gint get_position() const, gda_column_get_position)
+  _WRAP_METHOD(void set_position(gint position), gda_column_set_position)
+
+   Value get_default_value() const;
+  _IGNORE(gda_column_get_default_value)
+  
+  _WRAP_METHOD(void set_default_value(const Value& default_value), gda_column_set_default_value)
+
+#m4 _CONVERSION(`const char*',`const Glib::ustring&',__GCHARP_TO_USTRING)
+  _WRAP_SIGNAL(void name_changed(const Glib::ustring& old_name), "name-changed")
+  _WRAP_SIGNAL(void g_type_changed(GType old_type, GType new_type), "g-type-changed")
+
+  _WRAP_PROPERTY("id", Glib::ustring)
+};
+
+} // namespace Gda
+} // namespace Gnome
+

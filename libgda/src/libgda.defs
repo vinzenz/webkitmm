@@ -1,0 +1,5 @@
+(include libgda_methods.defs)
+(include libgda_signals.defs)
+(include libgda_vfuncs.defs)
+(include libgda_enums.defs)
+(include libgda_others.defs)

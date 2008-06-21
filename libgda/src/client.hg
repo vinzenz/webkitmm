@@ -1,0 +1,116 @@
+/* $Id: client.hg,v 1.17 2006/12/23 09:29:35 murrayc Exp $ */
+// -*- C++ -*- //
+
+/* client.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/transactionstatus.h>
+#include <libgdamm/connection.h>
+//#include <libgda/gda-client.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+_PINCLUDE(libgda/gda-client.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Exception class for Gda client errors.
+ */
+_WRAP_GERROR(ClientError, GdaClientError, GDA_CLIENT_ERROR)
+
+_WRAP_ENUM(ClientEvent, GdaClientEvent)
+
+class ServerOperation;
+
+/** @defgroup Connections Connections and Commands
+ */
+
+/** Database client access.
+ *
+ * This class is the main entry point for libgda client applications. It provides the way by which client applications 
+ * open connections. Thus, before using any other database-oriented function in libgda, applications must create a 
+ * Client object and open the connections from it.
+ *
+ * The Client class also provides a way to treat several connections as if they were only one (a connection pool), which 
+ * allows applications to, for instance, commit/rollback a transaction in all the connections being managed by a unique 
+ * Client object, or obtain the list of all tables in all opened connections.
+ *
+ * Database creation and destruction is done through a Client object using the perform_create_database() and 
+ * perform_drop_database() methods. Note however that depending on the provider, an opened connection may be 
+ * required in order to create or destroy a database.
+ *
+ * @ingroup Connections
+ */
+class Client : public Glib::Object
+{
+  _CLASS_GOBJECT(Client, GdaClient, GDA_CLIENT, Glib::Object, GObject)
+protected:
+  _CTOR_DEFAULT()
+
+public:
+  _WRAP_CREATE()
+  
+  _WRAP_METHOD(Glib::RefPtr<Connection> open_connection(const Glib::ustring& dsn, const Glib::ustring& username, const Glib::ustring& password, ConnectionOptions options = (ConnectionOptions)0), gda_client_open_connection, errthrow)
+
+  _WRAP_METHOD(Glib::RefPtr<Connection> open_connection_from_string(const Glib::ustring& provider_id, const Glib::ustring& cnc_string, const Glib::ustring& username, const Glib::ustring& password, ConnectionOptions options = (ConnectionOptions)0), gda_client_open_connection_from_string, errthrow)
+
+  _WRAP_METHOD(void declare_connection(const Glib::RefPtr<Connection>& cnc), gda_client_declare_connection)
+
+ //Use a special conversion here, because we should not own any part of the returned GList,
+ //as specified by the gda_client_get_connections() documentation,
+ // and because we need to unconst the GList.:
+ #m4 _CONVERSION(`const GList*',`Glib::ListHandle< Glib::RefPtr<Connection> >',`$2((GList*)$3, Glib::OWNERSHIP_NONE)')
+ #m4 _CONVERSION(`const GList*',`Glib::ListHandle< Glib::RefPtr<const Connection> >',`$2((GList*)$3, Glib::OWNERSHIP_NONE)')
+ 
+  _WRAP_METHOD(Glib::ListHandle< Glib::RefPtr<Connection> > get_connections(), gda_client_get_connections)
+  _WRAP_METHOD(Glib::ListHandle< Glib::RefPtr<const Connection> > get_connections() const, gda_client_get_connections)
+   
+  _WRAP_METHOD(Glib::RefPtr<Connection> find_connection(const Glib::ustring& dsn, const Glib::ustring& username, const Glib::ustring& password), gda_client_find_connection, refreturn)
+  _WRAP_METHOD(void close_all_connections(), gda_client_close_all_connections)
+
+  _WRAP_METHOD(void notify_event(const Glib::RefPtr<Connection>& cnc, ClientEvent event, const Glib::RefPtr<ParameterList>& params), gda_client_notify_event)
+
+  //TODO: Wrap GdaConnectionEvent as exception?
+  _WRAP_METHOD(void notify_error_event(const Glib::RefPtr<Connection>& cnc, GdaConnectionEvent *error), gda_client_notify_error_event)
+  _WRAP_METHOD(void notify_connection_opened_event(const Glib::RefPtr<Connection>& cnc), gda_client_notify_connection_opened_event)
+  _WRAP_METHOD(void notify_connection_closed_event(const Glib::RefPtr<Connection>& cnc), gda_client_notify_connection_closed_event)
+
+  _WRAP_METHOD(Glib::ustring get_dsn_specs(const Glib::ustring& provider) const, gda_client_get_dsn_specs)
+
+  _WRAP_METHOD(Glib::RefPtr<ServerOperation> prepare_create_database(const Glib::ustring& db_name, const Glib::ustring& provider), gda_client_prepare_create_database)
+  _WRAP_METHOD(bool perform_create_database(const Glib::RefPtr<ServerOperation>& op), gda_client_perform_create_database, errthrow)
+
+  _WRAP_METHOD(Glib::RefPtr<ServerOperation> prepare_drop_database(const Glib::ustring& db_name, const Glib::ustring& provider), gda_client_prepare_drop_database)
+  _WRAP_METHOD(bool perform_drop_database(const Glib::RefPtr<ServerOperation>& op), gda_client_perform_drop_database, errthrow)
+
+
+  _WRAP_METHOD(bool begin_transaction(const Glib::ustring& name, TransactionIsolation level), gda_client_begin_transaction, errthrow)
+  _WRAP_METHOD(bool commit_transaction(const Glib::ustring& name), gda_client_commit_transaction, errthrow)
+  _WRAP_METHOD(bool rollback_transaction(const Glib::ustring& name), gda_client_rollback_transaction, errthrow)
+
+  _WRAP_SIGNAL(void event_notification(const Glib::RefPtr<Connection>& cnc, ClientEvent event, const Glib::RefPtr<ParameterList>& params), "event_notification")
+};
+
+} // namespace Gda
+} // namespace Gnome
+

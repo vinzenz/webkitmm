@@ -1,0 +1,123 @@
+/* $Id: dictconstraint.hg,v 1.2 2006/11/08 00:07:37 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* dictconstraint.h
+ *
+ * Copyright 2007 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or(at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/object.h>
+#include <libgdamm/xmlstorage.h>
+#include <libgdamm/dicttable.h>
+#include <libgdamm/dictfield.h>
+#include <libgdamm/dicttype.h>
+#include <libgdamm/referer.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+_WRAP_ENUM(DictConstraintType, GdaDictConstraintType)
+_WRAP_ENUM(DictConstraintFkAction, GdaDictConstraintFkAction)
+
+
+class Connection;
+
+/** Represents a constraint within a database.
+ * Any type of constraint in a database is represented by one instance of this class (see the possible types of 
+ * constraints). As some constraints may not depend exclusively on a table, all the constraints are attached to the 
+ * database itself.
+ * 
+ * @ingroup Dictionaries
+ */
+class DictConstraint
+: public Gda::Object,
+  public XmlStorage,
+  public Referer
+{
+  _CLASS_GOBJECT(DictConstraint, GdaDictConstraint, GDA_DICT_CONSTRAINT, Gda::Object, GdaObject)
+  _IMPLEMENTS_INTERFACE(XmlStorage)
+  _IMPLEMENTS_INTERFACE(Referer)
+protected:
+
+  //TODO: gda_dict_constraint_new() and gda_dict_constraint_new_with_db() use private API.
+  //see http://bugzilla.gnome.org/show_bug.cgi?id=519772
+  _WRAP_CTOR(DictConstraint(const Glib::RefPtr<DictTable>& table, DictConstraintType type), gda_dict_constraint_new)
+  _WRAP_CTOR(DictConstraint(const Glib::RefPtr<DictDatabase>& db), gda_dict_constraint_new_with_db)
+
+public:
+  _WRAP_CREATE(const Glib::RefPtr<DictTable>& table, DictConstraintType type)
+  _WRAP_CREATE(const Glib::RefPtr<DictDatabase>& db)
+
+  _WRAP_METHOD(DictConstraintType get_constraint_type() const, gda_dict_constraint_get_constraint_type)
+  _WRAP_METHOD(bool equal(const Glib::RefPtr<const DictConstraint>& cstr2) const, gda_dict_constraint_equal)
+
+  _WRAP_METHOD(Glib::RefPtr<DictTable> get_table(), gda_dict_constraint_get_table, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictTable> get_table() const, gda_dict_constraint_get_table, constversion)
+
+  _WRAP_METHOD(bool uses_field(const Glib::RefPtr<const DictField>& field) const, gda_dict_constraint_uses_field)
+
+/* Primary KEY specific */
+
+  #m4 _CONVERSION(`const Glib::SListHandle< Glib::RefPtr<DictField> >&', `const GSList*', `$3.data()')
+  _WRAP_METHOD(void pkey_set_fields(const Glib::SListHandle< Glib::RefPtr<DictField> >& fields), gda_dict_constraint_pkey_set_fields)
+
+  #m4 _CONVERSION(`GSList*',`Glib::SListHandle< Glib::RefPtr<DictField> >',`$2($3, Glib::OWNERSHIP_SHALLOW)')
+  #m4 _CONVERSION(`GSList*',`Glib::SListHandle< Glib::RefPtr<const DictField> >',`$2($3, Glib::OWNERSHIP_SHALLOW)')
+  _WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<DictField> > pkey_get_fields(), gda_dict_constraint_pkey_get_fields)
+  _WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<const DictField> > pkey_get_fields() const, gda_dict_constraint_pkey_get_fields)
+
+/* Foreign KEY specific */
+  //TODO: Wrap GdaDictConstraintFkeyPair (which might or might not be a GObject):
+  //_WRAP_METHOD(void fkey_set_fields(const Glib::SListHandle< Glib::RefPtr<DictConstraintFkeyPair> >& pairs), gda_dict_constraint_fkey_set_fields)
+
+  _WRAP_METHOD(Glib::RefPtr<DictTable> fkey_get_ref_table(), gda_dict_constraint_fkey_get_ref_table, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictTable> fkey_get_ref_table() const, gda_dict_constraint_fkey_get_ref_table, constversion)
+
+  //TODO: Wrap GdaDictConstraintFkeyPair (which might or might not be a GObject):
+  //_WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<DictConstraintFkeyPair> > fkey_get_fields(), gda_dict_constraint_fkey_get_fields)
+  //_WRAP_METHOD(Glib::SListHandle<const DictConstraintFkeyPair> fkey_get_fields() const, gda_dict_constraint_fkey_get_fields)
+
+  _WRAP_METHOD(void fkey_set_actions(DictConstraintFkAction on_update,  DictConstraintFkAction on_delete), gda_dict_constraint_fkey_set_actions)
+  _WRAP_METHOD(void fkey_get_actions(DictConstraintFkAction& on_update, DictConstraintFkAction& on_delete), gda_dict_constraint_fkey_get_actions)
+
+/* UNIQUE specific */
+  _WRAP_METHOD(void unique_set_fields(const Glib::SListHandle< Glib::RefPtr<DictField> >& fields), gda_dict_constraint_unique_set_fields)
+
+  _WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<DictField> > unique_get_fields(), gda_dict_constraint_unique_get_fields)
+  _WRAP_METHOD(Glib::SListHandle< Glib::RefPtr<const DictField> > unique_get_fields() const, gda_dict_constraint_unique_get_fields)
+
+/* NOT NULL specific */
+  _WRAP_METHOD(void not_null_set_field(const Glib::RefPtr<DictField>& field), gda_dict_constraint_not_null_set_field)
+
+  _WRAP_METHOD(Glib::RefPtr<DictField> not_null_get_field(), gda_dict_constraint_not_null_get_field)
+  _WRAP_METHOD(Glib::RefPtr<const DictField> not_null_get_field() const, gda_dict_constraint_not_null_get_field)
+
+  _WRAP_PROPERTY("user-constraint", bool)
+  //There are no signals.
+
+  //TODO: vfuncs?
+};
+
+} // namespace Gda
+} // namespace Gnome
+

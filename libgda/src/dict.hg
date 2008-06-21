@@ -1,0 +1,179 @@
+/* $Id: dict.hg,v 1.2 2006/11/30 06:58:55 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* error.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or(at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/object.h>
+#include <libgdamm/dictaggregate.h>
+#include <libgdamm/dictdatabase.h>
+#include <libgdamm/dicttype.h>
+#include <libgdamm/datahandler.h>
+
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+class Object;
+
+class Connection;
+
+_WRAP_GERROR(DictError, GdaDictError, GDA_DICT_ERROR)
+
+/** defgroup Dictionaries Dictionaries
+ */
+
+/** This object is a "proxy repository" for objects in a database.
+ * This is a proxy repository for
+ * - object existing within a database such as data types (see the Gda::DictType object), functions (see the Gda::DictFunction object), aggregates (see the Gda::DictAggregate object), and the database structure (through the Gda::DictDatabase and associated object)
+ * - pre-defined queries as Gda::Query objects
+ * - graphs as Gda::Graph objects
+ *
+ * Each Dict object can be saved to an XML file and loaded back in an efficient way.
+ * Any Dict object can be assigned a Gda::Connection object which tells it how to use a real connection to a data source.
+ *
+ * The Dict object is responsible for the lifetime management of all the objects it handles. See the Gda::Object class for more information. 
+ *
+ * @ingroup Dictionaries
+ */
+class Dict : public Glib::Object
+{
+  _CLASS_GOBJECT(Dict, GdaDict, GDA_DICT, Glib::Object, GObject)
+  _IGNORE(gda_connection_event_free)
+protected:
+
+ _CTOR_DEFAULT
+
+public:
+  _WRAP_CREATE()
+
+  _WRAP_METHOD(void set_connection(const Glib::RefPtr<Connection>& cnc), gda_dict_set_connection)
+  _WRAP_METHOD(Glib::RefPtr<Connection> get_connection(), gda_dict_get_connection, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Connection> get_connection() const, gda_dict_get_connection, constversion)
+
+  _WRAP_METHOD(void declare_object_string_id_change(const Glib::RefPtr<Gda::Object>& obj, const Glib::ustring& oldid), gda_dict_declare_object_string_id_change)
+  _WRAP_METHOD(Glib::RefPtr<Gda::Object> get_object_by_string_id(const Glib::ustring& strid), gda_dict_get_object_by_string_id, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Gda::Object> get_object_by_string_id(const Glib::ustring& strid) const, gda_dict_get_object_by_string_id, refreturn, constversion)
+
+  _WRAP_METHOD(bool update_dbms_meta_data(GType limit_to_type, const Glib::ustring& limit_obj_name), gda_dict_update_dbms_meta_data, errthrow)
+
+  /** Updates the list of data types, functions, tables, etc from the database, 
+   * which means that the dict object uses an opened connection to the DBMS. 
+   * Use set_connection() to set a Gda::Connection for the Dict.
+   *
+   * @param limit_to_type Limit the DBMS update to this type, or 0 for no limit.
+   * @result True if there was no error.
+   */
+  #ifdef GLIBMM_EXCEPTIONS_ENABLED
+  bool update_dbms_meta_data(GType limit_to_type);
+  #else
+  bool update_dbms_meta_data(GType limit_to_type, std::auto_ptr<Glib::Error>& error);
+  #endif //GLIBMM_EXCEPTIONS_ENABLED
+  
+  /** Updates the list of data types, functions, tables, etc from the database, 
+   * which means that the dict object uses an opened connection to the DBMS. 
+   * Use set_connection() to set a Gda::Connection for the Dict.
+   *
+   * @result True if there was no error.
+   */
+  #ifdef GLIBMM_EXCEPTIONS_ENABLED
+  bool update_dbms_meta_data();
+  #else
+  bool update_dbms_meta_data(std::auto_ptr<Glib::Error>& error);
+  #endif //GLIBMM_EXCEPTIONS_ENABLED
+
+  _WRAP_METHOD(void stop_update_dbms_meta_data(), gda_dict_stop_update_dbms_meta_data)
+
+//TODO: What is datasource? is it UTF-8?
+  _WRAP_METHOD(std::string compute_xml_filename(const Glib::ustring& datasource, const Glib::ustring& app_id), gda_dict_compute_xml_filename, errthrow)
+  _WRAP_METHOD(void set_xml_filename(const std::string& xmlfile), gda_dict_set_xml_filename)
+  _WRAP_METHOD(std::string get_xml_filename() const, gda_dict_get_xml_filename)
+  _WRAP_METHOD(bool load(), gda_dict_load, errthrow)
+  _WRAP_METHOD(bool save(), gda_dict_save, errthrow)
+  _WRAP_METHOD(bool load_xml_file(const std::string& xmlfile), gda_dict_load_xml_file, errthrow)
+  _WRAP_METHOD(bool save_xml_file(const std::string& xmlfile), gda_dict_save_xml_file, errthrow)
+
+  _WRAP_METHOD(Glib::RefPtr<DataHandler> get_handler(GType for_type), gda_dict_get_handler, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DataHandler> get_handler(GType for_type) const, gda_dict_get_handler, refreturn, constversion)
+  _WRAP_METHOD(Glib::RefPtr<DataHandler> get_default_handler(GType for_type), gda_dict_get_default_handler, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DataHandler> get_default_handler(GType for_type) const, gda_dict_get_default_handler, refreturn, constversion)
+
+  //Note that these are described in libgda_others.defs, because the C functions are actually macros:
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<DictType> >', `$2($3, Glib::OWNERSHIP_SHALLOW)')
+  #m4 _CONVERSION(`GSList*', `Glib::SListHandle<Glib::RefPtr<const DictType> >', `$2($3, Glib::OWNERSHIP_SHALLOW)')
+
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<DictType> > get_dict_types(), gda_dict_get_dict_types)
+  _WRAP_METHOD(Glib::SListHandle<Glib::RefPtr<const DictType> > get_dict_types() const, gda_dict_get_dict_types)
+
+  _WRAP_METHOD(Glib::RefPtr<DictType> get_dict_type_by_name(const Glib::ustring& type_name), gda_dict_get_dict_type_by_name, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictType> get_dict_type_by_name(const Glib::ustring& type_name) const, gda_dict_get_dict_type_by_name, refreturn, constversion)
+
+  _WRAP_METHOD(Glib::RefPtr<DictType> get_dict_type_by_xml_id(const Glib::ustring& xml_id), gda_dict_get_dict_type_by_xml_id, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictType> get_dict_type_by_xml_id(const Glib::ustring& xml_id) const, gda_dict_get_dict_type_by_xml_id, refreturn, constversion)
+
+/* GdaDictFunction manipulations */
+  //_WRAP_METHOD(GSList* get_functions() const, gda_dict_get_functions)
+  //_WRAP_METHOD(GSList* get_functions_by_name(const Glib::ustring& funcname), gda_dict_get_functions_by_name)
+  //_WRAP_METHOD(GdaDictFunction* get_function_by_name_arg(const Glib::ustring& funcname, const GSList* argtypes), gda_dict_get_function_by_name_arg)
+  //_WRAP_METHOD(GdaDictFunction* get_function_by_xml_id(const Glib::ustring& xml_id), gda_dict_get_function_by_xml_id)
+  //_WRAP_METHOD(GdaDictFunction* get_function_by_dbms_id(const Glib::ustring& dbms_id), gda_dict_get_function_by_dbms_id)
+
+  //TODO: Use a ListHandle or similar?
+  GSList* get_aggregates() const;
+
+  GSList* get_aggregates_by_name(const Glib::ustring& aggname);
+
+  //TODO: Use a C++ type, or at least a reference instead of a pointer:
+  //TODO: Make sure that these take a reference.
+  Glib::RefPtr<DictAggregate> get_aggregate_by_name_arg(const Glib::ustring& aggname, GdaDictType *argtype);
+  Glib::RefPtr<DictAggregate> get_aggregate_by_xml_id(const Glib::ustring& xml_id);
+  Glib::RefPtr<DictAggregate> get_aggregate_by_dbms_id(const Glib::ustring& dbms_id);
+
+/* GdaQuery manipulations */
+  //_WRAP_METHOD(void declare_query(const Glib::RefPtr<Query>& query), gda_dict_declare_query)
+  //_WRAP_METHOD(void assume_query (const Glib::RefPtr<Query>& query), gda_dict_assume_query)
+  //_WRAP_METHOD(void unassume_query(const Glib::RefPtr<Query>& query), gda_dict_unassume_query)
+  //_WRAP_METHOD(GSList* get_queries  () const, gda_dict_get_queries)
+  //_WRAP_METHOD(Glib::RefPtr<Query> get_query_by_xml_id(const Glib::ustring& xml_id), gda_dict_get_query_by_xml_id, refreturn)
+  //_WRAP_METHOD(Glib::RefPtr<const Query> get_query_by_xml_id(const Glib::ustring& xml_id), gda_dict_get_query_by_xml_id, constversion)
+
+/* GdaGraph manipulations */
+  //_WRAP_METHOD(void declare_graph(GdaGraph *graph), gda_dict_declare_graph)
+  //_WRAP_METHOD(void assume_graph(GdaGraph *graph), gda_dict_assume_graph)
+  //_WRAP_METHOD(void unassume_graph(GdaGraph *graph), gda_dict_unassume_graph)
+  //_WRAP_METHOD(GSList* get_graphs (GraphType type_of_graphs), gda_dict_get_graphs)
+  //_WRAP_METHOD(GdaGraph* get_graph_by_xml_id(const Glib::ustring& xml_id), gda_dict_get_graph_by_xml_id)
+  //_WRAP_METHOD(GdaGraph* get_graph_for_object(GObject *obj), gda_dict_get_graph_for_object)
+
+  _WRAP_METHOD(Glib::RefPtr<DictDatabase> get_database(), gda_dict_get_database, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const DictDatabase> get_database() const, gda_dict_get_database, constversion)
+
+  //_WRAP_METHOD(GSList* get_entities_fk_constraints(GdaEntity *entity1, GdaEntity *entity2, bool entity1_has_fk), gda_dict_get_entities_fk_constraints)
+
+};
+
+} // namespace Gda
+} // namespace Gnome
+

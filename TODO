@@ -1,0 +1,24 @@
+TODO:
+
+* Do libgnomedb TODO items first if possible, so we can document how to use the UI widgets.
+* Reference Documentation:
+  - Check for doxygen errors and fix if it's easy. 
+* Check TODOs in code and tutorial .xml about lists and other things
+
+
+Relevant libgda bugs:
+
+DONE:
+
+
+* 321724
+  http://bugzilla.gnome.org/show_bug.cgi?id=321724
+  *_new() functions with more than g_object_new() (done)
+
+* 406373
+  http://bugzilla.gnome.org/show_bug.cgi?id=406373
+  GdaQuery makes explicit type checks (done)
+
+* 340989
+  http://bugzilla.gnome.org/show_bug.cgi?id=340989
+  "gda_parameter_list_new() does more than g_object_new()" (done)

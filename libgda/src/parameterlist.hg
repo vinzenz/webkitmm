@@ -1,0 +1,123 @@
+/* $Id: parameterlist.hg,v 1.11 2006/11/30 06:58:55 murrayc Exp $ */
+// -*- C++ -*- //
+
+/* parameterlist.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/parameter.h>
+#include <libgdamm/object.h>
+#include <libgdamm/dict.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Exception class for Gda parameter list errors.
+ */
+_WRAP_GERROR(ParameterListError, GdaParameterListError, GDA_PARAMETER_LIST_ERROR)
+
+/** Manages a list of GdaParameter objects which contain individual values.
+ *
+ * A ParameterList is a list of Parameter objects, but also creates other lists such as:
+ * - a list of ParameterListNode structures (the nodes_list attribute): for each parameter a structure is created to show in a single place all the information about each parameter: the DataModel which may restrict the list of values along with the column number in it, and any hint for the parameter (a value made of ParameterListParamHint flags)
+ * - a list of ParameterListSource structures (the sources_list attribute): each ParameterListSource structure is complementary to the ParameterListNode structures listed in its "nodes" attribute: there is one such structure for each DataModel which may restrict values of one or more parameters.
+ * - a list of ParameterListGroup structures (the groups_list attribute): there is one such structure for each _independant_ parameter (parameters which are constrained by the same data model all appear in the same ParameterListGroup structure).
+ *
+ * Some queries require arguments before they can be executed. For such queries, the arguments are passed using Parameter objects (the list of parameters can be obtained using Query::get_parameters() or Query::get_parameter_list()).
+ *
+ * @ingroup DataModels
+ */
+class ParameterList : public Glib::Object
+{
+  _CLASS_GOBJECT(ParameterList, GdaParameterList, GDA_PARAMETER_LIST, Glib::Object, GObject)
+protected:
+
+  ParameterList(const Glib::RefPtr<Dict>& dict, const Glib::SListHandle<Parameter>& params);
+
+public:
+  static Glib::RefPtr<ParameterList> create(const Glib::SListHandle<Parameter>& param);
+  static Glib::RefPtr<ParameterList> create();
+
+  operator bool() const;
+
+  _WRAP_METHOD(guint get_length(), gda_parameter_list_get_length)
+
+  //TODO: Add add_parameter(bool), add_parameter(string), add_parameter(int), etc?
+
+  _WRAP_METHOD(void add_parameter(const Glib::RefPtr<Parameter>& param), gda_parameter_list_add_param)
+  _WRAP_METHOD(Glib::RefPtr<Parameter> add_parameter(const Glib::ustring& name, GType type, const Glib::ustring& str), gda_parameter_list_add_param_from_string, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<Parameter> add_parameter(const Glib::ustring& name, const Value& value), gda_parameter_list_add_param_from_value, refreturn)
+
+  _WRAP_METHOD(void merge(const Glib::RefPtr<ParameterList>& paramlist_to_merge), gda_parameter_list_merge)
+  _WRAP_METHOD(bool is_coherent() const, gda_parameter_list_is_coherent, errthrow)
+  _WRAP_METHOD(bool is_valid() const, gda_parameter_list_is_valid)
+
+  _WRAP_METHOD(Glib::RefPtr<Parameter> find_param(const Glib::ustring& param_name), gda_parameter_list_find_param, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<Parameter> find_param_for_user(const Glib::RefPtr<Gda::Object>& user), gda_parameter_list_find_param_for_user, refreturn)
+
+  /** @brief Restricts the values of a parameter in the list.
+   *
+   * @param param_name The name of the parameter
+   * @param model A Gda::DataModel
+   * @param col The reference column in @a model
+   * @return Whether the parameter was found and the restriction was set.
+   *
+   * Sets a limit on the possible values of the paramater with name @a
+   * param_name. This function is actually a shortcut for:
+   *
+   * <code>
+   *   Glib::RefPtr<Parameter> param = list->find_param(param_name);
+   *   param->restrict_values(model, col);
+   * </code>
+   */
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  bool restrict_param_by_name(const Glib::ustring& param_name, const Glib::RefPtr<DataModel>& model, int col);
+#else
+  bool restrict_param_by_name(const Glib::ustring& param_name, const Glib::RefPtr<DataModel>& model, int col, std::auto_ptr<Glib::Error>& error);
+#endif // GLIBMM_EXCEPTIONS_ENABLED
+
+  //TODO: What on earth are these for? Who should use them, and when?
+  //_WRAP_METHOD(GdaParameterListNode* find_node_for_param(const Glib::RefPtr<Parameter>& param), gda_parameter_list_find_node_for_param)
+  //_WRAP_METHOD(GdaParameterListSource* find_source(const Glib::RefPtr<DataModel>& model), gda_parameter_list_find_source)
+  //_WRAP_METHOD(GdaParameterListSource* find_source_for_param(const Glib::RefPtr<Parameter>& param), gda_parameter_list_find_source_for_param)
+  //_WRAP_METHOD(GdaParameterListGroup* find_group_for_param(const Glib::RefPtr<Parameter>& param), gda_parameter_list_find_group_for_param)
+
+  _WRAP_METHOD(void set_param_default_value(const Glib::RefPtr<const Parameter>& param, const Value& value), gda_parameter_list_set_param_default_value)
+  _WRAP_METHOD(void set_param_default_alias(const Glib::RefPtr<const Parameter>& param, const Glib::RefPtr<const Parameter>& alias), gda_parameter_list_set_param_default_alias)
+  Value get_param_default_value(const Glib::RefPtr<const Parameter>& param) const;
+  _IGNORE(gda_parameter_list_get_param_default_value)
+
+  _WRAP_METHOD(Glib::ustring get_spec() const, gda_parameter_list_get_spec)
+  _WRAP_METHOD(guint get_length() const, gda_parameter_list_get_length)
+
+  _WRAP_SIGNAL(void public_data_changed(), "public_data_changed")
+  _WRAP_SIGNAL(void param_plugin_changed(Glib::RefPtr<Parameter> parameter), "param_plugin_changed")
+  _WRAP_SIGNAL(void param_changed(Glib::RefPtr<Parameter> parameter), "param_changed")
+  _WRAP_SIGNAL(void param_attr_changed(Glib::RefPtr<Parameter> parameter), "param_attr_changed")  
+};
+
+} // namespace Gda
+} // namespace Gnome
+

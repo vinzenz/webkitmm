@@ -1,0 +1,11 @@
+local_libgdamm_lib = $(top_builddir)/libgda/libgdamm/libgdamm-3.0.la
+
+LIBS  = $(local_libgdamm_lib) $(LIBGDAMM_LIBS)
+
+all_includes = -I$(top_builddir)/libgda -I$(top_srcdir)/libgda \
+               $(LIBGDAMM_CFLAGS)
+                     
+DEFS = @DEFS@
+DEFAULT_INCLUDES =
+INCLUDES = -I. -I$(srcdir) $(strip $(all_includes))
+

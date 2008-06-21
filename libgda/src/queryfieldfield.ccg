@@ -1,0 +1,57 @@
+// -*- C++ -*- // this is for the .ccg, I realize gensig puts one in
+
+/* queryfieldfield.cc
+ * 
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgda/gda-query-field-field.h>
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+QueryFieldField::QueryFieldField(const Glib::RefPtr<Query>& query, const Glib::ustring& field)
+:
+  _CONSTRUCT("dict", gda_object_get_dict(GDA_OBJECT(query->gobj())), "query", Glib::unwrap(query), "field_name", field.c_str())
+{
+}
+
+QueryFieldField::QueryFieldField(const Glib::RefPtr<Query>& query, const Glib::ustring& field, const Glib::RefPtr<QueryTarget>& target)
+:
+  _CONSTRUCT("dict", gda_object_get_dict(GDA_OBJECT(query->gobj())), "query", Glib::unwrap(query), "field_name", field.c_str(), "target", Glib::unwrap(target))
+{
+}
+
+/*QueryFieldField::QueryFieldField(const Glib::RefPtr<Query>& query, const Glib::ustring& field, const Glib::RefPtr<QueryField>& value_provider)
+:
+  _CONSTRUCT("dict", gda_object_get_dict(GDA_OBJECT(query->gobj())), "query", Glib::unwrap(query), "field_name", field.c_str(), "value_provider", Glib::unwrap(value_provider))
+{
+}*/
+
+QueryFieldField::QueryFieldField(const Glib::RefPtr<Query>& query, const Glib::ustring& field, const Glib::RefPtr<QueryTarget>& target, const Glib::RefPtr<QueryField>& value_provider)
+:
+  _CONSTRUCT("dict", gda_object_get_dict(GDA_OBJECT(query->gobj())), "query", Glib::unwrap(query), "field_name", field.c_str(), "target", Glib::unwrap(target), "value_provider", Glib::unwrap(value_provider))
+{
+}
+
+} /* namespace Gda */
+
+} /* namespace Gnome */
+

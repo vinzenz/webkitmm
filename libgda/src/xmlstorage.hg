@@ -1,0 +1,50 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* xmlstorage.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/interface.h>
+#include <libgda/gda-xml-storage.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/interface_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Base class which provides saving and loading using XML structures.
+ * Any object which implements this interface can be streamed and restored to and from an XML file.
+ * @ingroup Miscellaneous
+ */
+class XmlStorage : public Glib::Interface
+{
+  _CLASS_INTERFACE(XmlStorage, GdaXmlStorage, GDA_XML_STORAGE, GdaXmlStorageIface)
+public:
+
+  _WRAP_METHOD(Glib::ustring get_xml_id() const, gda_xml_storage_get_xml_id)
+  _WRAP_METHOD(xmlNodePtr save_to_xml() const, gda_xml_storage_save_to_xml, errthrow)
+  _WRAP_METHOD(bool load_from_xml(xmlNodePtr node), gda_xml_storage_load_from_xml, errthrow)
+};
+
+} // namespace Gda
+} // namespace Gnome
+

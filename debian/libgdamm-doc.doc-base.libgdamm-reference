@@ -1,0 +1,9 @@
+Document: libgdamm-reference
+Title: Libgdamm Reference Manual
+Author: Doxygen
+Abstract: Reference Manual for Libgdamm (C++ bindings for libgda)
+Section: Apps/Programming
+
+Format: HTML
+Index: /usr/share/doc/libgdamm-doc/reference/html/index.html
+Files: /usr/share/doc/libgdamm-doc/reference/html/*.html

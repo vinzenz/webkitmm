@@ -1,0 +1,79 @@
+/* $Id: datamodelquery.hg,v 1.1 2006/12/15 15:02:27 murrayc Exp $ */
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* datamodel.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/object.h>
+#include <libgdamm/datamodel.h>
+#include <libgdamm/parameterlist.h>
+#include <libgdamm/query.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Exception class for DataModelQuery errors.
+ */
+_WRAP_GERROR(DataModelQueryError,GdaDataModelQueryError,GDA_DATA_MODEL_QUERY_ERROR)
+
+_WRAP_ENUM(DataModelQueryOptions, GdaDataModelQueryOptions)
+
+/** An implementation of DataModel based on a SELECT query.
+ * The DataModelQuery data model simply stores the values returned by a SELECT query. 
+ * The connection used to execute the SELECT query (given when the object is constructed) 
+ * is the same as the one provided the Dict object to which the query relates.
+ *
+ * @ingroup DataModels
+ */
+class DataModelQuery
+ : public Object,
+   public DataModel
+{
+  _CLASS_GOBJECT(DataModelQuery, GdaDataModelQuery, GDA_DATA_MODEL_QUERY, Object, GdaObject)
+  _IMPLEMENTS_INTERFACE(DataModel)
+protected:
+
+  // Hand-coded to also set dict property
+  /** Creates a new DataModel object using the data returned by the execution of the query SELECT query.
+   * @param query A SELECT query.
+   */
+  explicit DataModelQuery(const Glib::RefPtr<Query>& query);
+  _IGNORE(gda_data_model_query_new)
+
+public:
+  _WRAP_CREATE(Glib::RefPtr<Query>& query)
+
+  _WRAP_METHOD(Glib::RefPtr<ParameterList> get_parameter_list(), gda_data_model_query_get_parameter_list, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const ParameterList> get_parameter_list() const, gda_data_model_query_get_parameter_list, constversion)
+
+  _WRAP_METHOD(bool query_refresh(), gda_data_model_query_refresh, errthrow)
+  _WRAP_METHOD(bool set_modification_query(const Glib::ustring& query), gda_data_model_query_set_modification_query, errthrow)
+  _WRAP_METHOD(bool compute_modification_queries(const Glib::ustring& target, DataModelQueryOptions options), gda_data_model_query_compute_modification_queries, errthrow)
+};
+
+} // namespace Gda
+} // namespace Gnome
+

@@ -1,0 +1,93 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* querytarget.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/dict.h>
+#include <libgdamm/datamodel.h>
+
+#include <libgdamm/entity.h>
+#include <libgdamm/xmlstorage.h>
+#include <libgdamm/referer.h>
+#include <libgdamm/renderer.h>
+#include <libgdamm/queryobject.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/queryobject_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+class Query;
+
+/** Represents a target entity within a query.
+ * A QueryTarget object represents an entity (usually a table, as a DictTable) which is taking part in a query. 
+ * For SELECT queries, the targets are the entities listed after the FROM clause; 
+ * for the INSERT, DELETE and UPDATE queries, there is only one target which is the entity to which the modifications apply.
+ *
+ * Within a single SELECT query, there can be more than one QueryTarget object representing the same entity for queries 
+ * making usage of an entity more than one time. 
+ *
+ * @ingroup Queries
+ */
+class QueryTarget
+ : public QueryObject,
+   public XmlStorage,
+   public Referer,
+   public Renderer
+{
+  _CLASS_GOBJECT(QueryTarget, GdaQueryTarget, GDA_QUERY_TARGET, QueryObject, GdaQueryObject)
+
+  _IMPLEMENTS_INTERFACE(XmlStorage)
+  _IMPLEMENTS_INTERFACE(Referer)
+  _IMPLEMENTS_INTERFACE(Renderer)
+
+protected:
+  QueryTarget(const Glib::RefPtr<Query>& query, const Glib::ustring& table);
+  _IGNORE(gda_query_target_new)
+
+public:
+  _WRAP_CREATE(const Glib::RefPtr<Query>& query, const Glib::ustring& table)
+
+  _WRAP_METHOD(Glib::RefPtr<QueryTarget> copy() const, gda_query_target_new_copy)
+  _WRAP_METHOD(Glib::RefPtr<Query> get_query(), gda_query_target_get_query, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Query> get_query() const, gda_query_target_get_query, refreturn, constversion)
+
+  _WRAP_METHOD(Glib::RefPtr<Entity> get_represented_entity(), gda_query_target_get_represented_entity, refreturn)
+  _WRAP_METHOD(Glib::RefPtr<const Entity> get_represented_entity() const, gda_query_target_get_represented_entity, refreturn, constversion)
+
+  _WRAP_METHOD(Glib::ustring get_represented_table_name() const, gda_query_target_get_represented_table_name)
+
+  _WRAP_METHOD(void set_alias(const Glib::ustring& alias), gda_query_target_set_alias)
+  _WRAP_METHOD(Glib::ustring get_alias() const, gda_query_target_get_alias)
+  _WRAP_METHOD(Glib::ustring get_complete_name() const, gda_query_target_get_complete_name)
+  
+  _WRAP_PROPERTY("entity", Glib::RefPtr<Entity>)
+  _WRAP_PROPERTY("entity-id", Glib::ustring)
+  _WRAP_PROPERTY("entity-name", Glib::ustring)
+  _WRAP_PROPERTY("query", Glib::RefPtr<Query>)
+};
+
+} // namespace Gda
+} // namespace Gnome
+

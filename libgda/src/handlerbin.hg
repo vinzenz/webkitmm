@@ -1,0 +1,57 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* handlerbin.h
+ *
+ * Copyright 2006 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or(at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <libgdamm/object.h>
+#include <libgdamm/datahandler.h>
+#include <libgda/handlers/gda-handler-bin.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/object_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Default handler for binary values.
+ *
+ * @ingroup DataHandlers
+ */
+class HandlerBin : public Object,
+                   public DataHandler
+{
+  _CLASS_GOBJECT(HandlerBin, GdaHandlerBin, GDA_HANDLER_BIN, Gda::Object, GdaObject)
+  _IMPLEMENTS_INTERFACE(DataHandler)
+protected:
+
+  // TODO: We cannot wrap gda_handler_bin_new_with_prov because this sets some
+  // private fields. I guess these should be properties in libgda. armin.
+  //   Maybe that is fixed now. murrayc.
+ _CTOR_DEFAULT
+
+public:
+  _WRAP_CREATE()
+};
+
+} // namespace Gda
+} // namespace Gnome
+

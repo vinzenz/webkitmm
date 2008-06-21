@@ -1,0 +1,91 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* queryfieldvalue.h
+ *
+ * Copyright 2003 libgdamm Development Team
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+
+#include <glibmm/object.h>
+#include <libgdamm/dicttype.h>
+#include <libgdamm/datamodel.h>
+
+#include <libgdamm/xmlstorage.h>
+#include <libgdamm/referer.h>
+#include <libgdamm/entityfield.h>
+#include <libgdamm/renderer.h>
+
+#include <libgdamm/query.h>
+
+_DEFS(libgdamm,libgda)
+_PINCLUDE(libgdamm/private/queryfield_p.h)
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** Represents a single value (or a parameter).
+ *
+ * @ingroup Queries
+ */
+class QueryFieldValue
+ : public QueryField,
+   public XmlStorage,
+   public Referer,
+   public EntityField,
+   public Renderer
+{
+  _CLASS_GOBJECT(QueryFieldValue, GdaQueryFieldValue, GDA_QUERY_FIELD_VALUE, QueryField, GdaQueryField)
+
+  _IMPLEMENTS_INTERFACE(XmlStorage)
+  _IMPLEMENTS_INTERFACE(Referer)
+  _IMPLEMENTS_INTERFACE(EntityField)
+  _IMPLEMENTS_INTERFACE(Renderer)
+
+protected:
+  _IGNORE(gda_query_field_value_new)
+  //TODO: Documentation
+  QueryFieldValue(const Glib::RefPtr<Query>& query, GType type);
+  QueryFieldValue(const Glib::RefPtr<Query>& query, const Value& value);
+
+public:
+  _WRAP_CREATE(const Glib::RefPtr<Query>& query, GType type)
+  _WRAP_CREATE(const Glib::RefPtr<Query>& query, const Value& value)
+
+  _WRAP_METHOD(void set_value(const Value& val), gda_query_field_value_set_value)
+  _WRAP_METHOD(Value get_value() const, gda_query_field_value_get_value)
+  _WRAP_METHOD(void set_default_value(const Value& default_val), gda_query_field_value_set_default_value)
+  _WRAP_METHOD(Value get_default_value() const, gda_query_field_value_get_default_value)
+
+  _WRAP_METHOD(void set_is_parameter(bool is_param = true), gda_query_field_value_set_is_parameter)
+  _WRAP_METHOD(bool get_is_parameter() const, gda_query_field_value_get_is_parameter)
+  _WRAP_METHOD(void set_not_null(bool not_null = true), gda_query_field_value_set_not_null)
+  _WRAP_METHOD(bool get_not_null() const, gda_query_field_value_get_not_null)
+  _WRAP_METHOD(bool is_value_null(const Glib::RefPtr<ParameterList>& context) const, gda_query_field_value_is_value_null)
+  _WRAP_METHOD(bool restrict(const Glib::RefPtr<DataModel>& model, int col), gda_query_field_value_restrict, errthrow)
+
+  _WRAP_PROPERTY("entry-plugin", Glib::ustring)
+  _WRAP_PROPERTY("g-type", GType)
+  _WRAP_PROPERTY("query", Glib::RefPtr<Query>)
+  _WRAP_PROPERTY("restrict-column", int)
+  _WRAP_PROPERTY("restrict-model", Glib::RefPtr<DataModel>)
+};
+
+} // namespace Gda
+} // namespace Gnome
+

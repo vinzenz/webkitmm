@@ -1,0 +1,51 @@
+// -*- C++ -*- // this is for the .hg, I realize gensig puts one in
+
+/* blob.h
+ *
+ * Copyright 2001      Free Software Foundation
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+ 
+_DEFS(libgdamm,libgda)
+_PINCLUDE(glibmm/private/object_p.h)
+
+#include <libgdamm/blobop.h>
+#include <libgda/gda-value.h> // Seems like we need this
+
+namespace Gnome
+{
+
+namespace Gda
+{
+
+/** This object is a base class for individual database providers which support BLOB types. 
+ * It supports operations to read and write data in a BLOB.
+ *
+ * @ingroup DataHandlers
+ */
+class Blob
+{
+  _CLASS_BOXEDTYPE_STATIC(Blob, GdaBlob)
+  _IGNORE(gda_blob_copy, gda_blob_free, gda_blob_get_type)
+  
+  public:
+    _WRAP_METHOD(void set_op(const Glib::RefPtr<BlobOp>& op), gda_blob_set_op)
+    _WRAP_METHOD(Glib::ustring to_string(guint maxlen), gda_blob_to_string)
+};
+
+} // namespace Gda
+
+} // namespace Gnome
