@@ -18,33 +18,12 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef LIBGDAMM_H
-#define LIBGDAMM_H
+#ifndef WEBKITMM_H
+#define WEBKITMM_H
 
-//extern "C" {
-//#include <gtk/gtk.h>
-//}
+/* webkitmm version.  */
+extern const int webkitmm_major_version;
+extern const int webkitmm_minor_version;
+extern const int webkitmm_micro_version;
 
-/* libgdamm version.  */
-extern const int libgdamm_major_version;
-extern const int libgdamm_minor_version;
-extern const int libgdamm_micro_version;
-
-#include <glibmm.h>
-
-#include <libgdamm/init.h>
-#include <libgdamm/client.h>
-#include <libgdamm/config.h>
-#include <libgdamm/connection.h>
-#include <libgdamm/datamodel.h>
-#include <libgdamm/connectionevent.h>
-#include <libgdamm/datamodelarray.h>
-#include <libgdamm/datamodelquery.h>
-#include <libgdamm/query.h>
-#include <libgdamm/queryfieldagg.h>
-#include <libgdamm/queryfieldall.h>
-#include <libgdamm/queryfieldfield.h>
-#include <libgdamm/queryfieldvalue.h>
-#include <libgdamm/serveroperation.h>
-
-#endif /* #ifndef LIBGDAMM_H */
+#endif /* #ifndef WEBKITMM_H */
