@@ -26,7 +26,13 @@ int main (int argc, char *argv[])
 {
     g_type_init();
 
-    std::cout << get_defs(WEBKIT_TYPE_WEB_VIEW)
+    std::cout
+        << get_defs(WEBKIT_TYPE_WEB_VIEW)
+        << get_defs(WEBKIT_TYPE_NETWORK_REQUEST)
+        << get_defs(WEBKIT_TYPE_WEB_BACK_FORWARD_LIST)
+        << get_defs(WEBKIT_TYPE_WEB_FRAME)
+        << get_defs(WEBKIT_TYPE_WEB_HISTORY_ITEM)
+        << get_defs(WEBKIT_TYPE_WEB_SETTINGS)
         ;
     return 0;
 }
