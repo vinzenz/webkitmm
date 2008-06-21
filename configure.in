@@ -1,13 +1,13 @@
 # Configure.in
 #
 #  This file tests for various compiler features needed to configure 
-#  the gtkmm package.  Original skeleton was provided by Stephan Kulow.
+#  the webkitmm package.  Original skeleton was provided by Stephan Kulow.
 #  All tests were written by Tero Pulkkinen, Mirko Streckenbach, and 
 #  Karl Nelson.
 #
 #
 #  Copyright 2001 Free Software Foundation
-#  Copyright 1999 gtkmm Development Team
+#  Copyright 1999 webkitmm Development Team
 #  Copyright 1998 Stephan Kulow 
 #
 
@@ -98,21 +98,23 @@ AC_LIBTOOL_WIN32_DLL
 AM_PROG_LIBTOOL
 
 AL_PROG_GNU_M4(AC_MSG_ERROR([dnl
-SUN m4 does not work for building gtkmm. 
+SUN m4 does not work for building webkitmm. 
 Please install GNU m4.]))
 
 AL_PROG_GNU_MAKE(AC_MSG_ERROR([dnl
-SUN make does not work for building gtkmm.
+SUN make does not work for building webkitmm.
 Please install GNU make.]))
 
-AL_PROG_PERL(AC_MSG_ERROR([Perl is required to build gtkmm.]))
+AL_PROG_PERL(AC_MSG_ERROR([Perl is required to build webkitmm.]))
 
 AC_CHECK_PROGS(PERL, perl5 perl)
 
 #########################################################################
 #  Dependancy checks
 #########################################################################
-PKG_CHECK_MODULES(WEBKITMM, gtkmm-2.4 >= 2.12.8 webkit-1.0 >= 1.0)
+PKG_CHECK_MODULES(WEBKITMM,
+                  gtkmm-2.4 >= 2.10
+                  webkit-1.0 >= 1.0)
 AC_SUBST(WEBKITMM_CFLAGS)
 AC_SUBST(WEBKITMM_LIBS)
 
@@ -133,13 +135,13 @@ AC_LANG_CPLUSPLUS
 # we are building in the source directory, because Doxygen doesn't like
 # duplicated directories in the input list.
 WEBKITMM_DOXYGEN_INPUT=''
-gtkmm_srcdir=`cd "$srcdir" && pwd`
-gtkmm_builddir=`pwd`
+webkitmm_srcdir=`cd "$srcdir" && pwd`
+webkitmm_builddir=`pwd`
 for sublib in webkit
 do
-  WEBKITMM_DOXYGEN_INPUT="$WEBKITMM_DOXYGEN_INPUT $gtkmm_builddir/$sublib/$sublib""mm/"
-  test "x$gtkmm_builddir" = "x$gtkmm_srcdir" || \
-    WEBKITMM_DOXYGEN_INPUT="$WEBKITMM_DOXYGEN_INPUT $gtkmm_srcdir/$sublib/$sublib""mm/"
+  WEBKITMM_DOXYGEN_INPUT="$WEBKITMM_DOXYGEN_INPUT $webkitmm_builddir/$sublib/$sublib""mm/"
+  test "x$webkitmm_builddir" = "x$webkitmm_srcdir" || \
+    WEBKITMM_DOXYGEN_INPUT="$WEBKITMM_DOXYGEN_INPUT $webkitmm_srcdir/$sublib/$sublib""mm/"
 done
 AC_SUBST(WEBKITMM_DOXYGEN_INPUT)
 

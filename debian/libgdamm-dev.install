@@ -1,6 +1,0 @@
-usr/include/*
-usr/lib/libgdamm-3.0/*
-usr/lib/lib*.a
-usr/lib/lib*.so
-usr/lib/pkgconfig/*
-usr/lib/*.la
