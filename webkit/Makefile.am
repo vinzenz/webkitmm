@@ -1,15 +1,15 @@
-SUBDIRS		= src libgdamm
+SUBDIRS		= src webkitmm
 
 EXTRA_DIST	= README					\
-		  libgdammconfig.h.in libgdamm.h	\
-		  libgdamm-3.0.pc.in
+		  webkitmmconfig.h.in webkitmm.h	\
+		  webkitmm-1.0.pc.in
 
-libgdamm_includedir		= $(includedir)/libgdamm-3.0
-libgdamm_include_HEADERS	= libgdamm.h
+webkitmm_includedir		= $(includedir)/webkitmm-1.0
+webkitmm_include_HEADERS	= webkitmm.h
 
-libgdamm_configdir		= $(libdir)/libgdamm-3.0/include
-libgdamm_config_DATA	= libgdammconfig.h
+webkitmm_configdir		= $(libdir)/webkitmm-1.0/include
+webkitmm_config_DATA	= webkitmmconfig.h
 
 pkgconfigdir		= $(libdir)/pkgconfig
-pkgconfig_DATA		= libgdamm-3.0.pc
+pkgconfig_DATA		= webkitmm-1.0.pc
 
