@@ -2,23 +2,5 @@
 # The include happens in Makefile.am, not Makefile.in or Makefile,
 # so it's like copy-and-pasting this into each of those Makefile.am files.
 
-files_hg = blob.hg blobop.hg client.hg column.hg columnindex.hg command.hg \
-           connection.hg connectionevent.hg \
-           datahandler.hg datamodel.hg datamodelarray.hg datamodelfiltersql.hg \
-           datamodelhash.hg datamodelimport.hg datamodelindex.hg \
-	   datamodeliter.hg datamodelquery.hg datamodelrow.hg \
-	   dataproxy.hg datasourceinfo.hg \
-           dict.hg dictaggregate.hg dictconstraint.hg dictdatabase.hg dictfield.hg dicttable.hg dicttype.hg \
-           dictfunction.hg entity.hg entityfield.hg \
-	   handlerstring.hg handlerboolean.hg handlertime.hg \
-	   handlernumerical.hg handlerbin.hg handlertype.hg \
-           object.hg  parameter.hg parameterlist.hg providerinfo.hg query.hg \
-           querycondition.hg queryfield.hg queryfieldfunc.hg \
-	   queryfieldagg.hg queryfieldall.hg queryfieldfield.hg queryfieldvalue.hg \
-	   queryjoin.hg queryobject.hg querytarget.hg referer.hg renderer.hg \
-	   row.hg serverprovider.hg serveroperation.hg transactionstatus.hg \
-	   xmlstorage.hg
-
-
-
-
+files_hg = \
+		   webview.hg
