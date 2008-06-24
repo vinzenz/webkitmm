@@ -185,5 +185,6 @@ AC_OUTPUT([
     docs/reference/Doxyfile
 
   examples/Makefile
+  examples/simple/Makefile
 ])
 

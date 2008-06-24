@@ -1,8 +1,6 @@
 include $(top_srcdir)/examples/Makefile.am_fragment
 
 #Build the executable, but don't install it.
-noinst_PROGRAMS = example
+noinst_PROGRAMS = simple
 
-example_SOURCES = main.cc
-
-
+simple_SOURCES = simple.cc
