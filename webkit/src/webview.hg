@@ -18,17 +18,20 @@
  */
  
 _DEFS(webkitmm,webkit)
+_PINCLUDE(gtkmm/private/container_p.h)
 
 #include <webkit/webkitwebview.h>
+#include <gtkmm/container.h>
 
 namespace WebKit
 {
 
-class WebView
+class WebView : public Gtk::Container
 {
-  _CLASS_GTKOBJECT(WebView, WebKitWebView, WEBKIT_WEB_VIEW, WebKit::WebView, WebKitWebView)
+  _CLASS_GTKOBJECT(WebView, WebKitWebView, WEBKIT_WEB_VIEW, Gtk::Container, GtkContainer)
 
   public:
+  _CTOR_DEFAULT();
 };
 
 } // namespace WebKit
