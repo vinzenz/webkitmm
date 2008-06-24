@@ -1,0 +1,5 @@
+(include webkit_methods.defs)
+(include webkit_signals.defs)
+(include webkit_vfuncs.defs)
+(include webkit_enums.defs)
+(include webkit_others.defs)

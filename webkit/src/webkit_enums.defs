@@ -1,0 +1,19 @@
+;; From /usr/local/include/webkit-1.0/webkit/webkitwebview.h
+
+(define-enum-extended KitNavigationResponse
+  (in-module "Web")
+  (c-name "WebKitNavigationResponse")
+  (values
+    '("accept" "WEBKIT_NAVIGATION_RESPONSE_ACCEPT" "0")
+    '("ignore" "WEBKIT_NAVIGATION_RESPONSE_IGNORE" "1")
+    '("download" "WEBKIT_NAVIGATION_RESPONSE_DOWNLOAD" "2")
+  )
+)
+
+(define-enum-extended KitWebViewTargetInfo
+  (in-module "Web")
+  (c-name "WebKitWebViewTargetInfo")
+  (values
+  )
+)
+

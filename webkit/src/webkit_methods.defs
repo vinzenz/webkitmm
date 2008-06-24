@@ -1,0 +1,103 @@
+;; -*- scheme -*-
+; object definitions ...
+(define-object KitNetworkRequest
+  (in-module "Web")
+  (parent "GObject")
+  (c-name "WebKitNetworkRequest")
+  (gtype-id "WEB_TYPE_KIT_NETWORK_REQUEST")
+)
+
+(define-object KitWebBackForwardList
+  (in-module "Web")
+  (parent "GObject")
+  (c-name "WebKitWebBackForwardList")
+  (gtype-id "WEB_TYPE_KIT_WEB_BACK_FORWARD_LIST")
+)
+
+(define-object KitWebFrame
+  (in-module "Web")
+  (parent "GObject")
+  (c-name "WebKitWebFrame")
+  (gtype-id "WEB_TYPE_KIT_WEB_FRAME")
+)
+
+(define-object KitWebHistoryItem
+  (in-module "Web")
+  (parent "GObject")
+  (c-name "WebKitWebHistoryItem")
+  (gtype-id "WEB_TYPE_KIT_WEB_HISTORY_ITEM")
+)
+
+(define-object KitWebSettings
+  (in-module "Web")
+  (parent "GObject")
+  (c-name "WebKitWebSettings")
+  (gtype-id "WEB_TYPE_KIT_WEB_SETTINGS")
+)
+
+(define-object KitWebView
+  (in-module "Web")
+  (parent "GtkContainer")
+  (c-name "WebKitWebView")
+  (gtype-id "WEB_TYPE_KIT_WEB_VIEW")
+)
+
+;; Enumerations and flags ...
+
+(define-enum KitNavigationResponse
+  (in-module "Web")
+  (c-name "WebKitNavigationResponse")
+  (gtype-id "WEB_TYPE_KIT_NAVIGATION_RESPONSE")
+  (values
+    '("accept" "WEBKIT_NAVIGATION_RESPONSE_ACCEPT")
+    '("ignore" "WEBKIT_NAVIGATION_RESPONSE_IGNORE")
+    '("download" "WEBKIT_NAVIGATION_RESPONSE_DOWNLOAD")
+  )
+)
+
+(define-enum KitWebViewTargetInfo
+  (in-module "Web")
+  (c-name "WebKitWebViewTargetInfo")
+  (gtype-id "WEB_TYPE_KIT_WEB_VIEW_TARGET_INFO")
+  (values
+    '("html" "WEBKIT_WEB_VIEW_TARGET_INFO_HTML")
+    '("text" "WEBKIT_WEB_VIEW_TARGET_INFO_TEXT")
+  )
+)
+
+
+;; From webkitdefines.h
+
+
+
+;; From webkit.h
+
+
+
+;; From webkitnetworkrequest.h
+
+
+
+;; From webkitversion.h
+
+
+
+;; From webkitwebbackforwardlist.h
+
+
+
+;; From webkitwebframe.h
+
+
+
+;; From webkitwebhistoryitem.h
+
+
+
+;; From webkitwebsettings.h
+
+
+
+;; From webkitwebview.h
+
+
