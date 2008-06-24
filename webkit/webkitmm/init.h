@@ -23,7 +23,7 @@
 namespace WebKit
 {
 
-void init(int nargs, gchar *args[]);
+void init();
 
 } //namespace WebKit
 

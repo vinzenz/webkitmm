@@ -24,9 +24,9 @@
 namespace WebKit
 {
 
-void init(int nargs, gchar *args[])
+void init()
 {
-  Glib::init(nargs, args); //Sets up the g type system and the Glib::wrap() table.
+  Glib::init(); //Sets up the g type system and the Glib::wrap() table.
   wrap_init(); //Tells the Glib::wrap() table about the libgnomecanvasmm classes.
 }
 
