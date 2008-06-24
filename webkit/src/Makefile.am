@@ -1,9 +1,9 @@
 ## Copyright (c) 2001
 ## The libgdamm development team.
 
-sublib_name	= libgdamm
-sublib_namespace = Gda
-sublib_parentdir = libgdamm
+sublib_name	= webkitmm
+sublib_namespace = WebKit
+sublib_parentdir = webkitmm
 files_defs	= webkit.defs webkit_methods.defs webkit_signals.defs \
                   webkit_enums.defs webkit_others.defs webkit_docs.xml \
                   webkit_docs_override.xml

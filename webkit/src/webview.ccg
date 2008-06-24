@@ -1,6 +1,6 @@
 // -*- C++ -*- // this is for the .hg, I realize gensig puts one in
 
-/* blob.ccg
+/* webview.ccg
  *
  * Copyright 2001      Free Software Foundation
  *
@@ -19,14 +19,9 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
  
-#include <libgda/gda-value.h>
+#include <webkit/webkitwebview.h>
 
-namespace Gnome
+namespace WebKit
 {
 
-namespace Gda
-{
-
-} // namespace Gda
-
-} // namesoace Gnome
+} // namespace WebKit
