@@ -1,7 +1,6 @@
-/* $Id: libgdamm.h 1042 2007-03-09 22:15:06Z arminb $ */
-/* libgdamm - a C++ wrapper for libgda
+/* webkitmm - a C++ wrapper for webkit/gtk
  *
- * Copyright 1999-2001 Free Software Foundation
+ * Copyright 2008 Jonathon Jongsma
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Library General Public

@@ -1,6 +1,6 @@
 /* main.cc
  *
- * Copyright (C) 2007 libgdamm Development Team
+ * Copyright (C) 2008 Jonathon Jongsma
  *
  * This program is free software; you can redistribute it and/or 
  * modify it under the terms of the GNU General Public License as 

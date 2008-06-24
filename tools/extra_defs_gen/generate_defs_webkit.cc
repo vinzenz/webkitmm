@@ -1,8 +1,6 @@
-/* $Id: generate_defs_gda.cc 1017 2007-02-14 23:03:00Z arminb $ */
-
-/* generate_defs_gda.h
+/* generate_defs_webkit.h
  *
- * Copyright (C) 2001 The Free Software Foundation
+ * Copyright (C) 2008 Jonathon Jongsma
  *
  * This library is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public
