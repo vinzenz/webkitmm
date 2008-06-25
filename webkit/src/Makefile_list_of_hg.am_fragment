@@ -3,4 +3,5 @@
 # so it's like copy-and-pasting this into each of those Makefile.am files.
 
 files_hg = \
-		   webview.hg
+		   webview.hg \
+		   webframe.hg

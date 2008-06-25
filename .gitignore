@@ -30,3 +30,6 @@ webkit/webkitmm/webview.cc
 webkit/webkitmm/webview.h
 webkit/webkitmm/wrap_init.cc
 webkit/webkitmmconfig.h
+webkit/webkitmm/private/webframe_p.h
+webkit/webkitmm/webframe.cc
+webkit/webkitmm/webframe.h

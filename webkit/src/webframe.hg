@@ -1,0 +1,54 @@
+/* webframe.h
+ *
+ * Copyright 2008 Jonathon Jongsma
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+ 
+_DEFS(webkitmm,webkit)
+_PINCLUDE(glibmm/private/object_p.h)
+
+#include <webkit/webkitwebframe.h> // TODO: remove if possible
+#include <glibmm/object.h>
+#include <webkitmm/webview.h>
+
+namespace WebKit
+{
+
+class WebFrame : public Glib::Object
+{
+  _CLASS_GOBJECT(WebFrame, WebKitWebFrame, WEBKIT_WEB_FRAME, Glib::Object, GObject)
+
+  public:
+  _WRAP_CTOR(WebFrame(WebView& web_view), webkit_web_frame_new)
+
+  _WRAP_METHOD(WebView& get_web_view(), webkit_web_frame_get_web_view)
+  _WRAP_METHOD(const WebView& get_web_view() const, webkit_web_frame_get_web_view, constversion)
+  _WRAP_METHOD(Glib::ustring get_name() const, webkit_web_frame_get_name)
+  _WRAP_METHOD(Glib::ustring get_title() const, webkit_web_frame_get_title)
+  _WRAP_METHOD(Glib::ustring get_uri() const, webkit_web_frame_get_uri)
+  _WRAP_METHOD(Glib::RefPtr<WebFrame> get_parent(), webkit_web_frame_get_parent)
+  _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_parent() const, webkit_web_frame_get_parent, constversion)
+  //void webkit_web_frame_load_request (WebKitWebFrame* frame, WebKitNetworkRequest* request);
+  _WRAP_METHOD(void stop_loading(), webkit_web_frame_stop_loading)
+  _WRAP_METHOD(void reload(), webkit_web_frame_reload)
+  _WRAP_METHOD(Glib::RefPtr<WebFrame> find_frame(const Glib::ustring& name), webkit_web_frame_find_frame)
+  _WRAP_METHOD(Glib::RefPtr<const WebFrame> find_frame(const Glib::ustring& name) const, webkit_web_frame_find_frame, constversion)
+  //JSGlobalContextRef webkit_web_frame_get_global_context (WebKitWebFrame* frame);
+
+  // signals
+};
+
+} // namespace WebKit

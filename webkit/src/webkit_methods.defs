@@ -88,6 +88,87 @@
 
 ;; From webkitwebframe.h
 
+(define-function webkit_web_frame_get_type
+  (c-name "webkit_web_frame_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_web_frame_new
+  (c-name "webkit_web_frame_new")
+  (is-constructor-of "WebkitWebFrame")
+  (return-type "WebKitWebFrame*")
+  (parameters
+    '("WebKitWebView*" "web_view")
+  )
+)
+
+(define-method get_web_view
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_get_web_view")
+  (return-type "WebKitWebView*")
+)
+
+(define-method get_name
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_get_name")
+  (return-type "const-gchar*")
+)
+
+(define-method get_title
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_get_title")
+  (return-type "const-gchar*")
+)
+
+(define-method get_uri
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_get_uri")
+  (return-type "const-gchar*")
+)
+
+(define-method get_parent
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_get_parent")
+  (return-type "WebKitWebFrame*")
+)
+
+(define-method load_request
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_load_request")
+  (return-type "none")
+  (parameters
+    '("WebKitNetworkRequest*" "request")
+  )
+)
+
+(define-method stop_loading
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_stop_loading")
+  (return-type "none")
+)
+
+(define-method reload
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_reload")
+  (return-type "none")
+)
+
+(define-method find_frame
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_find_frame")
+  (return-type "WebKitWebFrame*")
+  (parameters
+    '("const-gchar*" "name")
+  )
+)
+
+(define-method get_global_context
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_get_global_context")
+  (return-type "JSGlobalContextRef")
+)
+
+
 
 
 ;; From webkitwebhistoryitem.h
