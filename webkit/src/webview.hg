@@ -25,12 +25,16 @@ _PINCLUDE(gtkmm/private/container_p.h)
 
 namespace WebKit
 {
+_WRAP_ENUM(NavigationResponse, WebKitNavigationResponse, NO_GTYPE)
 
 class WebView : public Gtk::Container
 {
   _CLASS_GTKOBJECT(WebView, WebKitWebView, WEBKIT_WEB_VIEW, Gtk::Container, GtkContainer)
 
   public:
+  // FIXME: this doesn't seem to work for some reason
+  _WRAP_ENUM(TargetInfo, WebKitWebViewTargetInfo, NO_GTYPE)
+
   _CTOR_DEFAULT();
   _WRAP_METHOD(void set_maintains_back_forward_list(bool flag=true), webkit_web_view_set_maintains_back_forward_list);
 
@@ -78,6 +82,18 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(bool get_full_content_zoom () const, webkit_web_view_get_full_content_zoom)
   _WRAP_METHOD(void set_full_content_zoom (bool full_content_zoom=true), webkit_web_view_set_full_content_zoom)
 
+  // signals
+  //WebKitNavigationResponse (*navigation_requested) (WebKitWebView* web_view, WebKitWebFrame* frame, WebKitNetworkRequest* request);
+  //void (*window_object_cleared) (WebKitWebView* web_view, WebKitWebFrame* frame, JSGlobalContextRef context, JSObjectRef window_object);
+  //gchar*   (*choose_file) (WebKitWebView* web_view, WebKitWebFrame* frame, const gchar* old_file);
+  //gboolean (*script_alert) (WebKitWebView* web_view, WebKitWebFrame* frame, const gchar* alert_message);
+  //gboolean (*script_confirm) (WebKitWebView* web_view, WebKitWebFrame* frame, const gchar* confirm_message, gboolean* did_confirm);
+  //gboolean (*script_prompt) (WebKitWebView* web_view, WebKitWebFrame* frame, const gchar* message, const gchar* default_value, gchar** value);
+  //gboolean (*console_message) (WebKitWebView* web_view, const gchar* message, unsigned int line_number, const gchar* source_id);
+  _WRAP_SIGNAL(void select_all(), "select-all");
+  _WRAP_SIGNAL(void cut_clipboard(), "cut-clipboard");
+  _WRAP_SIGNAL(void copy_clipboard(), "copy-clipboard");
+  _WRAP_SIGNAL(void paste_clipboard(), "paste-clipboard");
 };
 
 } // namespace WebKit

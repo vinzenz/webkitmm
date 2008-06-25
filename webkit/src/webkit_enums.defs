@@ -1,7 +1,7 @@
 ;; From /usr/local/include/webkit-1.0/webkit/webkitwebview.h
 
-(define-enum-extended KitNavigationResponse
-  (in-module "Web")
+(define-enum-extended NavigationResponse
+  (in-module "WebKit")
   (c-name "WebKitNavigationResponse")
   (values
     '("accept" "WEBKIT_NAVIGATION_RESPONSE_ACCEPT" "0")
@@ -10,8 +10,8 @@
   )
 )
 
-(define-enum-extended KitWebViewTargetInfo
-  (in-module "Web")
+(define-enum-extended WebViewTargetInfo
+  (in-module "WebKit")
   (c-name "WebKitWebViewTargetInfo")
   (values
   )
