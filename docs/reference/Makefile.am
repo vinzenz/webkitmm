@@ -3,14 +3,10 @@ doxygen_configfile_source = $(srcdir)/Doxyfile.in
 beautify_docs = @GMM_PROCDIR@/beautify_docs.pl
 
 web_host = www.gtkmm.org
-web_path = /home/murrayc/gtkmm.org/docs/libgdamm-3.0/
-web_path_reference = $(web_path)docs/reference/libgdamm
+web_path = #/home/murrayc/gtkmm.org/docs/webkitmm-1.0/
+web_path_reference = $(web_path)docs/reference/webkitmm
 
-# glibmm_doxygen_tags and gtkmm_doxygen_tags are copies from glibmm and gtkmm, used here.
-# libgdamm_doxygen_tags is generated, in case another project wants to use it.
-#
 EXTRA_DIST = README Doxyfile.in $(doxygen_configfile) \
-             libgdamm_header.html_fragment libgdamm_footer.html_fragment \
              html
 
 
