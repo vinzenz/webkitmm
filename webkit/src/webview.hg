@@ -22,10 +22,16 @@ _PINCLUDE(gtkmm/private/container_p.h)
 
 #include <webkit/webkitwebview.h>
 #include <gtkmm/container.h>
+#include <webkitmm/webframe.h>
+#include <webkitmm/networkrequest.h>
 
 namespace WebKit
 {
 _WRAP_ENUM(NavigationResponse, WebKitNavigationResponse, NO_GTYPE)
+
+class WebSettings;
+class WebBackForwardList;
+class WebHistoryItem;
 
 class WebView : public Gtk::Container
 {
@@ -38,8 +44,9 @@ class WebView : public Gtk::Container
   _CTOR_DEFAULT();
   _WRAP_METHOD(void set_maintains_back_forward_list(bool flag=true), webkit_web_view_set_maintains_back_forward_list);
 
-  // WebKitWebBackForwardList* webkit_web_view_get_back_forward_list (WebKitWebView* web_view);
-  // gboolean webkit_web_view_go_to_back_forward_item (WebKitWebView *web_view, WebKitWebHistoryItem* item);
+  _WRAP_METHOD(Glib::RefPtr<WebBackForwardList> get_back_forward_list(), webkit_web_view_get_back_forward_list)
+  _WRAP_METHOD(Glib::RefPtr<const WebBackForwardList> get_back_forward_list() const, webkit_web_view_get_back_forward_list, constversion)
+  _WRAP_METHOD(bool go_to_back_forward_item(const Glib::RefPtr<WebHistoryItem>& item), webkit_web_view_go_to_back_forward_item)
   _WRAP_METHOD(bool can_go_back() const, webkit_web_view_can_go_back)
   _WRAP_METHOD(bool can_go_back_or_forward (int steps) const, webkit_web_view_can_go_back_or_forward)
   _WRAP_METHOD(bool can_go_forward () const, webkit_web_view_can_go_forward)
@@ -49,14 +56,17 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(void stop_loading (), webkit_web_view_stop_loading)
   _WRAP_METHOD(void open (const Glib::ustring& uri), webkit_web_view_open)
   _WRAP_METHOD(void reload(), webkit_web_view_reload)
+  //TODO: encoding -- use Glib::ustring?
   //void webkit_web_view_load_string (WebKitWebView* web_view, const gchar* content, const gchar* content_mime_type, const gchar* content_encoding, const gchar* base_uri);
   //void webkit_web_view_load_html_string (WebKitWebView* web_view, const gchar* content, const gchar* base_uri);
   //gboolean webkit_web_view_search_text (WebKitWebView* web_view, const gchar* string, gboolean case_sensitive, gboolean forward, gboolean wrap);
   //guint webkit_web_view_mark_text_matches (WebKitWebView* web_view, const gchar* string, gboolean case_sensitive, guint limit);
   _WRAP_METHOD(void set_highlight_text_matches (bool highlight=true), webkit_web_view_set_highlight_text_matches)
   _WRAP_METHOD(void unmark_text_matches(), webkit_web_view_unmark_text_matches)
-  //WebKitWebFrame* webkit_web_view_get_main_frame (WebKitWebView* web_view);
-  //WebKitWebFrame* webkit_web_view_get_focused_frame (WebKitWebView* web_view);
+  _WRAP_METHOD(Glib::RefPtr<WebFrame> get_main_frame(), webkit_web_view_get_main_frame)
+  _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_main_frame() const, webkit_web_view_get_main_frame, constversion)
+  _WRAP_METHOD(Glib::RefPtr<WebFrame> get_focused_frame(), webkit_web_view_get_focused_frame)
+  _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_focused_frame() const, webkit_web_view_get_focused_frame, constversion)
   _WRAP_METHOD(void execute_script(const Glib::ustring& script), webkit_web_view_execute_script)
   _WRAP_METHOD(bool can_cut_clipboard () const, webkit_web_view_can_cut_clipboard);
   _WRAP_METHOD(bool can_copy_clipboard () const, webkit_web_view_can_copy_clipboard);
@@ -69,10 +79,13 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(void select_all (), webkit_web_view_select_all)
   _WRAP_METHOD(bool get_editable () const, webkit_web_view_get_editable)
   _WRAP_METHOD(void set_editable (bool flag=true), webkit_web_view_set_editable)
-  //GtkTargetList* webkit_web_view_get_copy_target_list (WebKitWebView* web_view);
-  //GtkTargetList* webkit_web_view_get_paste_target_list (WebKitWebView* web_view);
-  //void webkit_web_view_set_settings (WebKitWebView* web_view, WebKitWebSettings* settings);
-  //WebKitWebSettings* webkit_web_view_get_settings (WebKitWebView* web_view);
+  _WRAP_METHOD(Glib::RefPtr<Gtk::TargetList> get_copy_target_list(), webkit_web_view_get_copy_target_list)
+  _WRAP_METHOD(Glib::RefPtr<const Gtk::TargetList> get_copy_target_list() const, webkit_web_view_get_copy_target_list, constversion)
+  _WRAP_METHOD(Glib::RefPtr<Gtk::TargetList> get_paste_target_list(), webkit_web_view_get_paste_target_list)
+  _WRAP_METHOD(Glib::RefPtr<const Gtk::TargetList> get_paste_target_list() const, webkit_web_view_get_paste_target_list, constversion)
+  _WRAP_METHOD(void set_settings(const Glib::RefPtr<WebSettings>& settings), webkit_web_view_set_settings)
+  _WRAP_METHOD(Glib::RefPtr<WebSettings> get_settings(), webkit_web_view_get_settings)
+  _WRAP_METHOD(Glib::RefPtr<const WebSettings> get_settings() const, webkit_web_view_get_settings, constversion)
   _WRAP_METHOD(bool get_transparent () const, webkit_web_view_get_transparent)
   _WRAP_METHOD(void set_transparent (bool flag=true), webkit_web_view_set_transparent)
   _WRAP_METHOD(float get_zoom_level () const, webkit_web_view_get_zoom_level)
@@ -83,11 +96,13 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(void set_full_content_zoom (bool full_content_zoom=true), webkit_web_view_set_full_content_zoom)
 
   // signals
-  //WebKitNavigationResponse (*navigation_requested) (WebKitWebView* web_view, WebKitWebFrame* frame, WebKitNetworkRequest* request);
-  //void (*window_object_cleared) (WebKitWebView* web_view, WebKitWebFrame* frame, JSGlobalContextRef context, JSObjectRef window_object);
-  //gchar*   (*choose_file) (WebKitWebView* web_view, WebKitWebFrame* frame, const gchar* old_file);
-  //gboolean (*script_alert) (WebKitWebView* web_view, WebKitWebFrame* frame, const gchar* alert_message);
-  //gboolean (*script_confirm) (WebKitWebView* web_view, WebKitWebFrame* frame, const gchar* confirm_message, gboolean* did_confirm);
+#m4 _CONVERSION(`WebKitWebFrame*',`Glib::RefPtr<WebFrame>',`Glib::wrap($3, true)')
+#m4 _CONVERSION(`WebKitNetworkRequest*',`Glib::RefPtr<NetworkRequest>',`Glib::wrap($3, true)')
+  _WRAP_SIGNAL(NavigationResponse navigation_requested(Glib::RefPtr<WebFrame> frame, Glib::RefPtr<NetworkRequest> request), "navigation-requested")
+  //_WRAP_SIGNAL(void window_object_cleared(Glib::RefPtr<WebFrame> frame, JSGlobalContextRef context, JSObjectRef window_object), "window-object-cleared")
+  //_WRAP_SIGNAL(Glib::ustring choose_file(Glib::RefPtr<WebFrame> frame, Glib::ustring old_file), "choose-file")
+  //_WRAP_SIGNAL(bool script_alert(Glib::RefPtr<WebFrame> frame, Glib::ustring alert_message), "script-alert")
+  //_WRAP_SIGNAL(bool script_confirm(Glib::RefPtr<WebFrame> frame, Glib::ustring confirm_message, bool& did_confirm), "script-confirm")
   //gboolean (*script_prompt) (WebKitWebView* web_view, WebKitWebFrame* frame, const gchar* message, const gchar* default_value, gchar** value);
   //gboolean (*console_message) (WebKitWebView* web_view, const gchar* message, unsigned int line_number, const gchar* source_id);
   _WRAP_SIGNAL(void select_all(), "select-all");

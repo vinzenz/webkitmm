@@ -31,11 +31,11 @@
 
 (define-signal navigation-requested
   (of-object "WebKitWebView")
-  (return-type "gint")
+  (return-type "WebKitNavigationResponse")
   (when "last")
   (parameters
-    '("GObject*" "p0")
-    '("GObject*" "p1")
+    '("WebKitWebFrame*" "p0")
+    '("WebKitNetworkRequest*" "p1")
   )
 )
 

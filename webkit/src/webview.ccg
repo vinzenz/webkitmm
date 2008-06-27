@@ -18,6 +18,9 @@
  */
  
 #include <webkit/webkitwebview.h>
+#include <webkitmm/websettings.h>
+#include <webkitmm/webbackforwardlist.h>
+#include <webkitmm/webhistoryitem.h>
 
 namespace WebKit
 {

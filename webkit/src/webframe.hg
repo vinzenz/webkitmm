@@ -22,10 +22,11 @@ _PINCLUDE(glibmm/private/object_p.h)
 
 #include <webkit/webkitwebframe.h> // TODO: remove if possible
 #include <glibmm/object.h>
-#include <webkitmm/webview.h>
 
 namespace WebKit
 {
+
+class WebView;
 
 class WebFrame : public Glib::Object
 {
