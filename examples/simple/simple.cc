@@ -34,14 +34,31 @@ public:
         add (m_layout);
         m_layout.pack_start (m_toolbar, Gtk::PACK_SHRINK);
         m_layout.pack_start (m_web_view);
+        m_toolbar.set_spacing (6);
+        m_toolbar.set_border_width (6);
         m_toolbar.pack_start (m_back_button, Gtk::PACK_SHRINK);
         m_toolbar.pack_start (m_fwd_button, Gtk::PACK_SHRINK);
         m_toolbar.pack_start (m_reload_button, Gtk::PACK_SHRINK);
         m_toolbar.pack_start (m_stop_button, Gtk::PACK_SHRINK);
         m_toolbar.pack_start (m_location_entry);
-        m_location_entry.signal_activate ().connect (sigc::mem_fun(this,
-                                                                   &BrowserWindow::on_location_activated));
-        set_title("webkitmm");
+        set_title ("webkitmm");
+
+        m_location_entry.signal_activate ().connect
+            (sigc::mem_fun (this, &BrowserWindow::on_location_activated));
+        m_web_view.signal_title_changed ().connect
+            (sigc::mem_fun (this, &BrowserWindow::on_title_changed));
+        m_web_view.signal_load_committed ().connect
+            (sigc::mem_fun (this, &BrowserWindow::update_uri));
+        m_web_view.signal_load_finished ().connect
+            (sigc::mem_fun (this, &BrowserWindow::update_uri));
+        m_back_button.signal_clicked ().connect
+            (sigc::mem_fun (m_web_view, &WebKit::WebView::go_back));
+        m_fwd_button.signal_clicked ().connect
+            (sigc::mem_fun (m_web_view, &WebKit::WebView::go_forward));
+        m_reload_button.signal_clicked ().connect
+            (sigc::mem_fun (m_web_view, &WebKit::WebView::reload));
+        m_stop_button.signal_clicked ().connect
+            (sigc::mem_fun (m_web_view, &WebKit::WebView::stop_loading));
     }
 
     ~BrowserWindow () {}
@@ -50,10 +67,23 @@ public:
     {
         Glib::ustring uri, scheme;
         uri = m_location_entry.get_text ();
+        // prepend 'http://' if user didn't enter a uri scheme
         scheme = Glib::uri_parse_scheme (uri);
         if (scheme.empty ())
             uri = "http://" + uri;
         m_web_view.open (uri);
+    }
+
+    void on_title_changed (const Glib::RefPtr<WebKit::WebFrame>& frame, const Glib::ustring& title)
+    {
+        set_title (title);
+    }
+
+    void update_uri (const Glib::RefPtr<WebKit::WebFrame>& frame)
+    {
+        g_return_if_fail (frame);
+        // update the location bar
+        m_location_entry.set_text(frame->get_uri());
     }
 
 private:
