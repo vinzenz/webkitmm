@@ -25,6 +25,12 @@ _PINCLUDE(gtkmm/private/container_p.h)
 #include <webkitmm/webframe.h>
 #include <webkitmm/networkrequest.h>
 
+namespace Gtk
+{
+class Adjustment;
+class Menu;
+}
+
 namespace WebKit
 {
 _WRAP_ENUM(NavigationResponse, WebKitNavigationResponse, NO_GTYPE)
@@ -38,7 +44,7 @@ class WebView : public Gtk::Container
   _CLASS_GTKOBJECT(WebView, WebKitWebView, WEBKIT_WEB_VIEW, Gtk::Container, GtkContainer)
 
   public:
-  // FIXME: this doesn't seem to work for some reason
+  // FIXME: this doesn't seem to work -- can I put this enum inside the class?
   _WRAP_ENUM(TargetInfo, WebKitWebViewTargetInfo, NO_GTYPE)
 
   _CTOR_DEFAULT();
@@ -56,11 +62,11 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(void stop_loading (), webkit_web_view_stop_loading)
   _WRAP_METHOD(void open (const Glib::ustring& uri), webkit_web_view_open)
   _WRAP_METHOD(void reload(), webkit_web_view_reload)
-  //TODO: encoding -- use Glib::ustring?
-  //void webkit_web_view_load_string (WebKitWebView* web_view, const gchar* content, const gchar* content_mime_type, const gchar* content_encoding, const gchar* base_uri);
-  //void webkit_web_view_load_html_string (WebKitWebView* web_view, const gchar* content, const gchar* base_uri);
-  //gboolean webkit_web_view_search_text (WebKitWebView* web_view, const gchar* string, gboolean case_sensitive, gboolean forward, gboolean wrap);
-  //guint webkit_web_view_mark_text_matches (WebKitWebView* web_view, const gchar* string, gboolean case_sensitive, guint limit);
+  //TODO: double-check std::string vs Glib::ustring
+  _WRAP_METHOD(void load_string (const std::string& content, const Glib::ustring& content_mime_type, const Glib::ustring& content_encoding, const Glib::ustring& base_uri), webkit_web_view_load_string)
+  _WRAP_METHOD(void load_html_string (const Glib::ustring& content, const Glib::ustring& base_uri), webkit_web_view_load_html_string)
+  _WRAP_METHOD(bool search_text (const Glib::ustring& string, bool case_sensitive, bool forward, bool wrap), webkit_web_view_search_text)
+  _WRAP_METHOD(guint mark_text_matches (const Glib::ustring& string, bool case_sensitive, guint limit), webkit_web_view_mark_text_matches)
   _WRAP_METHOD(void set_highlight_text_matches (bool highlight=true), webkit_web_view_set_highlight_text_matches)
   _WRAP_METHOD(void unmark_text_matches(), webkit_web_view_unmark_text_matches)
   _WRAP_METHOD(Glib::RefPtr<WebFrame> get_main_frame(), webkit_web_view_get_main_frame)
@@ -96,19 +102,40 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(void set_full_content_zoom (bool full_content_zoom=true), webkit_web_view_set_full_content_zoom)
 
   // signals
-#m4 _CONVERSION(`WebKitWebFrame*',`Glib::RefPtr<WebFrame>',`Glib::wrap($3, true)')
-#m4 _CONVERSION(`WebKitNetworkRequest*',`Glib::RefPtr<NetworkRequest>',`Glib::wrap($3, true)')
-  _WRAP_SIGNAL(NavigationResponse navigation_requested(Glib::RefPtr<WebFrame> frame, Glib::RefPtr<NetworkRequest> request), "navigation-requested")
+#m4 _CONVERSION(`WebKitWebFrame*',`const Glib::RefPtr<WebFrame>&',`Glib::wrap($3, true)')
+#m4 _CONVERSION(`WebKitNetworkRequest*',`const Glib::RefPtr<NetworkRequest>&',`Glib::wrap($3, true)')
+  _WRAP_SIGNAL(NavigationResponse navigation_requested(const Glib::RefPtr<WebFrame>& frame, const Glib::RefPtr<NetworkRequest>& request), "navigation-requested")
   //_WRAP_SIGNAL(void window_object_cleared(Glib::RefPtr<WebFrame> frame, JSGlobalContextRef context, JSObjectRef window_object), "window-object-cleared")
-  //_WRAP_SIGNAL(Glib::ustring choose_file(Glib::RefPtr<WebFrame> frame, Glib::ustring old_file), "choose-file")
-  //_WRAP_SIGNAL(bool script_alert(Glib::RefPtr<WebFrame> frame, Glib::ustring alert_message), "script-alert")
-  //_WRAP_SIGNAL(bool script_confirm(Glib::RefPtr<WebFrame> frame, Glib::ustring confirm_message, bool& did_confirm), "script-confirm")
-  //gboolean (*script_prompt) (WebKitWebView* web_view, WebKitWebFrame* frame, const gchar* message, const gchar* default_value, gchar** value);
-  //gboolean (*console_message) (WebKitWebView* web_view, const gchar* message, unsigned int line_number, const gchar* source_id);
+#m4 _CONVERSION(`const gchar*', `const Glib::ustring&',__GCHARP_TO_USTRING)
+  //_WRAP_VFUNC(Glib::ustring choose_file(Glib::RefPtr<WebFrame> frame, const Glib::ustring& old_file), "choose-file")
+  _WRAP_SIGNAL(bool script_alert(Glib::RefPtr<WebFrame> frame, const Glib::ustring& alert_message), "script-alert")
+#m4 _CONVERSION(`bool&',`gboolean*',`reinterpret_cast<gboolean*>(&$3)')
+#m4 _CONVERSION(`gboolean*',`bool&',`*reinterpret_cast<bool*>($3)')
+  _WRAP_SIGNAL(bool script_confirm(Glib::RefPtr<WebFrame> frame, const Glib::ustring& confirm_message, bool& did_confirm), "script-confirm")
   _WRAP_SIGNAL(void select_all(), "select-all");
   _WRAP_SIGNAL(void cut_clipboard(), "cut-clipboard");
   _WRAP_SIGNAL(void copy_clipboard(), "copy-clipboard");
   _WRAP_SIGNAL(void paste_clipboard(), "paste-clipboard");
+  _WRAP_SIGNAL(void icon_loaded(), "icon-loaded", no_default_handler)
+  _WRAP_SIGNAL(void load_progress_changed(int progress), "load-progress-changed", no_default_handler)
+#m4 _CONVERSION(`GtkMenu*',`Gtk::Menu*',`Glib::wrap($3)')
+  _WRAP_SIGNAL(void populate_popup(Gtk::Menu* menu), "populate-popup", no_default_handler)
+  _WRAP_SIGNAL(void load_committed(const Glib::RefPtr<WebFrame>& frame), "load-committed", no_default_handler)
+  _WRAP_SIGNAL(void status_bar_text_changed(const Glib::ustring& text), "status-bar-text-changed", no_default_handler)
+  // FIXME: argument names, gchar** arg
+  _WRAP_SIGNAL(bool script_prompt(const Glib::RefPtr<WebFrame>& frame, const Glib::ustring& a, const Glib::ustring& b, gchar** c), "script-prompt")
+  // FIXME: argument names
+  _WRAP_SIGNAL(void set_scroll_adjustments(Gtk::Adjustment* adj1, Gtk::Adjustment* adj2), "set-scroll-adjustments")
+  _WRAP_SIGNAL(void selection_changed(), "selection-changed", no_default_handler)
+  _WRAP_SIGNAL(void load_started(const Glib::RefPtr<WebFrame>& frame), "load-started", no_default_handler)
+  _WRAP_SIGNAL(void load_finished(const Glib::RefPtr<WebFrame>& frame), "load-finished", no_default_handler)
+  _WRAP_SIGNAL(void hovering_over_link(const Glib::ustring& a, const Glib::ustring& b), "hovering-over-link", no_default_handler)
+  _WRAP_SIGNAL(void title_changed(const Glib::RefPtr<WebFrame>& frame, const Glib::ustring& title), "title-changed", no_default_handler)
+  // FIXME: argument names
+  _WRAP_SIGNAL(bool console_message(const Glib::ustring& a, guint b, const Glib::ustring& c), "console-message")
+  // FIXME: argument names, gpointer args
+  _WRAP_SIGNAL(void window_object_cleared(const Glib::RefPtr<WebFrame>& frame, gpointer a, gpointer b), "window-object-cleared", no_default_handler)
+
 };
 
 } // namespace WebKit

@@ -22,14 +22,52 @@
 #include <webkitmm/webview.h>
 #include <gtkmm.h>
 
+class BrowserWindow : public Gtk::Window
+{
+public:
+    BrowserWindow () :
+        m_back_button (Gtk::Stock::GO_BACK)
+        , m_fwd_button (Gtk::Stock::GO_FORWARD)
+        , m_reload_button (Gtk::Stock::REFRESH)
+        , m_stop_button (Gtk::Stock::STOP)
+    {
+        add (m_layout);
+        m_layout.pack_start (m_toolbar, Gtk::PACK_SHRINK);
+        m_layout.pack_start (m_web_view);
+        m_toolbar.pack_start (m_back_button, Gtk::PACK_SHRINK);
+        m_toolbar.pack_start (m_fwd_button, Gtk::PACK_SHRINK);
+        m_toolbar.pack_start (m_reload_button, Gtk::PACK_SHRINK);
+        m_toolbar.pack_start (m_stop_button, Gtk::PACK_SHRINK);
+        m_toolbar.pack_start (m_location_entry);
+        m_location_entry.signal_activate ().connect (sigc::mem_fun(this,
+                                                                   &BrowserWindow::on_location_activated));
+        set_title("webkitmm");
+    }
+
+    ~BrowserWindow () {}
+
+    void on_location_activated ()
+    {
+        Glib::ustring uri, scheme;
+        uri = m_location_entry.get_text ();
+        scheme = Glib::uri_parse_scheme (uri);
+        if (scheme.empty ())
+            uri = "http://" + uri;
+        m_web_view.open (uri);
+    }
+
+private:
+    WebKit::WebView m_web_view;
+    Gtk::Button m_back_button, m_fwd_button, m_reload_button, m_stop_button;
+    Gtk::Entry m_location_entry;
+    Gtk::HBox m_toolbar;
+    Gtk::VBox m_layout;
+};
+
 int main (int argc, char** argv) {
-    Gtk::Main kit(argc, argv);
-    WebKit::init();
-    WebKit::WebView wv;
-    wv.open("http://gtkmm.org");
-    Gtk::Window w;
-    w.add(wv);
-    w.set_title("webkitmm");
+    Gtk::Main kit (argc, argv);
+    WebKit::init ();
+    BrowserWindow w;
     w.set_default_size(600, 400);
     w.show_all();
     Gtk::Main::run(w);

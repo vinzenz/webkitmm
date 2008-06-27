@@ -113,7 +113,7 @@
   (when "last")
   (parameters
     '("const-gchar*" "p0")
-    '("gint" "p1")
+    '("guint" "p1")
     '("const-gchar*" "p2")
   )
 )
@@ -135,7 +135,7 @@
   (parameters
     '("WebKitWebFrame*" "p0")
     '("const-gchar*" "p1")
-    '("gboolean" "p2")
+    '("gboolean*" "p2")
   )
 )
 
@@ -147,7 +147,7 @@
     '("WebKitWebFrame*" "p0")
     '("const-gchar*" "p1")
     '("const-gchar*" "p2")
-    '("gpointer" "p3")
+    '("gchar**" "p3")
   )
 )
 
