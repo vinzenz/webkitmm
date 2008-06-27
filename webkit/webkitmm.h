@@ -25,4 +25,12 @@ extern const int webkitmm_major_version;
 extern const int webkitmm_minor_version;
 extern const int webkitmm_micro_version;
 
+#include <webkitmm/init.h>
+#include <webkitmm/networkrequest.h>
+#include <webkitmm/webbackforwardlist.h>
+#include <webkitmm/webframe.h>
+#include <webkitmm/webhistoryitem.h>
+#include <webkitmm/websettings.h>
+#include <webkitmm/webview.h>
+
 #endif /* #ifndef WEBKITMM_H */
