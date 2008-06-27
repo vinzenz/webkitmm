@@ -76,6 +76,35 @@
 
 ;; From webkitnetworkrequest.h
 
+(define-function webkit_network_request_get_type
+  (c-name "webkit_network_request_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_network_request_new
+  (c-name "webkit_network_request_new")
+  (is-constructor-of "WebkitNetworkRequest")
+  (return-type "WebKitNetworkRequest*")
+  (parameters
+    '("const-gchar*" "uri")
+  )
+)
+
+(define-method set_uri
+  (of-object "WebKitNetworkRequest")
+  (c-name "webkit_network_request_set_uri")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "uri")
+  )
+)
+
+(define-method get_uri
+  (of-object "WebKitNetworkRequest")
+  (c-name "webkit_network_request_get_uri")
+  (return-type "const-gchar*")
+)
+
 
 
 ;; From webkitversion.h
@@ -83,6 +112,121 @@
 
 
 ;; From webkitwebbackforwardlist.h
+
+(define-function webkit_web_back_forward_list_get_type
+  (c-name "webkit_web_back_forward_list_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_web_back_forward_list_new_with_web_view
+  (c-name "webkit_web_back_forward_list_new_with_web_view")
+  (return-type "WebKitWebBackForwardList*")
+  (parameters
+    '("WebKitWebView*" "web_view")
+  )
+)
+
+(define-method go_forward
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_go_forward")
+  (return-type "none")
+)
+
+(define-method go_back
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_go_back")
+  (return-type "none")
+)
+
+(define-method contains_item
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_contains_item")
+  (return-type "gboolean")
+  (parameters
+    '("WebKitWebHistoryItem*" "history_item")
+  )
+)
+
+(define-method go_to_item
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_go_to_item")
+  (return-type "none")
+  (parameters
+    '("WebKitWebHistoryItem*" "history_item")
+  )
+)
+
+(define-method get_forward_list_with_limit
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_get_forward_list_with_limit")
+  (return-type "GList*")
+  (parameters
+    '("gint" "limit")
+  )
+)
+
+(define-method get_back_list_with_limit
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_get_back_list_with_limit")
+  (return-type "GList*")
+  (parameters
+    '("gint" "limit")
+  )
+)
+
+(define-method get_back_item
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_get_back_item")
+  (return-type "WebKitWebHistoryItem*")
+)
+
+(define-method get_current_item
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_get_current_item")
+  (return-type "WebKitWebHistoryItem*")
+)
+
+(define-method get_forward_item
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_get_forward_item")
+  (return-type "WebKitWebHistoryItem*")
+)
+
+(define-method get_nth_item
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_get_nth_item")
+  (return-type "WebKitWebHistoryItem*")
+  (parameters
+    '("gint" "index")
+  )
+)
+
+(define-method get_back_length
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_get_back_length")
+  (return-type "gint")
+)
+
+(define-method get_forward_length
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_get_forward_length")
+  (return-type "gint")
+)
+
+(define-method get_limit
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_get_limit")
+  (return-type "gint")
+)
+
+(define-method set_limit
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_set_limit")
+  (return-type "none")
+  (parameters
+    '("gint" "limit")
+  )
+)
 
 
 

@@ -36,3 +36,9 @@ webkit/webkitmm/webframe.h
 webkit/webkitmm/private/webhistoryitem_p.h
 webkit/webkitmm/webhistoryitem.cc
 webkit/webkitmm/webhistoryitem.h
+webkit/webkitmm/networkrequest.cc
+webkit/webkitmm/networkrequest.h
+webkit/webkitmm/private/networkrequest_p.h
+webkit/webkitmm/private/webbackforwardlist_p.h
+webkit/webkitmm/webbackforwardlist.cc
+webkit/webkitmm/webbackforwardlist.h
