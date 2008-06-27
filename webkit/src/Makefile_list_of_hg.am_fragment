@@ -7,4 +7,5 @@ files_hg = \
 		   webframe.hg \
 		   webhistoryitem.hg \
 		   networkrequest.hg \
-		   webbackforwardlist.hg
+		   webbackforwardlist.hg \
+		   websettings.hg

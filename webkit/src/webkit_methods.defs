@@ -377,6 +377,22 @@
 
 ;; From webkitwebsettings.h
 
+(define-function webkit_web_settings_get_type
+  (c-name "webkit_web_settings_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_web_settings_new
+  (c-name "webkit_web_settings_new")
+  (is-constructor-of "WebkitWebSettings")
+  (return-type "WebKitWebSettings*")
+)
+
+(define-method copy
+  (of-object "WebKitWebSettings")
+  (c-name "webkit_web_settings_copy")
+  (return-type "WebKitWebSettings*")
+)
 
 
 ;; From webkitwebview.h

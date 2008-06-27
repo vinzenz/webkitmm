@@ -42,3 +42,6 @@ webkit/webkitmm/private/networkrequest_p.h
 webkit/webkitmm/private/webbackforwardlist_p.h
 webkit/webkitmm/webbackforwardlist.cc
 webkit/webkitmm/webbackforwardlist.h
+webkit/webkitmm/private/websettings_p.h
+webkit/webkitmm/websettings.cc
+webkit/webkitmm/websettings.h
