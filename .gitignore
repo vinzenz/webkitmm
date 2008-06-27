@@ -13,7 +13,7 @@ config.log
 config.status
 configure
 docs/reference/Doxyfile
-examples/simple/simple
+examples/browser/browser
 libtool
 scripts/config.guess
 scripts/config.sub

@@ -1,6 +1,6 @@
 include $(top_srcdir)/examples/Makefile.am_fragment
 
 #Build the executable, but don't install it.
-noinst_PROGRAMS = simple
+noinst_PROGRAMS = browser
 
-simple_SOURCES = simple.cc
+browser_SOURCES = browser.cc
