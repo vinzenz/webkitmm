@@ -169,10 +169,66 @@
 )
 
 
-
-
 ;; From webkitwebhistoryitem.h
 
+(define-function webkit_web_history_item_get_type
+  (c-name "webkit_web_history_item_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_web_history_item_new
+  (c-name "webkit_web_history_item_new")
+  (is-constructor-of "WebkitWebHistoryItem")
+  (return-type "WebKitWebHistoryItem*")
+)
+
+(define-function webkit_web_history_item_new_with_data
+  (c-name "webkit_web_history_item_new_with_data")
+  (return-type "WebKitWebHistoryItem*")
+  (parameters
+    '("const-gchar*" "uri")
+    '("const-gchar*" "title")
+  )
+)
+
+(define-method get_title
+  (of-object "WebKitWebHistoryItem")
+  (c-name "webkit_web_history_item_get_title")
+  (return-type "const-gchar*")
+)
+
+(define-method get_alternate_title
+  (of-object "WebKitWebHistoryItem")
+  (c-name "webkit_web_history_item_get_alternate_title")
+  (return-type "const-gchar*")
+)
+
+(define-method set_alternate_title
+  (of-object "WebKitWebHistoryItem")
+  (c-name "webkit_web_history_item_set_alternate_title")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "title")
+  )
+)
+
+(define-method get_uri
+  (of-object "WebKitWebHistoryItem")
+  (c-name "webkit_web_history_item_get_uri")
+  (return-type "const-gchar*")
+)
+
+(define-method get_original_uri
+  (of-object "WebKitWebHistoryItem")
+  (c-name "webkit_web_history_item_get_original_uri")
+  (return-type "const-gchar*")
+)
+
+(define-method get_last_visited_time
+  (of-object "WebKitWebHistoryItem")
+  (c-name "webkit_web_history_item_get_last_visited_time")
+  (return-type "gdouble")
+)
 
 
 ;; From webkitwebsettings.h

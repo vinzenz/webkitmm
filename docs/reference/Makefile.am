@@ -57,6 +57,9 @@ uninstall-local: uninstall-reference
 
 maintainer-clean-local: doc-clean
 
+doc-clean:
+	rm -rf html
+
 .PHONY: post-html doc-clean install-reference uninstall-reference html-clean
 
 

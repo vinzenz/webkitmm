@@ -33,3 +33,6 @@ webkit/webkitmmconfig.h
 webkit/webkitmm/private/webframe_p.h
 webkit/webkitmm/webframe.cc
 webkit/webkitmm/webframe.h
+webkit/webkitmm/private/webhistoryitem_p.h
+webkit/webkitmm/webhistoryitem.cc
+webkit/webkitmm/webhistoryitem.h

@@ -1,0 +1,50 @@
+/* webhistoryitem.h
+ *
+ * Copyright 2008 Jonathon Jongsma
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+ 
+_DEFS(webkitmm,webkit)
+_PINCLUDE(glibmm/private/object_p.h)
+
+#include <webkit/webkitwebhistoryitem.h>    //FIXME: remove if possible
+#include <glibmm/object.h>
+
+namespace WebKit
+{
+
+class WebHistoryItem : public Glib::Object
+{
+  _CLASS_GOBJECT(WebHistoryItem, WebKitWebHistoryItem, WEBKIT_WEB_HISTORY_ITEM, Glib::Object, GObject)
+
+  protected:
+  _CTOR_DEFAULT()
+  _WRAP_CTOR(WebHistoryItem(const Glib::ustring& uri, const Glib::ustring& title), webkit_web_history_item_new_with_data)
+  public:
+  _WRAP_CREATE()
+  _WRAP_CREATE(const Glib::ustring& uri, const Glib::ustring& title)
+
+  _WRAP_METHOD(Glib::ustring get_title() const, webkit_web_history_item_get_title)
+  _WRAP_METHOD(Glib::ustring get_alternate_title() const, webkit_web_history_item_get_alternate_title)
+  _WRAP_METHOD(void set_alternate_title(const Glib::ustring& title), webkit_web_history_item_set_alternate_title)
+  _WRAP_METHOD(Glib::ustring get_uri() const, webkit_web_history_item_get_uri)
+  _WRAP_METHOD(Glib::ustring get_original_uri() const, webkit_web_history_item_get_original_uri)
+  _WRAP_METHOD(double get_last_visited_time() const, webkit_web_history_item_get_last_visited_time)
+
+  // signals
+};
+
+} // namespace WebKit
