@@ -1,16 +1,18 @@
 _CONVERSION(`WebKitWebView*',`WebView&',`*Glib::wrap($3)')
 _CONVERSION(`WebView&',`WebKitWebView*',`($3).gobj()')
 _CONVERSION(`WebKitWebFrame*',`Glib::RefPtr<WebFrame>',`Glib::wrap($3)')
-_CONVERSION(`Glib::RefPtr<WebFrame>',`WebKitWebFrame*',`($3)->gobj()')
-_CONVERSION(`Glib::RefPtr<NetworkRequest>',`WebKitNetworkRequest*',`($3)->gobj()')
+_CONVERSION(`Glib::RefPtr<WebFrame>',`WebKitWebFrame*',__CONVERT_REFPTR_TO_P)
 
-_CONVERSION(`const Glib::RefPtr<WebSettings>&',`WebKitWebSettings*',`($3)->gobj()')
+_CONVERSION(`Glib::RefPtr<NetworkRequest>',`WebKitNetworkRequest*',__CONVERT_REFPTR_TO_P)
+_CONVERSION(`const Glib::RefPtr<NetworkRequest>&',`WebKitNetworkRequest*',__CONVERT_REFPTR_TO_P)
+
+_CONVERSION(`const Glib::RefPtr<WebSettings>&',`WebKitWebSettings*',__CONVERT_REFPTR_TO_P)
 _CONVERSION(`WebKitWebSettings*',`Glib::RefPtr<WebSettings>',`Glib::wrap($3)')
 
-_CONVERSION(`const Glib::RefPtr<WebHistoryItem>&',`WebKitWebHistoryItem*',`($3)->gobj()')
+_CONVERSION(`const Glib::RefPtr<WebHistoryItem>&',`WebKitWebHistoryItem*',__CONVERT_REFPTR_TO_P)
 _CONVERSION(`WebKitWebHistoryItem*',`Glib::RefPtr<WebHistoryItem>',`Glib::wrap($3)')
 
-_CONVERSION(`const Glib::RefPtr<WebBackForwardList>&',`WebKitWebBackForwardList*',`($3)->gobj()')
+_CONVERSION(`const Glib::RefPtr<WebBackForwardList>&',`WebKitWebBackForwardList*',__CONVERT_REFPTR_TO_P)
 _CONVERSION(`WebKitWebBackForwardList*',`Glib::RefPtr<WebBackForwardList>',`Glib::wrap($3)')
 
 #FIXME: copied from gtkmm, but added GTK:: namespace -- is there a better way?

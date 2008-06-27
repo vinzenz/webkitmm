@@ -27,6 +27,7 @@ namespace WebKit
 {
 
 class WebView;
+class NetworkRequest;
 
 class WebFrame : public Glib::Object
 {
@@ -44,7 +45,7 @@ class WebFrame : public Glib::Object
   _WRAP_METHOD(Glib::ustring get_uri() const, webkit_web_frame_get_uri)
   _WRAP_METHOD(Glib::RefPtr<WebFrame> get_parent(), webkit_web_frame_get_parent)
   _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_parent() const, webkit_web_frame_get_parent, constversion)
-  //void webkit_web_frame_load_request (WebKitWebFrame* frame, WebKitNetworkRequest* request);
+  _WRAP_METHOD(void load_request(const Glib::RefPtr<NetworkRequest>& request), webkit_web_frame_load_request)
   _WRAP_METHOD(void stop_loading(), webkit_web_frame_stop_loading)
   _WRAP_METHOD(void reload(), webkit_web_frame_reload)
   _WRAP_METHOD(Glib::RefPtr<WebFrame> find_frame(const Glib::ustring& name), webkit_web_frame_find_frame)
@@ -52,6 +53,17 @@ class WebFrame : public Glib::Object
   //JSGlobalContextRef webkit_web_frame_get_global_context (WebKitWebFrame* frame);
 
   // signals
+  _WRAP_SIGNAL(void cleared(), "cleared", no_default_handler)
+  _WRAP_SIGNAL(void load_committed(), "load-committed", no_default_handler)
+  _WRAP_SIGNAL(void load_done(bool), "load-done", no_default_handler)
+#m4 _CONVERSION(`const gchar*', `const Glib::ustring&',__GCHARP_TO_USTRING)
+  _WRAP_SIGNAL(void title_changed(const Glib::ustring& title), "title-changed", no_default_handler)
+  _WRAP_SIGNAL(void hovering_over_link(const Glib::ustring& a, const Glib::ustring& b), "hovering-over-link", no_default_handler)
+
+  // properties
+  _WRAP_PROPERTY("name", Glib::ustring)
+  _WRAP_PROPERTY("title", Glib::ustring)
+  _WRAP_PROPERTY("uri", Glib::ustring)
 };
 
 } // namespace WebKit
