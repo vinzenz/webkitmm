@@ -31,8 +31,10 @@ class WebFrame : public Glib::Object
 {
   _CLASS_GOBJECT(WebFrame, WebKitWebFrame, WEBKIT_WEB_FRAME, Glib::Object, GObject)
 
-  public:
+  protected:
   _WRAP_CTOR(WebFrame(WebView& web_view), webkit_web_frame_new)
+  public:
+  _WRAP_CREATE(WebView& web_view)
 
   _WRAP_METHOD(WebView& get_web_view(), webkit_web_frame_get_web_view)
   _WRAP_METHOD(const WebView& get_web_view() const, webkit_web_frame_get_web_view, constversion)
