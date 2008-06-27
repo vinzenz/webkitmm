@@ -33,7 +33,9 @@ public:
     {
         add (m_layout);
         m_layout.pack_start (m_toolbar, Gtk::PACK_SHRINK);
-        m_layout.pack_start (m_web_view);
+        m_layout.pack_start (m_scroller);
+        m_scroller.add (m_web_view);
+        m_scroller.set_policy (Gtk::POLICY_AUTOMATIC, Gtk::POLICY_AUTOMATIC);
         m_toolbar.set_spacing (6);
         m_toolbar.set_border_width (6);
         m_toolbar.pack_start (m_back_button, Gtk::PACK_SHRINK);
@@ -92,6 +94,7 @@ private:
     Gtk::Entry m_location_entry;
     Gtk::HBox m_toolbar;
     Gtk::VBox m_layout;
+    Gtk::ScrolledWindow m_scroller;
 };
 
 int main (int argc, char** argv) {
