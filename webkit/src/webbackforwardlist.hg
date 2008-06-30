@@ -41,8 +41,10 @@ class WebBackForwardList : public Glib::Object
   _WRAP_METHOD(void go_back(), webkit_web_back_forward_list_go_back)
   _WRAP_METHOD(bool contains_item(const Glib::RefPtr<WebHistoryItem>& history_item) const, webkit_web_back_forward_list_contains_item)
   _WRAP_METHOD(void go_to_item(const Glib::RefPtr<WebHistoryItem>& history_item), webkit_web_back_forward_list_go_to_item)
-  //GList* webkit_web_back_forward_list_get_forward_list_with_limit (WebKitWebBackForwardList* web_back_forward_list, gint limit);
-  //GList* webkit_web_back_forward_list_get_back_list_with_limit (WebKitWebBackForwardList* web_back_forward_list, gint limit);
+  // TODO: should we use the get_*_list_with_limit terminology ?
+#m4 _CONVERSION(`GList*',`Glib::ListHandle<Glib::RefPtr<WebHistoryItem> >',`$2($3, Glib::OWNERSHIP_DEEP)')
+  _WRAP_METHOD(Glib::ListHandle<Glib::RefPtr<WebHistoryItem> > get_forward_list(int limit), webkit_web_back_forward_list_get_forward_list_with_limit)
+  _WRAP_METHOD(Glib::ListHandle<Glib::RefPtr<WebHistoryItem> > get_back_list(int limit), webkit_web_back_forward_list_get_back_list_with_limit)
   _WRAP_METHOD(Glib::RefPtr<WebHistoryItem> get_back_item(), webkit_web_back_forward_list_get_back_item)
   _WRAP_METHOD(Glib::RefPtr<const WebHistoryItem> get_back_item() const, webkit_web_back_forward_list_get_back_item, constversion)
   _WRAP_METHOD(Glib::RefPtr<WebHistoryItem> get_current_item(), webkit_web_back_forward_list_get_current_item)
