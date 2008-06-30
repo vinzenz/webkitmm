@@ -65,15 +65,36 @@ public:
 
     ~BrowserWindow () {}
 
+    void open (Glib::ustring uri)
+    {
+        switch (uri[0])
+        {
+            // assume it's a local file if it's of the form ./foo or /foo
+            case '.':
+                uri.erase (uri.begin ());
+                uri = Glib::get_current_dir () + uri;
+                // fall through
+            case '/':
+                uri = "file://" + uri;
+                break;
+
+            // else assume it's a web address and try loading via http
+            default:
+                // prepend 'http://' if user didn't enter a uri scheme
+                Glib::ustring scheme = Glib::uri_parse_scheme (uri);
+                if (scheme.empty ())
+                    uri = "http://" + uri;
+        }
+
+        m_web_view.open (uri);
+    }
+
+private:
     void on_location_activated ()
     {
-        Glib::ustring uri, scheme;
+        Glib::ustring uri;
         uri = m_location_entry.get_text ();
-        // prepend 'http://' if user didn't enter a uri scheme
-        scheme = Glib::uri_parse_scheme (uri);
-        if (scheme.empty ())
-            uri = "http://" + uri;
-        m_web_view.open (uri);
+        open (uri);
     }
 
     void on_title_changed (const Glib::RefPtr<WebKit::WebFrame>& frame, const Glib::ustring& title)
@@ -101,6 +122,8 @@ int main (int argc, char** argv) {
     Gtk::Main kit (argc, argv);
     WebKit::init ();
     BrowserWindow w;
+    if (argc > 1)
+        w.open (argv[1]);
     w.set_default_size(600, 400);
     w.show_all();
     Gtk::Main::run(w);
