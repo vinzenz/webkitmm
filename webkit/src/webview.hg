@@ -19,8 +19,8 @@
  
 _DEFS(webkitmm,webkit)
 _PINCLUDE(gtkmm/private/container_p.h)
+_PINCLUDE(webkit/webkitwebview.h)
 
-#include <webkit/webkitwebview.h>
 #include <gtkmm/container.h>
 #include <webkitmm/webframe.h>
 #include <webkitmm/networkrequest.h>
