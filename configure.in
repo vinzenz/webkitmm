@@ -107,6 +107,11 @@ AC_CHECK_PROGS(PERL, perl5 perl)
 PKG_CHECK_MODULES(WEBKITMM,
                   gtkmm-2.4 >= 2.10
                   webkit-1.0 >= 1.0)
+PKG_CHECK_MODULES(BROWSER_DEPS,
+                  [glibmm-2.4 >= 2.16],
+                  BUILD_BROWSER=yes,
+                  BUILD_BROWSER=no)
+
 AC_SUBST(WEBKITMM_CFLAGS)
 AC_SUBST(WEBKITMM_LIBS)
 
@@ -157,7 +162,7 @@ AM_CONDITIONAL(WEBKITMM_FALSE,[false])
 AUTOHEADER=':'
 
 
-AC_OUTPUT([
+AC_CONFIG_FILES([
   Makefile
 
   webkit/Makefile
@@ -177,7 +182,29 @@ AC_OUTPUT([
     docs/reference/Doxyfile
 
   examples/Makefile
-  examples/browser/Makefile
   examples/simple/Makefile
 ])
 
+if test x$BUILD_BROWSER = xyes; then
+    AC_CONFIG_FILES(examples/browser/Makefile)
+fi
+
+AC_OUTPUT()
+
+cat <<EOT
+
+=================================================================
+         Webkitmm WEBKITMM_VERSION
+=================================================================
+        Here is the configuration of the package:
+
+    Prefix                          : ${prefix}
+    CFLAGS                          : ${CFLAGS}
+    CXXFLAGS                        : ${CXXFLAGS}
+    WEBKITMM_LIBS                   : ${WEBKITMM_LIBS}
+    WEBKITMM_CFLAGS                 : ${WEBKITMM_CFLAGS}
+
+ OPTIONAL FEATURES:
+    Build Example Browser           : ${BUILD_BROWSER}
+
+EOT
