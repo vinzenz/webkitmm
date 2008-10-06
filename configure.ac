@@ -1,33 +1,31 @@
-# Configure.in
+# configure.ac
 #
-#  Copyright 2008 Jonathon Jongsma
+# Copyright 2008 Jonathon Jongsma
 #
+# This library is free software; you can redistribute it and/or
+# modify it under the terms of the GNU Library General Public
+# License as published by the Free Software Foundation; either
+# version 2 of the License, or (at your option) any later version.
+#
+# This library is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Library General Public License for more details.
+#
+# You should have received a copy of the GNU Library General Public
+# License along with this library; if not, write to the Free
+# Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-#########################################################################
-#  Version and initialization
-#########################################################################
-#We use pushdef here because we can't use shell variables before AC_INIT, but we want to use a variable with AC_INIT:
-pushdef([WEBKITMM_MAJOR_VERSION],     [0])
-pushdef([WEBKITMM_MINOR_VERSION],     [9])
-pushdef([WEBKITMM_MICRO_VERSION],     [90])
-pushdef([WEBKITMM_EXTRA_VERSION],     [])
-pushdef([WEBKITMM_VERSION], WEBKITMM_MAJOR_VERSION.WEBKITMM_MINOR_VERSION.WEBKITMM_MICRO_VERSION[]WEBKITMM_EXTRA_VERSION)
+dnl We use define() here because we can't use shell variables before AC_INIT, but
+dnl we want to use a variable with AC_INIT:
+define([WEBKITMM_MAJOR_VERSION],     [0])
+define([WEBKITMM_MINOR_VERSION],     [9])
+define([WEBKITMM_MICRO_VERSION],     [90])
+define([WEBKITMM_EXTRA_VERSION],     [])
+define([WEBKITMM_VERSION], WEBKITMM_MAJOR_VERSION.WEBKITMM_MINOR_VERSION.WEBKITMM_MICRO_VERSION[]WEBKITMM_EXTRA_VERSION)
 AC_INIT([webkitmm], WEBKITMM_VERSION, [gtkmm-list@gnome.org])
 AC_CONFIG_SRCDIR([webkit/webkitmmconfig.h.in])
-#AC_PREREQ(2.59)
 
-[WEBKITMM_MAJOR_VERSION]=WEBKITMM_MAJOR_VERSION
-[WEBKITMM_MINOR_VERSION]=WEBKITMM_MINOR_VERSION
-[WEBKITMM_MICRO_VERSION]=WEBKITMM_MICRO_VERSION
-[WEBKITMM_EXTRA_VERSION]=WEBKITMM_EXTRA_VERSION
-[WEBKITMM_VERSION]=WEBKITMM_VERSION
-popdef([WEBKITMM_MAJOR_VERSION])
-popdef([WEBKITMM_MINOR_VERSION])
-popdef([WEBKITMM_MICRO_VERSION])
-popdef([WEBKITMM_EXTRA_VERSION])
-popdef([WEBKITMM_VERSION])
-
-#
 # +1 : ? : +1  == new interface that does not break old one
 # +1 : ? : 0   == new interface that breaks old one
 #  ? : ? : 0   == no new interfaces, but breaks apps
@@ -35,27 +33,19 @@ popdef([WEBKITMM_VERSION])
 #                 better
 # CURRENT : REVISION : AGE
 WEBKITMM_SO_VERSION=0:0:0
-
-AC_SUBST(WEBKITMM_VERSION)
-AC_SUBST(WEBKITMM_RELEASE)
 AC_SUBST(WEBKITMM_SO_VERSION)
 
 dnl Add to the config.h header
-AC_DEFINE_UNQUOTED(WEBKITMM_MAJOR_VERSION, $WEBKITMM_MAJOR_VERSION, [Major version of webkitmm])
-AC_DEFINE_UNQUOTED(WEBKITMM_MINOR_VERSION, $WEBKITMM_MINOR_VERSION, [Minor version of webkitmm])
-AC_DEFINE_UNQUOTED(WEBKITMM_MICRO_VERSION, $WEBKITMM_MICRO_VERSION, [Micro version of webkitmm])
-AC_DEFINE_UNQUOTED(WEBKITMM_EXTRA_VERSION, $WEBKITMM_EXTRA_VERSION, [Extra version of webkitmm])
-AC_DEFINE_UNQUOTED(WEBKITMM_VERSION, $WEBKITMM_VERSION, [version of webkitmm])
+AC_DEFINE_UNQUOTED([[WEBKITMM_MAJOR_VERSION]], WEBKITMM_MAJOR_VERSION, [Major version of webkitmm])
+AC_DEFINE_UNQUOTED([[WEBKITMM_MINOR_VERSION]], WEBKITMM_MINOR_VERSION, [Minor version of webkitmm])
+AC_DEFINE_UNQUOTED([[WEBKITMM_MICRO_VERSION]], WEBKITMM_MICRO_VERSION, [Micro version of webkitmm])
+AC_DEFINE_UNQUOTED([[WEBKITMM_EXTRA_VERSION]], WEBKITMM_EXTRA_VERSION, [Extra version of webkitmm])
+AC_DEFINE_UNQUOTED([[WEBKITMM_VERSION]], WEBKITMM_VERSION, [version of webkitmm])
 
 AC_CONFIG_AUX_DIR(scripts)
 
-dnl For automake.
-VERSION=$WEBKITMM_VERSION
-PACKAGE=webkitmm
-
 dnl Initialize automake stuff
-# Initialize automake stuff
-# tar-ustar asks it to use a sensible tar format that can handle long filenames.
+dnl tar-ustar asks it to use a sensible tar format that can handle long filenames.
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 
 dnl Specify a configuration file (no autoheader)
@@ -67,6 +57,16 @@ AL_ACLOCAL_INCLUDE(scripts)
 #########################################################################
 #  Configure arguments 
 #########################################################################
+
+dnl Add an --enable-documentation option:
+AC_ARG_ENABLE(documentation,
+              AC_HELP_STRING([--enable-documentation=yes|no],
+                             [Build the reference documentation (default=yes)]),
+              BUILD_REFERENCE=$enableval,
+              BUILD_REFERENCE=yes)
+
+AM_CONDITIONAL(BUILD_REFERENCE, test x$BUILD_REFERENCE = xyes)
+
 
 #########################################################################
 #  Environment Checks
@@ -142,8 +142,7 @@ AC_SUBST(GMM_PROC)
 #  C++ checks
 #########################################################################
 AC_PROG_CXX
-AC_LANG_CPLUSPLUS
-
+AC_LANG([C++])
 
 # Create a list of input directories for Doxygen.  We have to check wether
 # we are building in the source directory, because Doxygen doesn't like
@@ -159,16 +158,6 @@ do
 done
 WEBKITMM_DOXYGEN_INPUT="$WEBKITMM_DOXYGEN_INPUT $webkitmm_builddir/webkit/webkitmmconfig.h"
 AC_SUBST(WEBKITMM_DOXYGEN_INPUT)
-
-# Add an --enable-reference option:
-AC_ARG_ENABLE(reference,
-     [  --enable-reference   Build the reference documentation],
-     [case "${enableval}" in
-       yes) reference=true ;;
-       no)  reference=false ;;
-       *) AC_MSG_ERROR(bad value ${enableval} for --enable-reference) ;;
-     esac],[reference=false])
-AM_CONDITIONAL(BUILD_REFERENCE, test x$reference = xtrue)
 
 
 # Dummy conditional just to make automake-1.4 happy.
@@ -212,9 +201,8 @@ AC_OUTPUT()
 cat <<EOT
 
 =================================================================
-         Webkitmm WEBKITMM_VERSION
+webkitmm WEBKITMM_VERSION
 =================================================================
-        Here is the configuration of the package:
 
     Prefix                          : ${prefix}
     CFLAGS                          : ${CFLAGS}
@@ -224,5 +212,5 @@ cat <<EOT
 
  OPTIONAL FEATURES:
     Build Example Browser           : ${BUILD_BROWSER}
-
+    Build Reference Documentation   : ${BUILD_REFERENCE}
 EOT
