@@ -1,7 +1,5 @@
 #ifndef _WEBKITMM_CONFIG_H
-#define _WEBKITMM_CONFIG_H 1
-
-#include "glibmmconfig.h"
+#define _WEBKITMM_CONFIG_H
 
 /* version numbers */
 #undef WEBKITMM_MAJOR_VERSION
@@ -10,4 +8,3 @@
 #undef WEBKITMM_VERSION
 
 #endif /* _WEBKITMM_CONFIG_H */
-
