@@ -7,5 +7,5 @@ Name: webkitmm
 Description: C++ wrapper for webkit/Gtk+
 Requires: gtkmm-2.4 webkit-1.0
 Version: @VERSION@
-Libs: -L${libdir} -lwebkit-1.0
+Libs: -L${libdir} -lwebkitmm-1.0
 Cflags: -I${includedir}/webkitmm-1.0 -I${libdir}/webkitmm-1.0/include
