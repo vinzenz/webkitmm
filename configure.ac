@@ -128,6 +128,7 @@ PKG_CHECK_MODULES(BROWSER_DEPS,
                   [glibmm-2.4 >= 2.16],
                   BUILD_BROWSER=yes,
                   BUILD_BROWSER=no)
+AM_CONDITIONAL(BUILD_BROWSER, test x$BUILD_BROWSER = xyes)
 
 AC_SUBST(WEBKITMM_CFLAGS)
 AC_SUBST(WEBKITMM_LIBS)
@@ -159,15 +160,9 @@ done
 WEBKITMM_DOXYGEN_INPUT="$WEBKITMM_DOXYGEN_INPUT $webkitmm_builddir/webkit/webkitmmconfig.h"
 AC_SUBST(WEBKITMM_DOXYGEN_INPUT)
 
-
-# Dummy conditional just to make automake-1.4 happy.
-# We need an always-false condition in docs/Makefile.am.
-AM_CONDITIONAL(WEBKITMM_FALSE,[false])
-
 # HACK:  Assign a dummy in order to prevent execution of autoheader by the
 # maintainer-mode rules.  That would fail since we aren't using autoheader.
 AUTOHEADER=':'
-
 
 AC_CONFIG_FILES([
   Makefile
@@ -189,12 +184,10 @@ AC_CONFIG_FILES([
     docs/reference/Doxyfile
 
   examples/Makefile
-  examples/simple/Makefile
+    examples/simple/Makefile
+    examples/browser/Makefile
 ])
 
-if test x$BUILD_BROWSER = xyes; then
-    AC_CONFIG_FILES(examples/browser/Makefile)
-fi
 
 AC_OUTPUT()
 

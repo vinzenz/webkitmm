@@ -29,11 +29,11 @@ post-html: html/index.html
 
 install-reference: html/index.html
 	@$(NORMAL_INSTALL)
-	$(mkinstalldirs) $(DESTDIR)$(referencedir)
+	$(mkinstalldirs) $(DESTDIR)$(htmldir)
 	@dir='$(<D)'; for p in $$dir/*.html $$dir/*.css $$dir/*.png $$dir/*.dot ; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " $(INSTALL_DATA) $$p $(DESTDIR)$(referencedir)/$$f"; \
-	  $(INSTALL_DATA) $$p $(DESTDIR)$(referencedir)/$$f; \
+	  echo " $(INSTALL_DATA) $$p $(DESTDIR)$(htmldir)/$$f"; \
+	  $(INSTALL_DATA) $$p $(DESTDIR)$(htmldir)/$$f; \
 	done
 #	$(INSTALL_DATA) $(srcdir)/widget_hierarchy.png $(DESTDIR)$(referencetopdir)/$$f;
 #	$(INSTALL_DATA) $(srcdir)/widget_hierarchy.html $(DESTDIR)$(referencetopdir)/$$f;
@@ -43,8 +43,8 @@ uninstall-reference: html/index.html
 	@$(NORMAL_UNINSTALL)
 	@dir='$(<D)'; for p in $$dir/*.html $$dir/*.css $$dir/*.png $$dir/*.dot ; do \
 	  f="`echo $$p | sed -e 's|^.*/||'`"; \
-	  echo " rm -f $(DESTDIR)$(referencedir)/$$f"; \
-	  rm -f $(DESTDIR)$(referencedir)/$$f; \
+	  echo " rm -f $(DESTDIR)$(htmldir)/$$f"; \
+	  rm -f $(DESTDIR)$(htmldir)/$$f; \
 	done
 #	rm -f $(DESTDIR)$(referencetopdir)/widget_hierarchy.png
 #	rm -f $(DESTDIR)$(referencetopdir)/widget_hierarchy.html
