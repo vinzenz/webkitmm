@@ -21,6 +21,8 @@ _DEFS(webkitmm,webkit)
 _PINCLUDE(glibmm/private/object_p.h)
 
 #include <glibmm/object.h>
+#include <gtkmm/printoperation.h>
+#include <JavaScriptCore/JSContextRef.h>
 
 namespace WebKit
 {
@@ -49,7 +51,14 @@ class WebFrame : public Glib::Object
   _WRAP_METHOD(void reload(), webkit_web_frame_reload)
   _WRAP_METHOD(Glib::RefPtr<WebFrame> find_frame(const Glib::ustring& name), webkit_web_frame_find_frame)
   _WRAP_METHOD(Glib::RefPtr<const WebFrame> find_frame(const Glib::ustring& name) const, webkit_web_frame_find_frame, constversion)
-  //JSGlobalContextRef webkit_web_frame_get_global_context (WebKitWebFrame* frame);
+  // don't bother wrapping jscore stuff
+  _WRAP_METHOD(JSGlobalContextRef get_global_context(), webkit_web_frame_get_global_context)
+  _WRAP_METHOD(void load_uri(const Glib::ustring& uri), webkit_web_frame_load_uri)
+  // TODO add overloads for possible NULL mime_type / encoding?
+  _WRAP_METHOD(void load_string(const Glib::ustring& content, const Glib::ustring& mime_type, const Glib::ustring& encoding, const Glib::ustring& base_uri), webkit_web_frame_load_string)
+  _WRAP_METHOD(void print(), webkit_web_frame_print)
+#m4 _CONVERSION(`const Glib::RefPtr<Gtk::PrintOperation>&',`GtkPrintOperation*',__CONVERT_REFPTR_TO_P)
+  _WRAP_METHOD(void print_full(const Glib::RefPtr<Gtk::PrintOperation>& operation, Gtk::PrintOperationAction action), webkit_web_frame_print_full, errthrow)
 
   // signals
   _WRAP_SIGNAL(void cleared(), "cleared", no_default_handler)

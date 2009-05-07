@@ -34,6 +34,8 @@ _CONVERSION(`const gchar*', `const Glib::ustring&',__GCHARP_TO_USTRING)
 
 # Enums
 _CONV_ENUM(WebKit,NavigationResponse)
+# is this really necessary to copy here?
+_CONV_ENUM(Gtk,PrintOperationAction)
 
 # Lists
 
