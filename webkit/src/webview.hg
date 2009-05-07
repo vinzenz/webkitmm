@@ -63,6 +63,7 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(void stop_loading (), webkit_web_view_stop_loading)
   _WRAP_METHOD(void open (const Glib::ustring& uri), webkit_web_view_open)
   _WRAP_METHOD(void reload(), webkit_web_view_reload)
+  _WRAP_METHOD(void reload_bypass_cache(), webkit_web_view_reload_bypass_cache)
   //TODO: double-check std::string vs Glib::ustring
   _WRAP_METHOD(void load_string (const std::string& content, const Glib::ustring& content_mime_type, const Glib::ustring& content_encoding, const Glib::ustring& base_uri), webkit_web_view_load_string)
   _WRAP_METHOD(void load_html_string (const Glib::ustring& content, const Glib::ustring& base_uri), webkit_web_view_load_html_string)
@@ -102,6 +103,16 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(bool get_full_content_zoom () const, webkit_web_view_get_full_content_zoom)
   _WRAP_METHOD(void set_full_content_zoom (bool full_content_zoom=true), webkit_web_view_set_full_content_zoom)
   _WRAP_METHOD(Glib::RefPtr<WebWindowFeatures> get_window_features() const, webkit_web_view_get_window_features);
+  _WRAP_METHOD(void move_cursor(Gtk::MovementStep step, int count), webkit_web_view_move_cursor)
+  _WRAP_METHOD(Glib::ustring get_title() const, webkit_web_view_get_title)
+  _WRAP_METHOD(bool can_show_mime_type(const Glib::ustring& mime_type), webkit_web_view_can_show_mime_type)
+  _WRAP_METHOD(Glib::ustring get_custom_encoding() const, webkit_web_view_get_custom_encoding)
+  _WRAP_METHOD(Glib::ustring get_uri() const, webkit_web_view_get_uri)
+  _WRAP_METHOD(Glib::ustring get_encoding() const, webkit_web_view_get_encoding)
+  // _WRAP_METHOD get_inspector() when inspector is wrapped
+  _WRAP_METHOD(void set_custom_encoding(const Glib::ustring& encoding), webkit_web_view_set_custom_encoding)
+  _WRAP_METHOD(void load_request(const Glib::RefPtr<NetworkRequest>& request), webkit_web_view_load_request)
+  _WRAP_METHOD(void load_uri(const Glib::ustring& uri), webkit_web_view_load_uri)
 
   // signals
 #m4 _CONVERSION(`WebKitWebFrame*',`const Glib::RefPtr<WebFrame>&',`Glib::wrap($3, true)')
@@ -139,7 +150,10 @@ class WebView : public Gtk::Container
   //_WRAP_SIGNAL(void window_object_cleared(const Glib::RefPtr<WebFrame>& frame, gpointer context, gpointer arg3), "window-object-cleared", no_default_handler)
   _WRAP_SIGNAL(WebView* create_web_view(const Glib::RefPtr<WebFrame>& frame), "create-web-view");
   _WRAP_SIGNAL(bool web_view_ready(), "web-view-ready");
+  _WRAP_SIGNAL(bool print_requested(const Glib::RefPtr<WebFrame>& web_frame), "print-requested", no_default_handler)
+  _WRAP_SIGNAL(bool move_cursor(Gtk::MovementStep step, int count), "move-cursor")
 
+  // PROPERTIES
   // _WRAP_PROPERTY ("copy-target-list", ...)
   // _WRAP_PROPERTY ("paste-target-list", ...)
 
