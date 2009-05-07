@@ -24,6 +24,7 @@ _PINCLUDE(webkit/webkitwebview.h)
 #include <gtkmm/container.h>
 #include <webkitmm/webframe.h>
 #include <webkitmm/networkrequest.h>
+#include <webkitmm/webwindowfeatures.h>
 
 namespace Gtk
 {
@@ -100,18 +101,19 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(void zoom_out (), webkit_web_view_zoom_out)
   _WRAP_METHOD(bool get_full_content_zoom () const, webkit_web_view_get_full_content_zoom)
   _WRAP_METHOD(void set_full_content_zoom (bool full_content_zoom=true), webkit_web_view_set_full_content_zoom)
+  _WRAP_METHOD(Glib::RefPtr<WebWindowFeatures> get_window_features() const, webkit_web_view_get_window_features);
 
   // signals
 #m4 _CONVERSION(`WebKitWebFrame*',`const Glib::RefPtr<WebFrame>&',`Glib::wrap($3, true)')
 #m4 _CONVERSION(`WebKitNetworkRequest*',`const Glib::RefPtr<NetworkRequest>&',`Glib::wrap($3, true)')
   _WRAP_SIGNAL(NavigationResponse navigation_requested(const Glib::RefPtr<WebFrame>& frame, const Glib::RefPtr<NetworkRequest>& request), "navigation-requested")
   //_WRAP_SIGNAL(void window_object_cleared(Glib::RefPtr<WebFrame> frame, JSGlobalContextRef context, JSObjectRef window_object), "window-object-cleared")
-#m4 _CONVERSION(`const gchar*', `const Glib::ustring&',__GCHARP_TO_USTRING)
   //_WRAP_VFUNC(Glib::ustring choose_file(Glib::RefPtr<WebFrame> frame, const Glib::ustring& old_file), "choose-file")
-  _WRAP_SIGNAL(bool script_alert(Glib::RefPtr<WebFrame> frame, const Glib::ustring& alert_message), "script-alert")
-#m4 _CONVERSION(`bool&',`gboolean*',`reinterpret_cast<gboolean*>(&$3)')
-#m4 _CONVERSION(`gboolean*',`bool&',`*reinterpret_cast<bool*>($3)')
-  _WRAP_SIGNAL(bool script_confirm(Glib::RefPtr<WebFrame> frame, const Glib::ustring& confirm_message, bool& did_confirm), "script-confirm")
+  //_WRAP_SIGNAL(bool script_alert(Glib::RefPtr<WebFrame> frame, const Glib::ustring& alert_message), "script-alert")
+// WTF are these gpointer?
+//#m4 _CONVERSION(`bool&',`gpointer',`reinterpret_cast<gpointer>(&$3)')
+//#m4 _CONVERSION(`gpointer',`bool&',`*reinterpret_cast<gpointer>($3)')
+  //_WRAP_SIGNAL(bool script_confirm(Glib::RefPtr<WebFrame> frame, const Glib::ustring& confirm_message, bool& did_confirm), "script-confirm")
   _WRAP_SIGNAL(void select_all(), "select-all");
   _WRAP_SIGNAL(void cut_clipboard(), "cut-clipboard");
   _WRAP_SIGNAL(void copy_clipboard(), "copy-clipboard");
@@ -122,8 +124,8 @@ class WebView : public Gtk::Container
   _WRAP_SIGNAL(void populate_popup(Gtk::Menu* menu), "populate-popup", no_default_handler)
   _WRAP_SIGNAL(void load_committed(const Glib::RefPtr<WebFrame>& frame), "load-committed", no_default_handler)
   _WRAP_SIGNAL(void status_bar_text_changed(const Glib::ustring& text), "status-bar-text-changed", no_default_handler)
-  // FIXME: argument names, gchar** arg
-  _WRAP_SIGNAL(bool script_prompt(const Glib::RefPtr<WebFrame>& frame, const Glib::ustring& a, const Glib::ustring& b, gchar** c), "script-prompt")
+  // FIXME: argument names, gpointer arg
+  //_WRAP_SIGNAL(bool script_prompt(const Glib::RefPtr<WebFrame>& frame, const Glib::ustring& message, const Glib::ustring& default_val, gpointer c), "script-prompt")
   // FIXME: argument names
   _WRAP_SIGNAL(void set_scroll_adjustments(Gtk::Adjustment* adj1, Gtk::Adjustment* adj2), "set-scroll-adjustments")
   _WRAP_SIGNAL(void selection_changed(), "selection-changed", no_default_handler)
@@ -132,10 +134,27 @@ class WebView : public Gtk::Container
   _WRAP_SIGNAL(void hovering_over_link(const Glib::ustring& a, const Glib::ustring& b), "hovering-over-link", no_default_handler)
   _WRAP_SIGNAL(void title_changed(const Glib::RefPtr<WebFrame>& frame, const Glib::ustring& title), "title-changed", no_default_handler)
   // FIXME: argument names
-  _WRAP_SIGNAL(bool console_message(const Glib::ustring& a, guint b, const Glib::ustring& c), "console-message")
+  //_WRAP_SIGNAL(bool console_message(const Glib::ustring& a, int b, const Glib::ustring& c), "console-message")
   // FIXME: argument names, gpointer args
-  _WRAP_SIGNAL(void window_object_cleared(const Glib::RefPtr<WebFrame>& frame, gpointer a, gpointer b), "window-object-cleared", no_default_handler)
+  //_WRAP_SIGNAL(void window_object_cleared(const Glib::RefPtr<WebFrame>& frame, gpointer context, gpointer arg3), "window-object-cleared", no_default_handler)
+  _WRAP_SIGNAL(WebView* create_web_view(const Glib::RefPtr<WebFrame>& frame), "create-web-view");
+  _WRAP_SIGNAL(bool web_view_ready(), "web-view-ready");
 
+  // _WRAP_PROPERTY ("copy-target-list", ...)
+  // _WRAP_PROPERTY ("paste-target-list", ...)
+
+  // FIXME: Do we need to represent NULL for these properties?
+  _WRAP_PROPERTY("custom-encoding", Glib::ustring)
+  _WRAP_PROPERTY("encoding", Glib::ustring)
+  _WRAP_PROPERTY("title", Glib::ustring)
+  _WRAP_PROPERTY("uri", Glib::ustring)
+
+  _WRAP_PROPERTY("editable", bool)
+  _WRAP_PROPERTY("full-content-zoom", bool)
+  _WRAP_PROPERTY("settings", Glib::RefPtr<WebSettings>)
+  _WRAP_PROPERTY("transparent", bool)
+  _WRAP_PROPERTY("window-features", Glib::RefPtr<WebWindowFeatures>)
+  _WRAP_PROPERTY("zoom-level", float);
 };
 
 } // namespace WebKit

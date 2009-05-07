@@ -1,5 +1,7 @@
 _CONVERSION(`WebKitWebView*',`WebView&',`*Glib::wrap($3)')
+_CONVERSION(`WebKitWebView*',`WebView*',`Glib::wrap($3)')
 _CONVERSION(`WebView&',`WebKitWebView*',`($3).gobj()')
+_CONVERSION(`WebView*',`WebKitWebView*',`($3)->gobj()')
 _CONVERSION(`WebKitWebFrame*',`Glib::RefPtr<WebFrame>',`Glib::wrap($3)')
 _CONVERSION(`Glib::RefPtr<WebFrame>',`WebKitWebFrame*',__CONVERT_REFPTR_TO_P)
 _CONVERSION(`const Glib::RefPtr<WebFrame>&',`WebKitWebFrame*',__CONVERT_REFPTR_TO_P)
@@ -16,6 +18,10 @@ _CONVERSION(`WebKitWebHistoryItem*',`Glib::RefPtr<WebHistoryItem>',`Glib::wrap($
 _CONVERSION(`const Glib::RefPtr<WebBackForwardList>&',`WebKitWebBackForwardList*',__CONVERT_REFPTR_TO_P)
 _CONVERSION(`WebKitWebBackForwardList*',`Glib::RefPtr<WebBackForwardList>',`Glib::wrap($3)')
 
+_CONVERSION(`WebKitWebWindowFeatures*',`Glib::RefPtr<WebWindowFeatures>',`Glib::wrap($3)')
+_CONVERSION(`Glib::RefPtr<WebWindowFeatures>',`WebKitWebWindowFeatures*',__CONVERT_REFPTR_TO_P)
+_CONVERSION(`const Glib::RefPtr<WebWindowFeatures>&',`WebKitWebWindowFeatures*',__CONVERT_REFPTR_TO_P)
+
 #FIXME: copied from gtkmm, but added GTK:: namespace -- Move to gtkmm eventually
 #TargetList
 _CONVERSION(`const Glib::RefPtr<Gtk::TargetList>&',`GtkTargetList*',__CONVERT_CONST_REFPTR_TO_P)
@@ -23,6 +29,8 @@ _CONVERSION(`Glib::RefPtr<Gtk::TargetList>&',`GtkTargetList*',__CONVERT_REFPTR_T
 _CONVERSION(`GtkTargetList*',`Glib::RefPtr<Gtk::TargetList>',`Glib::wrap($3)')
 _CONVERSION(`GtkTargetList*',`Glib::RefPtr<const Gtk::TargetList>',`Glib::wrap($3)')
 
+#namespace glibmm conversions :(
+_CONVERSION(`const gchar*', `const Glib::ustring&',__GCHARP_TO_USTRING)
 
 # Enums
 _CONV_ENUM(WebKit,NavigationResponse)

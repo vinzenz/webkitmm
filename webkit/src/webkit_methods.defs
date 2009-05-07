@@ -1,10 +1,24 @@
 ;; -*- scheme -*-
 ; object definitions ...
+(define-object Download
+  (in-module "WebKit")
+  (parent "GObject")
+  (c-name "WebKitDownload")
+  (gtype-id "WEBKIT_TYPE_DOWNLOAD")
+)
+
 (define-object NetworkRequest
   (in-module "WebKit")
   (parent "GObject")
   (c-name "WebKitNetworkRequest")
   (gtype-id "WEBKIT_TYPE_NETWORK_REQUEST")
+)
+
+(define-object SoupAuthDialog
+  (in-module "WebKit")
+  (parent "GObject")
+  (c-name "WebKitSoupAuthDialog")
+  (gtype-id "WEBKIT_TYPE_SOUP_AUTH_DIALOG")
 )
 
 (define-object WebBackForwardList
@@ -28,6 +42,27 @@
   (gtype-id "WEBKIT_TYPE_WEB_HISTORY_ITEM")
 )
 
+(define-object WebInspector
+  (in-module "WebKit")
+  (parent "GObject")
+  (c-name "WebKitWebInspector")
+  (gtype-id "WEBKIT_TYPE_WEB_INSPECTOR")
+)
+
+(define-object WebNavigationAction
+  (in-module "WebKit")
+  (parent "GObject")
+  (c-name "WebKitWebNavigationAction")
+  (gtype-id "WEBKIT_TYPE_WEB_NAVIGATION_ACTION")
+)
+
+(define-object WebPolicyDecision
+  (in-module "WebKit")
+  (parent "GObject")
+  (c-name "WebKitWebPolicyDecision")
+  (gtype-id "WEBKIT_TYPE_WEB_POLICY_DECISION")
+)
+
 (define-object WebSettings
   (in-module "WebKit")
   (parent "GObject")
@@ -42,7 +77,52 @@
   (gtype-id "WEBKIT_TYPE_WEB_VIEW")
 )
 
+(define-object WebWindowFeatures
+  (in-module "WebKit")
+  (parent "GObject")
+  (c-name "WebKitWebWindowFeatures")
+  (gtype-id "WEBKIT_TYPE_WEB_WINDOW_FEATURES")
+)
+
 ;; Enumerations and flags ...
+
+(define-enum DownloadStatus
+  (in-module "WebKit")
+  (c-name "WebKitDownloadStatus")
+  (gtype-id "WEBKIT_TYPE_DOWNLOAD_STATUS")
+  (values
+    '("error" "WEBKIT_DOWNLOAD_STATUS_ERROR")
+    '("created" "WEBKIT_DOWNLOAD_STATUS_CREATED")
+    '("started" "WEBKIT_DOWNLOAD_STATUS_STARTED")
+    '("cancelled" "WEBKIT_DOWNLOAD_STATUS_CANCELLED")
+    '("finished" "WEBKIT_DOWNLOAD_STATUS_FINISHED")
+  )
+)
+
+(define-enum DownloadError
+  (in-module "WebKit")
+  (c-name "WebKitDownloadError")
+  (gtype-id "WEBKIT_TYPE_DOWNLOAD_ERROR")
+  (values
+    '("cancelled-by-user" "WEBKIT_DOWNLOAD_ERROR_CANCELLED_BY_USER")
+    '("destination" "WEBKIT_DOWNLOAD_ERROR_DESTINATION")
+    '("network" "WEBKIT_DOWNLOAD_ERROR_NETWORK")
+  )
+)
+
+(define-enum WebNavigationReason
+  (in-module "WebKit")
+  (c-name "WebKitWebNavigationReason")
+  (gtype-id "WEBKIT_TYPE_WEB_NAVIGATION_REASON")
+  (values
+    '("link-clicked" "WEBKIT_WEB_NAVIGATION_REASON_LINK_CLICKED")
+    '("form-submitted" "WEBKIT_WEB_NAVIGATION_REASON_FORM_SUBMITTED")
+    '("back-forward" "WEBKIT_WEB_NAVIGATION_REASON_BACK_FORWARD")
+    '("reload" "WEBKIT_WEB_NAVIGATION_REASON_RELOAD")
+    '("form-resubmitted" "WEBKIT_WEB_NAVIGATION_REASON_FORM_RESUBMITTED")
+    '("other" "WEBKIT_WEB_NAVIGATION_REASON_OTHER")
+  )
+)
 
 (define-enum NavigationResponse
   (in-module "WebKit")
@@ -67,6 +147,128 @@
 
 
 ;; From webkitdefines.h
+
+
+
+;; From webkitdownload.h
+
+(define-function webkit_download_get_type
+  (c-name "webkit_download_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_download_new
+  (c-name "webkit_download_new")
+  (is-constructor-of "WebkitDownload")
+  (return-type "WebKitDownload*")
+  (parameters
+    '("WebKitNetworkRequest*" "request")
+  )
+)
+
+(define-method start
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_start")
+  (return-type "none")
+)
+
+(define-method cancel
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_cancel")
+  (return-type "none")
+)
+
+(define-method get_uri
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_get_uri")
+  (return-type "const-gchar*")
+)
+
+(define-method get_network_request
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_get_network_request")
+  (return-type "WebKitNetworkRequest*")
+)
+
+(define-method get_suggested_filename
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_get_suggested_filename")
+  (return-type "const-gchar*")
+)
+
+(define-method get_destination_uri
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_get_destination_uri")
+  (return-type "const-gchar*")
+)
+
+(define-method set_destination_uri
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_set_destination_uri")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "destination_uri")
+  )
+)
+
+(define-method get_progress
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_get_progress")
+  (return-type "gdouble")
+)
+
+(define-method get_elapsed_time
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_get_elapsed_time")
+  (return-type "gdouble")
+)
+
+(define-method get_total_size
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_get_total_size")
+  (return-type "guint64")
+)
+
+(define-method get_current_size
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_get_current_size")
+  (return-type "guint64")
+)
+
+(define-method get_status
+  (of-object "WebKitDownload")
+  (c-name "webkit_download_get_status")
+  (return-type "WebKitDownloadStatus")
+)
+
+
+
+;; From webkitenumtypes.h
+
+(define-function webkit_download_status_get_type
+  (c-name "webkit_download_status_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_download_error_get_type
+  (c-name "webkit_download_error_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_web_navigation_reason_get_type
+  (c-name "webkit_web_navigation_reason_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_navigation_response_get_type
+  (c-name "webkit_navigation_response_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_web_view_target_info_get_type
+  (c-name "webkit_web_view_target_info_get_type")
+  (return-type "GType")
+)
 
 
 
@@ -107,7 +309,41 @@
 
 
 
+;; From webkitsoupauthdialog.h
+
+(define-function webkit_soup_auth_dialog_get_type
+  (c-name "webkit_soup_auth_dialog_get_type")
+  (return-type "GType")
+)
+
+
+
 ;; From webkitversion.h
+
+(define-function webkit_major_version
+  (c-name "webkit_major_version")
+  (return-type "guint")
+)
+
+(define-function webkit_minor_version
+  (c-name "webkit_minor_version")
+  (return-type "guint")
+)
+
+(define-function webkit_micro_version
+  (c-name "webkit_micro_version")
+  (return-type "guint")
+)
+
+(define-function webkit_check_version
+  (c-name "webkit_check_version")
+  (return-type "gboolean")
+  (parameters
+    '("guint" "major")
+    '("guint" "minor")
+    '("guint" "micro")
+  )
+)
 
 
 
@@ -228,6 +464,15 @@
   )
 )
 
+(define-method add_item
+  (of-object "WebKitWebBackForwardList")
+  (c-name "webkit_web_back_forward_list_add_item")
+  (return-type "none")
+  (parameters
+    '("WebKitWebHistoryItem*" "history_item")
+  )
+)
+
 
 
 ;; From webkitwebframe.h
@@ -276,6 +521,27 @@
   (return-type "WebKitWebFrame*")
 )
 
+(define-method load_uri
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_load_uri")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "uri")
+  )
+)
+
+(define-method load_string
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_load_string")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "content")
+    '("const-gchar*" "mime_type")
+    '("const-gchar*" "encoding")
+    '("const-gchar*" "base_uri")
+  )
+)
+
 (define-method load_request
   (of-object "WebKitWebFrame")
   (c-name "webkit_web_frame_load_request")
@@ -311,6 +577,24 @@
   (c-name "webkit_web_frame_get_global_context")
   (return-type "JSGlobalContextRef")
 )
+
+(define-method print_full
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_print_full")
+  (return-type "GtkPrintOperationResult")
+  (parameters
+    '("GtkPrintOperation*" "operation")
+    '("GtkPrintOperationAction" "action")
+    '("GError**" "error")
+  )
+)
+
+(define-method print
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_print")
+  (return-type "none")
+)
+
 
 
 ;; From webkitwebhistoryitem.h
@@ -375,6 +659,106 @@
 )
 
 
+
+;; From webkitwebinspector.h
+
+(define-function webkit_web_inspector_get_type
+  (c-name "webkit_web_inspector_get_type")
+  (return-type "GType")
+)
+
+(define-method get_web_view
+  (of-object "WebKitWebInspector")
+  (c-name "webkit_web_inspector_get_web_view")
+  (return-type "WebKitWebView*")
+)
+
+(define-method get_inspected_uri
+  (of-object "WebKitWebInspector")
+  (c-name "webkit_web_inspector_get_inspected_uri")
+  (return-type "const-gchar*")
+)
+
+
+
+;; From webkitwebnavigationaction.h
+
+(define-function webkit_web_navigation_action_get_type
+  (c-name "webkit_web_navigation_action_get_type")
+  (return-type "GType")
+)
+
+(define-method get_reason
+  (of-object "WebKitWebNavigationAction")
+  (c-name "webkit_web_navigation_action_get_reason")
+  (return-type "WebKitWebNavigationReason")
+)
+
+(define-method set_reason
+  (of-object "WebKitWebNavigationAction")
+  (c-name "webkit_web_navigation_action_set_reason")
+  (return-type "none")
+  (parameters
+    '("WebKitWebNavigationReason" "reason")
+  )
+)
+
+(define-method get_original_uri
+  (of-object "WebKitWebNavigationAction")
+  (c-name "webkit_web_navigation_action_get_original_uri")
+  (return-type "const-gchar*")
+)
+
+(define-method set_original_uri
+  (of-object "WebKitWebNavigationAction")
+  (c-name "webkit_web_navigation_action_set_original_uri")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "originalUri")
+  )
+)
+
+(define-method get_button
+  (of-object "WebKitWebNavigationAction")
+  (c-name "webkit_web_navigation_action_get_button")
+  (return-type "gint")
+)
+
+(define-method get_modifier_state
+  (of-object "WebKitWebNavigationAction")
+  (c-name "webkit_web_navigation_action_get_modifier_state")
+  (return-type "gint")
+)
+
+
+
+;; From webkitwebpolicydecision.h
+
+(define-function webkit_web_policy_decision_get_type
+  (c-name "webkit_web_policy_decision_get_type")
+  (return-type "GType")
+)
+
+(define-method use
+  (of-object "WebKitWebPolicyDecision")
+  (c-name "webkit_web_policy_decision_use")
+  (return-type "none")
+)
+
+(define-method ignore
+  (of-object "WebKitWebPolicyDecision")
+  (c-name "webkit_web_policy_decision_ignore")
+  (return-type "none")
+)
+
+(define-method download
+  (of-object "WebKitWebPolicyDecision")
+  (c-name "webkit_web_policy_decision_download")
+  (return-type "none")
+)
+
+
+
 ;; From webkitwebsettings.h
 
 (define-function webkit_web_settings_get_type
@@ -395,6 +779,7 @@
 )
 
 
+
 ;; From webkitwebview.h
 
 (define-function webkit_web_view_get_type
@@ -406,6 +791,18 @@
   (c-name "webkit_web_view_new")
   (is-constructor-of "WebkitWebView")
   (return-type "GtkWidget*")
+)
+
+(define-method get_title
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_get_title")
+  (return-type "const-gchar*")
+)
+
+(define-method get_uri
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_get_uri")
+  (return-type "const-gchar*")
 )
 
 (define-method set_maintains_back_forward_list
@@ -495,14 +892,29 @@
   (return-type "none")
 )
 
+(define-method reload_bypass_cache
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_reload_bypass_cache")
+  (return-type "none")
+)
+
+(define-method load_uri
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_load_uri")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "uri")
+  )
+)
+
 (define-method load_string
   (of-object "WebKitWebView")
   (c-name "webkit_web_view_load_string")
   (return-type "none")
   (parameters
     '("const-gchar*" "content")
-    '("const-gchar*" "content_mime_type")
-    '("const-gchar*" "content_encoding")
+    '("const-gchar*" "mime_type")
+    '("const-gchar*" "encoding")
     '("const-gchar*" "base_uri")
   )
 )
@@ -517,12 +929,21 @@
   )
 )
 
+(define-method load_request
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_load_request")
+  (return-type "none")
+  (parameters
+    '("WebKitNetworkRequest*" "request")
+  )
+)
+
 (define-method search_text
   (of-object "WebKitWebView")
   (c-name "webkit_web_view_search_text")
   (return-type "gboolean")
   (parameters
-    '("const-gchar*" "string")
+    '("const-gchar*" "text")
     '("gboolean" "case_sensitive")
     '("gboolean" "forward")
     '("gboolean" "wrap")
@@ -672,6 +1093,27 @@
   (return-type "WebKitWebSettings*")
 )
 
+(define-method get_inspector
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_get_inspector")
+  (return-type "WebKitWebInspector*")
+)
+
+(define-method get_window_features
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_get_window_features")
+  (return-type "WebKitWebWindowFeatures*")
+)
+
+(define-method can_show_mime_type
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_can_show_mime_type")
+  (return-type "gboolean")
+  (parameters
+    '("const-gchar*" "mime_type")
+  )
+)
+
 (define-method get_transparent
   (of-object "WebKitWebView")
   (c-name "webkit_web_view_get_transparent")
@@ -728,4 +1170,65 @@
     '("gboolean" "full_content_zoom")
   )
 )
+
+(define-function webkit_get_default_session
+  (c-name "webkit_get_default_session")
+  (return-type "SoupSession*")
+)
+
+(define-method get_encoding
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_get_encoding")
+  (return-type "const-gchar*")
+)
+
+(define-method set_custom_encoding
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_set_custom_encoding")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "encoding")
+  )
+)
+
+(define-method get_custom_encoding
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_get_custom_encoding")
+  (return-type "const-char*")
+)
+
+(define-method move_cursor
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_move_cursor")
+  (return-type "none")
+  (parameters
+    '("GtkMovementStep" "step")
+    '("gint" "count")
+  )
+)
+
+
+
+;; From webkitwebwindowfeatures.h
+
+(define-function webkit_web_window_features_get_type
+  (c-name "webkit_web_window_features_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_web_window_features_new
+  (c-name "webkit_web_window_features_new")
+  (is-constructor-of "WebkitWebWindowFeatures")
+  (return-type "WebKitWebWindowFeatures*")
+)
+
+(define-method equal
+  (of-object "WebKitWebWindowFeatures")
+  (c-name "webkit_web_window_features_equal")
+  (return-type "gboolean")
+  (parameters
+    '("WebKitWebWindowFeatures*" "features2")
+  )
+)
+
 

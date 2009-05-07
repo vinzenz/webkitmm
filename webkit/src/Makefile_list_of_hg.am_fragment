@@ -8,4 +8,5 @@ files_hg = \
 		   webhistoryitem.hg \
 		   networkrequest.hg \
 		   webbackforwardlist.hg \
-		   websettings.hg
+		   websettings.hg \
+		   webwindowfeatures.hg

@@ -29,6 +29,21 @@
   )
 )
 
+(define-signal create-web-view
+  (of-object "WebKitWebView")
+  (return-type "WebKitWebView*")
+  (when "last")
+  (parameters
+    '("WebKitWebFrame*" "p0")
+  )
+)
+
+(define-signal web-view-ready
+  (of-object "WebKitWebView")
+  (return-type "gboolean")
+  (when "last")
+)
+
 (define-signal navigation-requested
   (of-object "WebKitWebView")
   (return-type "WebKitNavigationResponse")
@@ -36,6 +51,42 @@
   (parameters
     '("WebKitWebFrame*" "p0")
     '("WebKitNetworkRequest*" "p1")
+  )
+)
+
+(define-signal new-window-policy-decision-requested
+  (of-object "WebKitWebView")
+  (return-type "gboolean")
+  (when "last")
+  (parameters
+    '("WebKitWebFrame*" "p0")
+    '("WebKitNetworkRequest*" "p1")
+    '("WebKitWebNavigationAction*" "p2")
+    '("WebKitWebPolicyDecision*" "p3")
+  )
+)
+
+(define-signal navigation-policy-decision-requested
+  (of-object "WebKitWebView")
+  (return-type "gboolean")
+  (when "last")
+  (parameters
+    '("WebKitWebFrame*" "p0")
+    '("WebKitNetworkRequest*" "p1")
+    '("WebKitWebNavigationAction*" "p2")
+    '("WebKitWebPolicyDecision*" "p3")
+  )
+)
+
+(define-signal mime-type-policy-decision-requested
+  (of-object "WebKitWebView")
+  (return-type "gboolean")
+  (when "last")
+  (parameters
+    '("WebKitWebFrame*" "p0")
+    '("WebKitNetworkRequest*" "p1")
+    '("const-gchar*" "p2")
+    '("WebKitWebPolicyDecision*" "p3")
   )
 )
 
@@ -47,6 +98,15 @@
     '("WebKitWebFrame*" "p0")
     '("gpointer" "p1")
     '("gpointer" "p2")
+  )
+)
+
+(define-signal download-requested
+  (of-object "WebKitWebView")
+  (return-type "gboolean")
+  (when "last")
+  (parameters
+    '("GObject*" "p0")
   )
 )
 
@@ -86,6 +146,15 @@
   )
 )
 
+(define-signal print-requested
+  (of-object "WebKitWebView")
+  (return-type "gboolean")
+  (when "last")
+  (parameters
+    '("WebKitWebFrame*" "p0")
+  )
+)
+
 (define-signal status-bar-text-changed
   (of-object "WebKitWebView")
   (return-type "void")
@@ -113,7 +182,7 @@
   (when "last")
   (parameters
     '("const-gchar*" "p0")
-    '("guint" "p1")
+    '("gint" "p1")
     '("const-gchar*" "p2")
   )
 )
@@ -135,7 +204,7 @@
   (parameters
     '("WebKitWebFrame*" "p0")
     '("const-gchar*" "p1")
-    '("gboolean*" "p2")
+    '("gpointer" "p2")
   )
 )
 
@@ -147,7 +216,7 @@
     '("WebKitWebFrame*" "p0")
     '("const-gchar*" "p1")
     '("const-gchar*" "p2")
-    '("gchar**" "p3")
+    '("gpointer" "p3")
   )
 )
 
@@ -173,6 +242,16 @@
   (of-object "WebKitWebView")
   (return-type "void")
   (when "last")
+)
+
+(define-signal move-cursor
+  (of-object "WebKitWebView")
+  (return-type "gboolean")
+  (when "last")
+  (parameters
+    '("GtkMovementStep" "p0")
+    '("gint" "p1")
+  )
 )
 
 (define-signal set-scroll-adjustments
@@ -383,6 +462,15 @@
   (construct-only #f)
 )
 
+(define-property window
+  (of-object "WebKitWebView")
+  (prop-type "GParamObject")
+  (docs "The widget's window if it is realized")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
 (define-property border-width
   (of-object "WebKitWebView")
   (prop-type "GParamUInt")
@@ -410,10 +498,28 @@
   (construct-only #f)
 )
 
+(define-property title
+  (of-object "WebKitWebView")
+  (prop-type "GParamString")
+  (docs "Returns the @web_view's document title")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property uri
+  (of-object "WebKitWebView")
+  (prop-type "GParamString")
+  (docs "Returns the current URI of the contents displayed by the @web_view")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
 (define-property copy-target-list
   (of-object "WebKitWebView")
   (prop-type "GParamBoxed")
-  (docs "The list of targets this Web view supports for copying to the clipboard")
+  (docs "The list of targets this web view supports for clipboard copying")
   (readable #t)
   (writable #f)
   (construct-only #f)
@@ -422,7 +528,7 @@
 (define-property paste-target-list
   (of-object "WebKitWebView")
   (prop-type "GParamBoxed")
-  (docs "The list of targets this Web view supports for pasting to the clipboard")
+  (docs "The list of targets this web view supports for clipboard pasting")
   (readable #t)
   (writable #f)
   (construct-only #f)
@@ -441,6 +547,24 @@
   (of-object "WebKitWebView")
   (prop-type "GParamObject")
   (docs "An associated WebKitWebSettings instance")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property web-inspector
+  (of-object "WebKitWebView")
+  (prop-type "GParamObject")
+  (docs "The associated WebKitWebInspector instance")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property window-features
+  (of-object "WebKitWebView")
+  (prop-type "GParamObject")
+  (docs "An associated WebKitWebWindowFeatures instance")
   (readable #t)
   (writable #t)
   (construct-only #f)
@@ -468,6 +592,24 @@
   (of-object "WebKitWebView")
   (prop-type "GParamBoolean")
   (docs "Whether the full content is scaled when zooming")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property encoding
+  (of-object "WebKitWebView")
+  (prop-type "GParamString")
+  (docs "The default encoding of the web view")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property custom-encoding
+  (of-object "WebKitWebView")
+  (prop-type "GParamString")
+  (docs "The custom encoding of the web view")
   (readable #t)
   (writable #t)
   (construct-only #f)
@@ -547,6 +689,51 @@
 )
 
 ;; From WebKitWebHistoryItem
+
+(define-property title
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamString")
+  (docs "The title of the history item")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property alternate-title
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamString")
+  (docs "The alternate title of the history item")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property uri
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamString")
+  (docs "The URI of the history item")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property original-uri
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamString")
+  (docs "The original URI of the history item")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property last-visited-time
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamDouble")
+  (docs "The time at which the history item was last visited")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
 
 ;; From WebKitWebSettings
 
@@ -649,6 +836,15 @@
   (construct-only #f)
 )
 
+(define-property enforce-96-dpi
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Enforce a resolution of 96 DPI")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
 (define-property auto-load-images
   (of-object "WebKitWebSettings")
   (prop-type "GParamBoolean")
@@ -716,6 +912,116 @@
   (of-object "WebKitWebSettings")
   (prop-type "GParamFloat")
   (docs "The value by which the zoom level is changed when zooming in or out.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-developer-extras
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Enables special extensions that help developers")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-private-browsing
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Enables private browsing mode")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+;; From WebKitWebWindowFeatures
+
+(define-property x
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamInt")
+  (docs "The starting x position of the window on the screen.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property y
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamInt")
+  (docs "The starting y position of the window on the screen.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property width
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamInt")
+  (docs "The width of the window on the screen.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property height
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamInt")
+  (docs "The height of the window on the screen.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property toolbar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the toolbar should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property statusbar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the statusbar should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property scrollbar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the scrollbars should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property menubar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the menubar should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property locationbar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the locationbar should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property fullscreen
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether window will be displayed fullscreen.")
   (readable #t)
   (writable #t)
   (construct-only #f)
