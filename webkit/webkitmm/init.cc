@@ -18,6 +18,7 @@
  */
 
 #include <glibmm/init.h>
+#include <glibmm/thread.h>
 #include <webkitmm/wrap_init.h>
 
 
@@ -27,6 +28,7 @@ namespace WebKit
 void init()
 {
   Glib::init(); //Sets up the g type system and the Glib::wrap() table.
+  if(!Glib::thread_supported()) Glib::thread_init();
   wrap_init(); //Tells the Glib::wrap() table about the libgnomecanvasmm classes.
 }
 

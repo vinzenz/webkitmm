@@ -122,6 +122,7 @@ AC_CHECK_PROGS(PERL, perl5 perl)
 #  Dependancy checks
 #########################################################################
 PKG_CHECK_MODULES(WEBKITMM,
+                  gthread-2.0
                   gtkmm-2.4 >= 2.10
                   webkit-1.0 >= 1.0)
 PKG_CHECK_MODULES(BROWSER_DEPS,

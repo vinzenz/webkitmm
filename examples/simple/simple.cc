@@ -24,6 +24,7 @@
 int main (int argc, char** argv)
 {
     Gtk::Main kit (argc, argv);
+    WebKit::init ();
     WebKit::WebView web_view;
     web_view.open ("http://gnome.org");
     Gtk::Window w;
