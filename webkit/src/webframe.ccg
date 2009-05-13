@@ -16,11 +16,35 @@
  * License along with this library; if not, write to the Free
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
- 
+
 #include <webkit/webkitwebframe.h>
 #include <webkitmm/webview.h>
 
 namespace WebKit
 {
+
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+Gtk::PrintOperationResult
+WebFrame::print_full(const Glib::RefPtr<Gtk::PrintOperation>& operation, Gtk::PrintOperationAction action)
+#else
+Gtk::PrintOperationResult
+WebFrame::print_full(const Glib::RefPtr<Gtk::PrintOperation>& operation, Gtk::PrintOperationAction action, std::auto_ptr<Glib::Error>& error);
+#endif //GLIBMM_EXCEPTIONS_ENABLED
+{
+  GError* gerror = 0;
+  Gtk::PrintOperationResult result;
+
+  result = Gtk::PrintOperationResult(webkit_web_frame_print_full(gobj(), operation->gobj(), GtkPrintOperationAction(action), &gerror));
+
+#ifdef GLIBMM_EXCEPTIONS_ENABLED
+  if(gerror)
+    ::Glib::Error::throw_exception(gerror);
+#else
+  if(gerror)
+    error = ::Glib::Error::throw_exception(gerror);
+#endif //GLIBMM_EXCEPTIONS_ENABLED
+
+  return result;
+}
 
 } // namespace WebKit

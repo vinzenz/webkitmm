@@ -1,4 +1,4 @@
-/* webkitmm - a C++ wrapper for webkit/gtk
+/* webview.ccg
  *
  * Copyright 2008 Jonathon Jongsma
  *
@@ -17,25 +17,10 @@
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
 
-#ifndef WEBKITMM_H
-#define WEBKITMM_H
-
-/* webkitmm version.  */
-extern const int webkitmm_major_version;
-extern const int webkitmm_minor_version;
-extern const int webkitmm_micro_version;
-
-#include <webkitmm/init.h>
-#include <webkitmm/download.h>
-#include <webkitmm/networkrequest.h>
-#include <webkitmm/webbackforwardlist.h>
-#include <webkitmm/webframe.h>
-#include <webkitmm/webhistoryitem.h>
-#include <webkitmm/webinspector.h>
-#include <webkitmm/webnavigationaction.h>
-#include <webkitmm/webpolicydecision.h>
-#include <webkitmm/websettings.h>
 #include <webkitmm/webview.h>
-#include <webkitmm/webwindowfeatures.h>
+#include <webkit/webkitwebinspector.h>
 
-#endif /* #ifndef WEBKITMM_H */
+namespace WebKit
+{
+
+} // namespace WebKit

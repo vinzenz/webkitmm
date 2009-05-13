@@ -120,6 +120,8 @@ private:
 
 int main (int argc, char** argv) {
     Gtk::Main kit (argc, argv);
+    if (!Glib::thread_supported ())
+        Glib::thread_init ();
     WebKit::init ();
     BrowserWindow w;
     if (argc > 1)

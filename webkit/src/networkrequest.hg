@@ -30,12 +30,12 @@ class NetworkRequest : public Glib::Object
   _CLASS_GOBJECT(NetworkRequest, WebKitNetworkRequest, WEBKIT_NETWORK_REQUEST, Glib::Object, GObject)
 
   protected:
-  _WRAP_CTOR(NetworkRequest(const Glib::ustring& uri), webkit_network_request_new)
+  _WRAP_CTOR(NetworkRequest(const std::string& uri), webkit_network_request_new)
   public:
-  _WRAP_CREATE(const Glib::ustring& uri)
+  _WRAP_CREATE(const std::string& uri)
 
-  _WRAP_METHOD(void set_uri(const Glib::ustring& uri), webkit_network_request_set_uri)
-  _WRAP_METHOD(Glib::ustring get_uri() const, webkit_network_request_get_uri)
+  _WRAP_METHOD(void set_uri(const std::string& uri), webkit_network_request_set_uri)
+  _WRAP_METHOD(std::string get_uri() const, webkit_network_request_get_uri)
 
   // signals
 };

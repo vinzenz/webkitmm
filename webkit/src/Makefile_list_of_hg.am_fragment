@@ -3,9 +3,14 @@
 # so it's like copy-and-pasting this into each of those Makefile.am files.
 
 files_hg = \
-		   webview.hg \
-		   webframe.hg \
-		   webhistoryitem.hg \
+			 download.hg \
 		   networkrequest.hg \
 		   webbackforwardlist.hg \
-		   websettings.hg
+		   webframe.hg \
+		   webhistoryitem.hg \
+			 webinspector.hg \
+			 webpolicydecision.hg \
+			 websettings.hg \
+		   webnavigationaction.hg	\
+		   webview.hg \
+		   webwindowfeatures.hg

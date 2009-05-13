@@ -1,4 +1,4 @@
-/* webview.ccg
+/* webview.h
  *
  * Copyright 2008 Jonathon Jongsma
  *
@@ -16,13 +16,35 @@
  * License along with this library; if not, write to the Free
  * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
  */
+ 
+_DEFS(webkitmm,webkit)
+_PINCLUDE(glibmm/private/object_p.h)
+_PINCLUDE(webkit/webkitwebview.h)
 
-#include <webkit/webkitdownload.h>
-#include <webkit/webkitwebview.h>
-#include <gtkmm/menu.h>
-#include <gtkmm/adjustment.h>
+#include <glibmm/object.h>
 
 namespace WebKit
 {
+
+class WebWindowFeatures : public Glib::Object
+{
+  _CLASS_GOBJECT(WebWindowFeatures, WebKitWebWindowFeatures, WEBKIT_WEB_WINDOW_FEATURES, Glib::Object, GObject)
+
+  public:
+  _CTOR_DEFAULT();
+
+  _WRAP_METHOD(bool equal(const Glib::RefPtr<WebWindowFeatures>& other), webkit_web_window_features_equal)
+
+  // Properties
+  _WRAP_PROPERTY("fullscreen", bool)
+  _WRAP_PROPERTY("height", int)
+  _WRAP_PROPERTY("locationbar-visible", bool)
+  _WRAP_PROPERTY("menubar-visible", bool)
+  _WRAP_PROPERTY("scrollbar-visible", bool)
+  _WRAP_PROPERTY("statusbar-visible", bool)
+  _WRAP_PROPERTY("width", int)
+  _WRAP_PROPERTY("x", int)
+  _WRAP_PROPERTY("y", int)
+};
 
 } // namespace WebKit

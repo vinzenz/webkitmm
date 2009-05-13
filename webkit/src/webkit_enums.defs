@@ -1,7 +1,97 @@
+;; From /usr/local/include/webkit-1.0/webkit/webkitdownload.h
+
+(define-enum-extended KitDownloadStatus
+  (in-module "Web")
+  (c-name "WebKitDownloadStatus")
+  (values
+    '("error" "WEBKIT_DOWNLOAD_STATUS_ERROR" "-1")
+    '("created" "WEBKIT_DOWNLOAD_STATUS_CREATED" "0")
+    '("started" "WEBKIT_DOWNLOAD_STATUS_STARTED" "1")
+    '("cancelled" "WEBKIT_DOWNLOAD_STATUS_CANCELLED" "2")
+    '("finished" "WEBKIT_DOWNLOAD_STATUS_FINISHED" "3")
+  )
+)
+
+(define-enum-extended KitDownloadError
+  (in-module "Web")
+  (c-name "WebKitDownloadError")
+  (values
+    '("cancelled-by-user" "WEBKIT_DOWNLOAD_ERROR_CANCELLED_BY_USER" "0")
+    '("destination" "WEBKIT_DOWNLOAD_ERROR_DESTINATION" "1")
+    '("network" "WEBKIT_DOWNLOAD_ERROR_NETWORK" "2")
+  )
+)
+
+;; From /usr/local/include/webkit-1.0/webkit/webkiterror.h
+
+(define-enum-extended KitNetworkError
+  (in-module "Web")
+  (c-name "WebKitNetworkError")
+  (values
+    '("failed" "WEBKIT_NETWORK_ERROR_FAILED" "399")
+    '("transport" "WEBKIT_NETWORK_ERROR_TRANSPORT" "300")
+    '("unknown-protocol" "WEBKIT_NETWORK_ERROR_UNKNOWN_PROTOCOL" "301")
+    '("cancelled" "WEBKIT_NETWORK_ERROR_CANCELLED" "302")
+    '("file-does-not-exist" "WEBKIT_NETWORK_ERROR_FILE_DOES_NOT_EXIST" "303")
+  )
+)
+
+(define-enum-extended KitPolicyError
+  (in-module "Web")
+  (c-name "WebKitPolicyError")
+  (values
+    '("failed" "WEBKIT_POLICY_ERROR_FAILED" "199")
+    '("cannot-show-mime-type" "WEBKIT_POLICY_ERROR_CANNOT_SHOW_MIME_TYPE" "100")
+    '("cannot-show-url" "WEBKIT_POLICY_ERROR_CANNOT_SHOW_URL" "101")
+    '("frame-load-interrupted-by-policy-change" "WEBKIT_POLICY_ERROR_FRAME_LOAD_INTERRUPTED_BY_POLICY_CHANGE" "102")
+    '("cannot-use-restricted-port" "WEBKIT_POLICY_ERROR_CANNOT_USE_RESTRICTED_PORT" "103")
+  )
+)
+
+(define-enum-extended KitPluginError
+  (in-module "Web")
+  (c-name "WebKitPluginError")
+  (values
+    '("failed" "WEBKIT_PLUGIN_ERROR_FAILED" "299")
+    '("cannot-find-plugin" "WEBKIT_PLUGIN_ERROR_CANNOT_FIND_PLUGIN" "200")
+    '("cannot-load-plugin" "WEBKIT_PLUGIN_ERROR_CANNOT_LOAD_PLUGIN" "201")
+    '("java-unavailable" "WEBKIT_PLUGIN_ERROR_JAVA_UNAVAILABLE" "202")
+    '("connection-cancelled" "WEBKIT_PLUGIN_ERROR_CONNECTION_CANCELLED" "203")
+    '("will-handle-load" "WEBKIT_PLUGIN_ERROR_WILL_HANDLE_LOAD" "204")
+  )
+)
+
+;; From /usr/local/include/webkit-1.0/webkit/webkitwebframe.h
+
+(define-enum-extended KitLoadStatus
+  (in-module "Web")
+  (c-name "WebKitLoadStatus")
+  (values
+    '("provisional" "WEBKIT_LOAD_PROVISIONAL" "0")
+    '("committed" "WEBKIT_LOAD_COMMITTED" "1")
+    '("finished" "WEBKIT_LOAD_FINISHED" "2")
+  )
+)
+
+;; From /usr/local/include/webkit-1.0/webkit/webkitwebnavigationaction.h
+
+(define-enum-extended KitWebNavigationReason
+  (in-module "Web")
+  (c-name "WebKitWebNavigationReason")
+  (values
+    '("link-clicked" "WEBKIT_WEB_NAVIGATION_REASON_LINK_CLICKED" "0")
+    '("form-submitted" "WEBKIT_WEB_NAVIGATION_REASON_FORM_SUBMITTED" "1")
+    '("back-forward" "WEBKIT_WEB_NAVIGATION_REASON_BACK_FORWARD" "2")
+    '("reload" "WEBKIT_WEB_NAVIGATION_REASON_RELOAD" "3")
+    '("form-resubmitted" "WEBKIT_WEB_NAVIGATION_REASON_FORM_RESUBMITTED" "4")
+    '("other" "WEBKIT_WEB_NAVIGATION_REASON_OTHER" "5")
+  )
+)
+
 ;; From /usr/local/include/webkit-1.0/webkit/webkitwebview.h
 
-(define-enum-extended NavigationResponse
-  (in-module "WebKit")
+(define-enum-extended KitNavigationResponse
+  (in-module "Web")
   (c-name "WebKitNavigationResponse")
   (values
     '("accept" "WEBKIT_NAVIGATION_RESPONSE_ACCEPT" "0")
@@ -10,10 +100,12 @@
   )
 )
 
-(define-enum-extended WebViewTargetInfo
-  (in-module "WebKit")
+(define-enum-extended KitWebViewTargetInfo
+  (in-module "Web")
   (c-name "WebKitWebViewTargetInfo")
   (values
+    '("html" "WEBKIT_WEB_VIEW_TARGET_INFO_HTML" "0")
+    '("text" "WEBKIT_WEB_VIEW_TARGET_INFO_TEXT" "1")
   )
 )
 

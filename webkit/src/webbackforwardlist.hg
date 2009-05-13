@@ -21,11 +21,12 @@ _DEFS(webkitmm,webkit)
 _PINCLUDE(glibmm/private/object_p.h)
 
 #include <glibmm/object.h>
-#include <webkitmm/webview.h>
 #include <webkitmm/webhistoryitem.h>
 
 namespace WebKit
 {
+
+class WebView;
 
 class WebBackForwardList : public Glib::Object
 {
@@ -36,6 +37,7 @@ class WebBackForwardList : public Glib::Object
   public:
   _WRAP_CREATE(WebView& web_view)
 
+  _WRAP_METHOD(void add_item(const Glib::RefPtr<WebHistoryItem>& history_item), webkit_web_back_forward_list_add_item)
   _WRAP_METHOD(void go_forward(), webkit_web_back_forward_list_go_forward)
   _WRAP_METHOD(void go_back(), webkit_web_back_forward_list_go_back)
   _WRAP_METHOD(bool contains_item(const Glib::RefPtr<WebHistoryItem>& history_item) const, webkit_web_back_forward_list_contains_item)

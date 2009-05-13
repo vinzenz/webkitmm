@@ -7,15 +7,38 @@
 #  Version and initialization
 #########################################################################
 #We use pushdef here because we can't use shell variables before AC_INIT, but we want to use a variable with AC_INIT:
-pushdef([WEBKITMM_MAJOR_VERSION],     [0])
-pushdef([WEBKITMM_MINOR_VERSION],     [9])
-pushdef([WEBKITMM_MICRO_VERSION],     [90])
+pushdef([WEBKITMM_MAJOR_VERSION],     [1])
+pushdef([WEBKITMM_MINOR_VERSION],     [1])
+pushdef([WEBKITMM_MICRO_VERSION],     [6])
 pushdef([WEBKITMM_EXTRA_VERSION],     [])
 pushdef([WEBKITMM_VERSION], WEBKITMM_MAJOR_VERSION.WEBKITMM_MINOR_VERSION.WEBKITMM_MICRO_VERSION[]WEBKITMM_EXTRA_VERSION)
+
 AC_INIT([webkitmm], WEBKITMM_VERSION, [gtkmm-list@gnome.org])
 AC_CONFIG_SRCDIR([webkit/webkitmmconfig.h.in])
-#AC_PREREQ(2.59)
+AC_CONFIG_MACRO_DIR([scripts])
 
+#########################################################################
+#  Version and initialization
+#########################################################################
+[WEBKITMM_MAJOR_VERSION]=WEBKITMM_MAJOR_VERSION
+[WEBKITMM_MINOR_VERSION]=WEBKITMM_MINOR_VERSION
+[WEBKITMM_MICRO_VERSION]=WEBKITMM_MICRO_VERSION
+[WEBKITMM_EXTRA_VERSION]=WEBKITMM_EXTRA_VERSION
+[WEBKITMM_VERSION]=WEBKITMM_VERSION
+popdef([WEBKITMM_MAJOR_VERSION])
+popdef([WEBKITMM_MINOR_VERSION])
+popdef([WEBKITMM_MICRO_VERSION])
+popdef([WEBKITMM_EXTRA_VERSION])
+popdef([WEBKITMM_VERSION])
+WEBKITMM_RELEASE=$WEBKITMM_MAJOR_VERSION.$WEBKITMM_MINOR_VERSION
+AC_DEFINE_UNQUOTED(WEBKITMM_MAJOR_VERSION, $WEBKITMM_MAJOR_VERSION, [Major version of webkitmm])
+AC_DEFINE_UNQUOTED(WEBKITMM_MINOR_VERSION, $WEBKITMM_MINOR_VERSION, [Minor version of webkitmm])
+AC_DEFINE_UNQUOTED(WEBKITMM_MICRO_VERSION, $WEBKITMM_MICRO_VERSION, [Micro version of webkitmm])
+AC_SUBST(WEBKITMM_MAJOR_VERSION)
+AC_SUBST(WEBKITMM_MINOR_VERSION)
+AC_SUBST(WEBKITMM_MICRO_VERSION)
+AC_SUBST(WEBKITMM_VERSION)
+AC_SUBST(WEBKITMM_RELEASE)
 
 #
 # +1 : ? : +1  == new interface that does not break old one
@@ -25,9 +48,6 @@ AC_CONFIG_SRCDIR([webkit/webkitmmconfig.h.in])
 #                 better
 # CURRENT : REVISION : AGE
 WEBKITMM_SO_VERSION=0:0:0
-
-AC_SUBST(WEBKITMM_VERSION)
-AC_SUBST(WEBKITMM_RELEASE)
 AC_SUBST(WEBKITMM_SO_VERSION)
 
 AC_CONFIG_AUX_DIR(scripts)
@@ -106,7 +126,7 @@ AC_CHECK_PROGS(PERL, perl5 perl)
 #########################################################################
 PKG_CHECK_MODULES(WEBKITMM,
                   gtkmm-2.4 >= 2.10
-                  webkit-1.0 >= 1.0)
+                  webkit-1.0 >= 1.1)
 AC_SUBST(WEBKITMM_CFLAGS)
 AC_SUBST(WEBKITMM_LIBS)
 

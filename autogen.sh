@@ -17,7 +17,7 @@ test -z "$srcdir" && srcdir=.
 
 PKG_NAME="webkitmm"
 
-(test -f $srcdir/configure.in \
+(test -f $srcdir/configure.ac \
   && test -d $srcdir/webkit/src \
   && test -d $srcdir/webkit/webkitmm) || {
     echo -n "**Error**: Directory "\`$srcdir\'" does not look like the"
