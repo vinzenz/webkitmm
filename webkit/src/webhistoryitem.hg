@@ -31,16 +31,16 @@ class WebHistoryItem : public Glib::Object
 
   protected:
   _CTOR_DEFAULT()
-  _WRAP_CTOR(WebHistoryItem(const Glib::ustring& uri, const Glib::ustring& title), webkit_web_history_item_new_with_data)
+  _WRAP_CTOR(WebHistoryItem(const std::string& uri, const std::string& title), webkit_web_history_item_new_with_data)
   public:
   _WRAP_CREATE()
-  _WRAP_CREATE(const Glib::ustring& uri, const Glib::ustring& title)
+  _WRAP_CREATE(const std::string& uri, const std::string& title)
 
-  _WRAP_METHOD(Glib::ustring get_title() const, webkit_web_history_item_get_title)
-  _WRAP_METHOD(Glib::ustring get_alternate_title() const, webkit_web_history_item_get_alternate_title)
-  _WRAP_METHOD(void set_alternate_title(const Glib::ustring& title), webkit_web_history_item_set_alternate_title)
-  _WRAP_METHOD(Glib::ustring get_uri() const, webkit_web_history_item_get_uri)
-  _WRAP_METHOD(Glib::ustring get_original_uri() const, webkit_web_history_item_get_original_uri)
+  _WRAP_METHOD(std::string get_title() const, webkit_web_history_item_get_title)
+  _WRAP_METHOD(std::string get_alternate_title() const, webkit_web_history_item_get_alternate_title)
+  _WRAP_METHOD(void set_alternate_title(const std::string& title), webkit_web_history_item_set_alternate_title)
+  _WRAP_METHOD(std::string get_uri() const, webkit_web_history_item_get_uri)
+  _WRAP_METHOD(std::string get_original_uri() const, webkit_web_history_item_get_original_uri)
   _WRAP_METHOD(double get_last_visited_time() const, webkit_web_history_item_get_last_visited_time)
 
   // signals

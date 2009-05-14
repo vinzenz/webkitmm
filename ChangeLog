@@ -1,1 +1,35 @@
+2009-05-13  Siavash Safi  <siavash@siavashs.org>
+
+	* .gitignore:
+	* autogen.sh:
+	* configure.ac: Renamed from configure.in
+	* examples/browser/browser.cc:
+	* examples/simple/simple.cc: Add Glib::thread_init()
+	* tools/extra_defs_gen/generate_defs_webkit.cc:
+	* tools/m4/convert_webkitmm.m4:
+	* webkit/src/Makefile.am:
+	* webkit/src/Makefile_list_of_hg.am_fragment:
+	* webkit/src/download.ccg:
+	* webkit/src/download.hg:
+	* webkit/src/networkrequest.hg:
+	* webkit/src/webbackforwardlist.ccg:
+	* webkit/src/webbackforwardlist.hg:
+	* webkit/src/webframe.ccg:
+	* webkit/src/webframe.hg:
+	* webkit/src/webhistoryitem.hg:
+	* webkit/src/webinspector.ccg:
+	* webkit/src/webinspector.hg:
+	* webkit/src/webkit_docs_override.xml:
+	* webkit/src/webkit_enums.defs:
+	* webkit/src/webkit_methods.defs:
+	* webkit/src/webkit_signals.defs:
+	* webkit/src/webnavigationaction.ccg:
+	* webkit/src/webnavigationaction.hg:
+	* webkit/src/webpolicydecision.ccg:
+	* webkit/src/webpolicydecision.hg:
+	* webkit/src/webview.ccg:
+	* webkit/src/webview.hg:
+	* webkit/src/webwindowfeatures.ccg:
+	* webkit/src/webwindowfeatures.hg: Wrapped the new API, updated the old API
+	* webkit/webkitmm.h:
 

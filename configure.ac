@@ -18,13 +18,14 @@
 
 dnl We use define() here because we can't use shell variables before AC_INIT, but
 dnl we want to use a variable with AC_INIT:
-define([WEBKITMM_MAJOR_VERSION],     [0])
-define([WEBKITMM_MINOR_VERSION],     [9])
-define([WEBKITMM_MICRO_VERSION],     [90])
+define([WEBKITMM_MAJOR_VERSION],     [1])
+define([WEBKITMM_MINOR_VERSION],     [1])
+define([WEBKITMM_MICRO_VERSION],     [6])
 define([WEBKITMM_EXTRA_VERSION],     [])
 define([WEBKITMM_VERSION], WEBKITMM_MAJOR_VERSION.WEBKITMM_MINOR_VERSION.WEBKITMM_MICRO_VERSION[]WEBKITMM_EXTRA_VERSION)
 AC_INIT([webkitmm], WEBKITMM_VERSION, [gtkmm-list@gnome.org])
 AC_CONFIG_SRCDIR([webkit/webkitmmconfig.h.in])
+AC_CONFIG_MACRO_DIR([scripts])
 
 # +1 : ? : +1  == new interface that does not break old one
 # +1 : ? : 0   == new interface that breaks old one
@@ -35,7 +36,7 @@ AC_CONFIG_SRCDIR([webkit/webkitmmconfig.h.in])
 WEBKITMM_SO_VERSION=0:0:0
 AC_SUBST(WEBKITMM_SO_VERSION)
 
-dnl Add to the config.h header
+dnl Add to the config.h header.  This double-quoting seems like a nasty hack, but it gets the job done
 AC_DEFINE_UNQUOTED([[WEBKITMM_MAJOR_VERSION]], WEBKITMM_MAJOR_VERSION, [Major version of webkitmm])
 AC_DEFINE_UNQUOTED([[WEBKITMM_MINOR_VERSION]], WEBKITMM_MINOR_VERSION, [Minor version of webkitmm])
 AC_DEFINE_UNQUOTED([[WEBKITMM_MICRO_VERSION]], WEBKITMM_MICRO_VERSION, [Micro version of webkitmm])
@@ -124,7 +125,7 @@ AC_CHECK_PROGS(PERL, perl5 perl)
 PKG_CHECK_MODULES(WEBKITMM,
                   gthread-2.0
                   gtkmm-2.4 >= 2.10
-                  webkit-1.0 >= 1.0)
+                  webkit-1.0 >= 1.1.6)
 PKG_CHECK_MODULES(BROWSER_DEPS,
                   [glibmm-2.4 >= 2.16],
                   BUILD_BROWSER=yes,

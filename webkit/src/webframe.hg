@@ -21,14 +21,17 @@ _DEFS(webkitmm,webkit)
 _PINCLUDE(glibmm/private/object_p.h)
 
 #include <glibmm/object.h>
+#include <webkitmm/networkrequest.h>
 #include <gtkmm/printoperation.h>
-#include <JavaScriptCore/JSContextRef.h>
+
+#include <JavaScriptCore/JSBase.h>
 
 namespace WebKit
 {
 
+_WRAP_ENUM(LoadStatus, WebKitLoadStatus, NO_GTYPE)
+
 class WebView;
-class NetworkRequest;
 
 class WebFrame : public Glib::Object
 {
@@ -39,39 +42,47 @@ class WebFrame : public Glib::Object
   public:
   _WRAP_CREATE(WebView& web_view)
 
-  _WRAP_METHOD(WebView& get_web_view(), webkit_web_frame_get_web_view)
-  _WRAP_METHOD(const WebView& get_web_view() const, webkit_web_frame_get_web_view, constversion)
-  _WRAP_METHOD(Glib::ustring get_name() const, webkit_web_frame_get_name)
-  _WRAP_METHOD(Glib::ustring get_title() const, webkit_web_frame_get_title)
-  _WRAP_METHOD(Glib::ustring get_uri() const, webkit_web_frame_get_uri)
+  _WRAP_METHOD(Glib::RefPtr<WebFrame> find_frame(const std::string& name), webkit_web_frame_find_frame)
+  _WRAP_METHOD(Glib::RefPtr<const WebFrame> find_frame(const std::string& name) const, webkit_web_frame_find_frame, constversion)
+  _WRAP_METHOD(JSGlobalContextRef get_global_context() const, webkit_web_frame_get_global_context)
+  // 1.1.7 API
+  //_WRAP_METHOD(LoadStatus get_load_status() const, webkit_web_frame_get_load_status)
+  _WRAP_METHOD(std::string get_name() const, webkit_web_frame_get_name)
   _WRAP_METHOD(Glib::RefPtr<WebFrame> get_parent(), webkit_web_frame_get_parent)
   _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_parent() const, webkit_web_frame_get_parent, constversion)
+  _WRAP_METHOD(std::string get_title() const, webkit_web_frame_get_title)
+  _WRAP_METHOD(std::string get_uri() const, webkit_web_frame_get_uri)
+  _WRAP_METHOD(WebView& get_web_view(), webkit_web_frame_get_web_view)
+  _WRAP_METHOD(const WebView& get_web_view() const, webkit_web_frame_get_web_view, constversion)
+  _WRAP_METHOD(void load_alternate_string(const std::string& content, const std::string& base_url, const std::string& unreachable_url), webkit_web_frame_load_alternate_string)
   _WRAP_METHOD(void load_request(const Glib::RefPtr<NetworkRequest>& request), webkit_web_frame_load_request)
+  // TODO add overloads for possible NULL mime_type / encoding?
+  _WRAP_METHOD(void load_string(const std::string& content, const std::string& mime_type, const std::string& encoding, const std::string& base_uri), webkit_web_frame_load_string)
+  _WRAP_METHOD(void load_uri(const std::string& base_uri), webkit_web_frame_load_uri)
+  _WRAP_METHOD(void print(), webkit_web_frame_print)
+  #ifdef GLIBMM_EXCEPTIONS_ENABLED
+  Gtk::PrintOperationResult print_full(const Glib::RefPtr<Gtk::PrintOperation>& operation, Gtk::PrintOperationAction action);
+  #else
+  Gtk::PrintOperationResult print_full(const Glib::RefPtr<Gtk::PrintOperation>& operation, Gtk::PrintOperationAction action, std::auto_ptr<Glib::Error>& error);
+  #endif //GLIBMM_EXCEPTIONS_ENABLED
   _WRAP_METHOD(void stop_loading(), webkit_web_frame_stop_loading)
   _WRAP_METHOD(void reload(), webkit_web_frame_reload)
   _WRAP_METHOD(Glib::RefPtr<WebFrame> find_frame(const Glib::ustring& name), webkit_web_frame_find_frame)
   _WRAP_METHOD(Glib::RefPtr<const WebFrame> find_frame(const Glib::ustring& name) const, webkit_web_frame_find_frame, constversion)
-  // don't bother wrapping jscore stuff
-  _WRAP_METHOD(JSGlobalContextRef get_global_context(), webkit_web_frame_get_global_context)
-  _WRAP_METHOD(void load_uri(const Glib::ustring& uri), webkit_web_frame_load_uri)
-  // TODO add overloads for possible NULL mime_type / encoding?
-  _WRAP_METHOD(void load_string(const Glib::ustring& content, const Glib::ustring& mime_type, const Glib::ustring& encoding, const Glib::ustring& base_uri), webkit_web_frame_load_string)
-  _WRAP_METHOD(void print(), webkit_web_frame_print)
-#m4 _CONVERSION(`const Glib::RefPtr<Gtk::PrintOperation>&',`GtkPrintOperation*',__CONVERT_REFPTR_TO_P)
-  _WRAP_METHOD(void print_full(const Glib::RefPtr<Gtk::PrintOperation>& operation, Gtk::PrintOperationAction action), webkit_web_frame_print_full, errthrow)
+
+  _IGNORE(webkit_web_frame_print_full)
 
   // signals
   _WRAP_SIGNAL(void cleared(), "cleared", no_default_handler)
   _WRAP_SIGNAL(void load_committed(), "load-committed", no_default_handler)
   _WRAP_SIGNAL(void load_done(bool), "load-done", no_default_handler)
-#m4 _CONVERSION(`const gchar*', `const Glib::ustring&',__GCHARP_TO_USTRING)
-  _WRAP_SIGNAL(void title_changed(const Glib::ustring& title), "title-changed", no_default_handler)
-  _WRAP_SIGNAL(void hovering_over_link(const Glib::ustring& a, const Glib::ustring& b), "hovering-over-link", no_default_handler)
+  _WRAP_SIGNAL(void title_changed(const std::string& title), "title-changed", no_default_handler)
+  _WRAP_SIGNAL(void hovering_over_link(const std::string& a, const std::string& b), "hovering-over-link", no_default_handler)
 
   // properties
-  _WRAP_PROPERTY("name", Glib::ustring)
-  _WRAP_PROPERTY("title", Glib::ustring)
-  _WRAP_PROPERTY("uri", Glib::ustring)
+  _WRAP_PROPERTY("name", std::string)
+  _WRAP_PROPERTY("title", std::string)
+  _WRAP_PROPERTY("uri", std::string)
 };
 
 } // namespace WebKit

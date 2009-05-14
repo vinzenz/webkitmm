@@ -22,9 +22,18 @@ _PINCLUDE(gtkmm/private/container_p.h)
 _PINCLUDE(webkit/webkitwebview.h)
 
 #include <gtkmm/container.h>
-#include <webkitmm/webframe.h>
+#include <webkitmm/download.h>
 #include <webkitmm/networkrequest.h>
+#include <webkitmm/webbackforwardlist.h>
+#include <webkitmm/webframe.h>
+#include <webkitmm/webhistoryitem.h>
+#include <webkitmm/webinspector.h>
+#include <webkitmm/webnavigationaction.h>
+#include <webkitmm/webpolicydecision.h>
+#include <webkitmm/websettings.h>
 #include <webkitmm/webwindowfeatures.h>
+
+#include <JavaScriptCore/JSBase.h>
 
 namespace Gtk
 {
@@ -34,11 +43,8 @@ class Menu;
 
 namespace WebKit
 {
-_WRAP_ENUM(NavigationResponse, WebKitNavigationResponse, NO_GTYPE)
 
-class WebSettings;
-class WebBackForwardList;
-class WebHistoryItem;
+_WRAP_ENUM(NavigationResponse, WebKitNavigationResponse, NO_GTYPE)
 
 class WebView : public Gtk::Container
 {
@@ -49,109 +55,124 @@ class WebView : public Gtk::Container
   _WRAP_ENUM(TargetInfo, WebKitWebViewTargetInfo, NO_GTYPE)
 
   _CTOR_DEFAULT();
-  _WRAP_METHOD(void set_maintains_back_forward_list(bool flag=true), webkit_web_view_set_maintains_back_forward_list);
 
+  _WRAP_METHOD(bool can_copy_clipboard() const, webkit_web_view_can_copy_clipboard)
+  _WRAP_METHOD(bool can_cut_clipboard() const, webkit_web_view_can_cut_clipboard)
+  _WRAP_METHOD(bool can_go_back() const, webkit_web_view_can_go_back)
+  _WRAP_METHOD(bool can_go_back_or_forward(int steps) const, webkit_web_view_can_go_back_or_forward)
+  _WRAP_METHOD(bool can_go_forward() const, webkit_web_view_can_go_forward)
+  _WRAP_METHOD(bool can_paste_clipboard() const, webkit_web_view_can_paste_clipboard)
+  _WRAP_METHOD(bool can_show_mime_type(const std::string& mime_type) const, webkit_web_view_can_show_mime_type)
+  _WRAP_METHOD(void copy_clipboard(), webkit_web_view_copy_clipboard)
+  _WRAP_METHOD(void cut_clipboard(), webkit_web_view_cut_clipboard)
+  _WRAP_METHOD(void delete_selection(), webkit_web_view_delete_selection)
+  _WRAP_METHOD(void execute_script(const std::string& script), webkit_web_view_execute_script)
   _WRAP_METHOD(Glib::RefPtr<WebBackForwardList> get_back_forward_list(), webkit_web_view_get_back_forward_list)
   _WRAP_METHOD(Glib::RefPtr<const WebBackForwardList> get_back_forward_list() const, webkit_web_view_get_back_forward_list, constversion)
-  _WRAP_METHOD(bool go_to_back_forward_item(const Glib::RefPtr<WebHistoryItem>& item), webkit_web_view_go_to_back_forward_item)
-  _WRAP_METHOD(bool can_go_back() const, webkit_web_view_can_go_back)
-  _WRAP_METHOD(bool can_go_back_or_forward (int steps) const, webkit_web_view_can_go_back_or_forward)
-  _WRAP_METHOD(bool can_go_forward () const, webkit_web_view_can_go_forward)
-  _WRAP_METHOD(void go_back (), webkit_web_view_go_back)
-  _WRAP_METHOD(void go_back_or_forward (int steps), webkit_web_view_go_back_or_forward)
-  _WRAP_METHOD(void go_forward (), webkit_web_view_go_forward)
-  _WRAP_METHOD(void stop_loading (), webkit_web_view_stop_loading)
-  _WRAP_METHOD(void open (const Glib::ustring& uri), webkit_web_view_open)
-  _WRAP_METHOD(void reload(), webkit_web_view_reload)
-  _WRAP_METHOD(void reload_bypass_cache(), webkit_web_view_reload_bypass_cache)
-  //TODO: double-check std::string vs Glib::ustring
-  _WRAP_METHOD(void load_string (const std::string& content, const Glib::ustring& content_mime_type, const Glib::ustring& content_encoding, const Glib::ustring& base_uri), webkit_web_view_load_string)
-  _WRAP_METHOD(void load_html_string (const Glib::ustring& content, const Glib::ustring& base_uri), webkit_web_view_load_html_string)
-  _WRAP_METHOD(bool search_text (const Glib::ustring& string, bool case_sensitive, bool forward, bool wrap), webkit_web_view_search_text)
-  _WRAP_METHOD(guint mark_text_matches (const Glib::ustring& string, bool case_sensitive, guint limit), webkit_web_view_mark_text_matches)
-  _WRAP_METHOD(void set_highlight_text_matches (bool highlight=true), webkit_web_view_set_highlight_text_matches)
-  _WRAP_METHOD(void unmark_text_matches(), webkit_web_view_unmark_text_matches)
-  _WRAP_METHOD(Glib::RefPtr<WebFrame> get_main_frame(), webkit_web_view_get_main_frame)
-  _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_main_frame() const, webkit_web_view_get_main_frame, constversion)
-  _WRAP_METHOD(Glib::RefPtr<WebFrame> get_focused_frame(), webkit_web_view_get_focused_frame)
-  _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_focused_frame() const, webkit_web_view_get_focused_frame, constversion)
-  _WRAP_METHOD(void execute_script(const Glib::ustring& script), webkit_web_view_execute_script)
-  _WRAP_METHOD(bool can_cut_clipboard () const, webkit_web_view_can_cut_clipboard);
-  _WRAP_METHOD(bool can_copy_clipboard () const, webkit_web_view_can_copy_clipboard);
-  _WRAP_METHOD(bool can_paste_clipboard () const, webkit_web_view_can_paste_clipboard)
-  _WRAP_METHOD(void cut_clipboard (), webkit_web_view_cut_clipboard)
-  _WRAP_METHOD(void copy_clipboard (), webkit_web_view_copy_clipboard)
-  _WRAP_METHOD(void paste_clipboard (), webkit_web_view_paste_clipboard)
-  _WRAP_METHOD(void delete_selection (), webkit_web_view_delete_selection)
-  _WRAP_METHOD(bool has_selection () const, webkit_web_view_has_selection)
-  _WRAP_METHOD(void select_all (), webkit_web_view_select_all)
-  _WRAP_METHOD(bool get_editable () const, webkit_web_view_get_editable)
-  _WRAP_METHOD(void set_editable (bool flag=true), webkit_web_view_set_editable)
   _WRAP_METHOD(Glib::RefPtr<Gtk::TargetList> get_copy_target_list(), webkit_web_view_get_copy_target_list)
   _WRAP_METHOD(Glib::RefPtr<const Gtk::TargetList> get_copy_target_list() const, webkit_web_view_get_copy_target_list, constversion)
+  _WRAP_METHOD(std::string get_custom_encoding() const, webkit_web_view_get_custom_encoding)
+  _WRAP_METHOD(bool get_editable() const, webkit_web_view_get_editable)
+  _WRAP_METHOD(std::string get_encoding() const, webkit_web_view_get_encoding)
+  _WRAP_METHOD(Glib::RefPtr<WebFrame> get_focused_frame(), webkit_web_view_get_focused_frame)
+  _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_focused_frame() const, webkit_web_view_get_focused_frame, constversion)
+  _WRAP_METHOD(bool get_full_content_zoom() const, webkit_web_view_get_full_content_zoom)
+  _WRAP_METHOD(Glib::RefPtr<WebInspector> get_inspector(), webkit_web_view_get_inspector)
+  _WRAP_METHOD(Glib::RefPtr<const WebInspector> get_inspector() const, webkit_web_view_get_inspector, constversion)
+  _WRAP_METHOD(Glib::RefPtr<WebFrame> get_main_frame(), webkit_web_view_get_main_frame)
+  _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_main_frame() const, webkit_web_view_get_main_frame, constversion)
   _WRAP_METHOD(Glib::RefPtr<Gtk::TargetList> get_paste_target_list(), webkit_web_view_get_paste_target_list)
   _WRAP_METHOD(Glib::RefPtr<const Gtk::TargetList> get_paste_target_list() const, webkit_web_view_get_paste_target_list, constversion)
-  _WRAP_METHOD(void set_settings(const Glib::RefPtr<WebSettings>& settings), webkit_web_view_set_settings)
   _WRAP_METHOD(Glib::RefPtr<WebSettings> get_settings(), webkit_web_view_get_settings)
   _WRAP_METHOD(Glib::RefPtr<const WebSettings> get_settings() const, webkit_web_view_get_settings, constversion)
-  _WRAP_METHOD(bool get_transparent () const, webkit_web_view_get_transparent)
-  _WRAP_METHOD(void set_transparent (bool flag=true), webkit_web_view_set_transparent)
-  _WRAP_METHOD(float get_zoom_level () const, webkit_web_view_get_zoom_level)
-  _WRAP_METHOD(void set_zoom_level (float zoom_level), webkit_web_view_set_zoom_level)
-  _WRAP_METHOD(void zoom_in (), webkit_web_view_zoom_in)
-  _WRAP_METHOD(void zoom_out (), webkit_web_view_zoom_out)
-  _WRAP_METHOD(bool get_full_content_zoom () const, webkit_web_view_get_full_content_zoom)
-  _WRAP_METHOD(void set_full_content_zoom (bool full_content_zoom=true), webkit_web_view_set_full_content_zoom)
-  _WRAP_METHOD(Glib::RefPtr<WebWindowFeatures> get_window_features() const, webkit_web_view_get_window_features);
-  _WRAP_METHOD(void move_cursor(Gtk::MovementStep step, int count), webkit_web_view_move_cursor)
-  _WRAP_METHOD(Glib::ustring get_title() const, webkit_web_view_get_title)
-  _WRAP_METHOD(bool can_show_mime_type(const Glib::ustring& mime_type), webkit_web_view_can_show_mime_type)
-  _WRAP_METHOD(Glib::ustring get_custom_encoding() const, webkit_web_view_get_custom_encoding)
-  _WRAP_METHOD(Glib::ustring get_uri() const, webkit_web_view_get_uri)
-  _WRAP_METHOD(Glib::ustring get_encoding() const, webkit_web_view_get_encoding)
-  // _WRAP_METHOD get_inspector() when inspector is wrapped
-  _WRAP_METHOD(void set_custom_encoding(const Glib::ustring& encoding), webkit_web_view_set_custom_encoding)
+  _WRAP_METHOD(std::string get_title() const, webkit_web_view_get_title)
+  _WRAP_METHOD(bool get_transparent() const, webkit_web_view_get_transparent)
+  _WRAP_METHOD(std::string get_uri() const, webkit_web_view_get_uri)
+  _WRAP_METHOD(float get_zoom_level() const, webkit_web_view_get_zoom_level)
+  _WRAP_METHOD(void go_back(), webkit_web_view_go_back)
+  _WRAP_METHOD(void go_back_or_forward(int steps), webkit_web_view_go_back_or_forward)
+  _WRAP_METHOD(void go_forward(), webkit_web_view_go_forward)
+  _WRAP_METHOD(bool go_to_back_forward_item(const Glib::RefPtr<WebHistoryItem>& item), webkit_web_view_go_to_back_forward_item)
+  _WRAP_METHOD(bool has_selection() const, webkit_web_view_has_selection)
+  _WRAP_METHOD(void load_html_string(const std::string& content, const std::string& base_uri), webkit_web_view_load_html_string)
   _WRAP_METHOD(void load_request(const Glib::RefPtr<NetworkRequest>& request), webkit_web_view_load_request)
-  _WRAP_METHOD(void load_uri(const Glib::ustring& uri), webkit_web_view_load_uri)
+  _WRAP_METHOD(void load_string(const std::string& content, const std::string& mime_type, const std::string& encoding, const std::string& base_uri), webkit_web_view_load_string)
+  _WRAP_METHOD(void load_uri(const std::string& uri), webkit_web_view_load_uri)
+  _WRAP_METHOD(guint mark_text_matches(const std::string& string, bool case_sensitive, guint limit), webkit_web_view_mark_text_matches)
+  _WRAP_METHOD(void move_cursor(Gtk::MovementStep step, int count), webkit_web_view_move_cursor)
+  _WRAP_METHOD(void open(const std::string& uri), webkit_web_view_open)
+  _WRAP_METHOD(void paste_clipboard(), webkit_web_view_paste_clipboard)
+  _WRAP_METHOD(void reload(), webkit_web_view_reload)
+  _WRAP_METHOD(void reload_bypass_cache(), webkit_web_view_reload_bypass_cache)
+  _WRAP_METHOD(bool search_text(const std::string& string, bool case_sensitive, bool forward, bool wrap), webkit_web_view_search_text)
+  _WRAP_METHOD(void select_all(), webkit_web_view_select_all)
+  _WRAP_METHOD(void set_custom_encoding(const std::string& encoding), webkit_web_view_set_custom_encoding)
+  _WRAP_METHOD(void set_editable(bool flag=true), webkit_web_view_set_editable)
+  _WRAP_METHOD(void set_full_content_zoom(bool full_content_zoom=true), webkit_web_view_set_full_content_zoom)
+  _WRAP_METHOD(void set_highlight_text_matches(bool highlight=true), webkit_web_view_set_highlight_text_matches)
+  _WRAP_METHOD(void set_maintains_back_forward_list(bool flag=true), webkit_web_view_set_maintains_back_forward_list)
+  _WRAP_METHOD(void set_settings(const Glib::RefPtr<WebSettings>& settings), webkit_web_view_set_settings)
+  _WRAP_METHOD(void set_transparent(bool flag=true), webkit_web_view_set_transparent)
+  _WRAP_METHOD(void set_zoom_level(float zoom_level), webkit_web_view_set_zoom_level)
+  _WRAP_METHOD(void stop_loading(), webkit_web_view_stop_loading)
+  _WRAP_METHOD(void unmark_text_matches(), webkit_web_view_unmark_text_matches)
+  _WRAP_METHOD(void zoom_in(), webkit_web_view_zoom_in)
+  _WRAP_METHOD(void zoom_out(), webkit_web_view_zoom_out)
+  _WRAP_METHOD(Glib::RefPtr<WebWindowFeatures> get_window_features(), webkit_web_view_get_window_features)
+  _WRAP_METHOD(Glib::RefPtr<const WebWindowFeatures> get_window_features() const, webkit_web_view_get_window_features, constversion)
+  // 1.1.7 API
+  //_WRAP_METHOD(LoadStatus get_load_status() const, webkit_web_view_get_load_status)
+  //_WRAP_METHOD(double get_progress() const, webkit_web_view_get_progress)
 
-  // signals
+  // Signals
+  _WRAP_SIGNAL(bool console_message(const std::string& message, guint line, const std::string& source_id), "console-message")
+  _WRAP_SIGNAL(void copy_clipboard(), "copy-clipboard")
+
 #m4 _CONVERSION(`WebKitWebFrame*',`const Glib::RefPtr<WebFrame>&',`Glib::wrap($3, true)')
 #m4 _CONVERSION(`WebKitNetworkRequest*',`const Glib::RefPtr<NetworkRequest>&',`Glib::wrap($3, true)')
+
+  _WRAP_SIGNAL(WebView& create_web_view(const Glib::RefPtr<WebFrame>& frame), "create-web-view")
+  _WRAP_SIGNAL(void cut_clipboard(), "cut-clipboard")
+
+#m4 _CONVERSION(`GObject*',`const Glib::RefPtr<Download>&',`Glib::wrap(WEBKIT_DOWNLOAD($3), true)')
+#m4 _CONVERSION(`const Glib::RefPtr<Download>&',`GObject*',__CONVERT_REFPTR_TO_P)
+
+  _WRAP_SIGNAL(bool download_request(const Glib::RefPtr<Download>& download), "download-requested", no_default_handler)
+  _WRAP_SIGNAL(void hovering_over_link(const std::string& title, const std::string& uri), "hovering-over-link", no_default_handler)
+  _WRAP_SIGNAL(void icon_loaded(), "icon-loaded", no_default_handler)
+  _WRAP_SIGNAL(void load_committed(const Glib::RefPtr<WebFrame>& frame), "load-committed", no_default_handler)
+  _WRAP_SIGNAL(void load_finished(const Glib::RefPtr<WebFrame>& frame), "load-finished", no_default_handler)
+  _WRAP_SIGNAL(void load_progress_changed(int progress), "load-progress-changed", no_default_handler)
+  _WRAP_SIGNAL(void load_started(const Glib::RefPtr<WebFrame>& frame), "load-started", no_default_handler)
+  _WRAP_SIGNAL(bool mime_type_policy_decision_requested(const Glib::RefPtr<WebFrame>& frame, const Glib::RefPtr<NetworkRequest>& request, const std::string& mimetype, const Glib::RefPtr<WebPolicyDecision>& policy_decision), "mime-type-policy-decision-requested", no_default_handler)
+  _WRAP_SIGNAL(bool move_cursor(Gtk::MovementStep step, int count), "move-cursor")
+  _WRAP_SIGNAL(bool navigation_policy_decision_requested(const Glib::RefPtr<WebFrame>& frame, const Glib::RefPtr<NetworkRequest>& request, const Glib::RefPtr<WebNavigationAction>& navigation_action, const Glib::RefPtr<WebPolicyDecision>& policy_decision), "navigation-policy-decision-requested", no_default_handler)
   _WRAP_SIGNAL(NavigationResponse navigation_requested(const Glib::RefPtr<WebFrame>& frame, const Glib::RefPtr<NetworkRequest>& request), "navigation-requested")
+  _WRAP_SIGNAL(bool new_window_policy_decision_requested(const Glib::RefPtr<WebFrame>& frame, const Glib::RefPtr<NetworkRequest>& request, const Glib::RefPtr<WebNavigationAction>& navigation_action, const Glib::RefPtr<WebPolicyDecision>& policy_decision), "new-window-policy-decision-requested", no_default_handler)
+  _WRAP_SIGNAL(void paste_clipboard(), "paste-clipboard")
+
+#m4 _CONVERSION(`GtkMenu*',`Gtk::Menu*',`Glib::wrap($3)')
+
+  _WRAP_SIGNAL(void populate_popup(Gtk::Menu* menu), "populate-popup", no_default_handler)
+  _WRAP_SIGNAL(bool print_requested(const Glib::RefPtr<WebFrame>& frame), "print-requested", no_default_handler)
+  _WRAP_SIGNAL(bool script_alert(const Glib::RefPtr<WebFrame>& frame, const std::string& message), "script-alert")
+
+#m4 _CONVERSION(`bool&',`gboolean*',`reinterpret_cast<gboolean*>(&$3)')
+#m4 _CONVERSION(`gboolean*',`bool&',`*reinterpret_cast<bool*>($3)')
+
+  _WRAP_SIGNAL(bool script_confirm(const Glib::RefPtr<WebFrame>& frame, const std::string& message, bool& confirmed), "script-confirm")
+  // FIXME: gchar** arg
+  _WRAP_SIGNAL(bool script_prompt(const Glib::RefPtr<WebFrame>& frame, const std::string& message, const std::string& default_value, gchar** text), "script-prompt")
+  _WRAP_SIGNAL(void select_all(), "select-all");
+  _WRAP_SIGNAL(void selection_changed(), "selection-changed", no_default_handler)
+  _WRAP_SIGNAL(void set_scroll_adjustments(Gtk::Adjustment* hadj, Gtk::Adjustment* vadj), "set-scroll-adjustments")
+  _WRAP_SIGNAL(void status_bar_text_changed(const std::string& text), "status-bar-text-changed", no_default_handler)
+  _WRAP_SIGNAL(void title_changed(const Glib::RefPtr<WebFrame>& frame, const std::string& title), "title-changed", no_default_handler)
+  _WRAP_SIGNAL(bool web_view_ready(), "web-view-ready")
+  _WRAP_SIGNAL(void window_object_cleared(const Glib::RefPtr<WebFrame>& frame, JSGlobalContextRef context, JSObjectRef window_object), "window-object-cleared", no_default_handler)
+
   //_WRAP_SIGNAL(void window_object_cleared(Glib::RefPtr<WebFrame> frame, JSGlobalContextRef context, JSObjectRef window_object), "window-object-cleared")
   //_WRAP_VFUNC(Glib::ustring choose_file(Glib::RefPtr<WebFrame> frame, const Glib::ustring& old_file), "choose-file")
-  //_WRAP_SIGNAL(bool script_alert(Glib::RefPtr<WebFrame> frame, const Glib::ustring& alert_message), "script-alert")
-// WTF are these gpointer?
-//#m4 _CONVERSION(`bool&',`gpointer',`reinterpret_cast<gpointer>(&$3)')
-//#m4 _CONVERSION(`gpointer',`bool&',`*reinterpret_cast<gpointer>($3)')
-  //_WRAP_SIGNAL(bool script_confirm(Glib::RefPtr<WebFrame> frame, const Glib::ustring& confirm_message, bool& did_confirm), "script-confirm")
-  _WRAP_SIGNAL(void select_all(), "select-all");
-  _WRAP_SIGNAL(void cut_clipboard(), "cut-clipboard");
-  _WRAP_SIGNAL(void copy_clipboard(), "copy-clipboard");
-  _WRAP_SIGNAL(void paste_clipboard(), "paste-clipboard");
-  _WRAP_SIGNAL(void icon_loaded(), "icon-loaded", no_default_handler)
-  _WRAP_SIGNAL(void load_progress_changed(int progress), "load-progress-changed", no_default_handler)
-#m4 _CONVERSION(`GtkMenu*',`Gtk::Menu*',`Glib::wrap($3)')
-  _WRAP_SIGNAL(void populate_popup(Gtk::Menu* menu), "populate-popup", no_default_handler)
-  _WRAP_SIGNAL(void load_committed(const Glib::RefPtr<WebFrame>& frame), "load-committed", no_default_handler)
-  _WRAP_SIGNAL(void status_bar_text_changed(const Glib::ustring& text), "status-bar-text-changed", no_default_handler)
-  // FIXME: argument names, gpointer arg
-  //_WRAP_SIGNAL(bool script_prompt(const Glib::RefPtr<WebFrame>& frame, const Glib::ustring& message, const Glib::ustring& default_val, gpointer c), "script-prompt")
-  // FIXME: argument names
-  _WRAP_SIGNAL(void set_scroll_adjustments(Gtk::Adjustment* adj1, Gtk::Adjustment* adj2), "set-scroll-adjustments")
-  _WRAP_SIGNAL(void selection_changed(), "selection-changed", no_default_handler)
-  _WRAP_SIGNAL(void load_started(const Glib::RefPtr<WebFrame>& frame), "load-started", no_default_handler)
-  _WRAP_SIGNAL(void load_finished(const Glib::RefPtr<WebFrame>& frame), "load-finished", no_default_handler)
-  _WRAP_SIGNAL(void hovering_over_link(const Glib::ustring& a, const Glib::ustring& b), "hovering-over-link", no_default_handler)
-  _WRAP_SIGNAL(void title_changed(const Glib::RefPtr<WebFrame>& frame, const Glib::ustring& title), "title-changed", no_default_handler)
-  // FIXME: argument names
-  //_WRAP_SIGNAL(bool console_message(const Glib::ustring& a, int b, const Glib::ustring& c), "console-message")
-  // FIXME: argument names, gpointer args
-  //_WRAP_SIGNAL(void window_object_cleared(const Glib::RefPtr<WebFrame>& frame, gpointer context, gpointer arg3), "window-object-cleared", no_default_handler)
-  _WRAP_SIGNAL(WebView* create_web_view(const Glib::RefPtr<WebFrame>& frame), "create-web-view");
-  _WRAP_SIGNAL(bool web_view_ready(), "web-view-ready");
-  _WRAP_SIGNAL(bool print_requested(const Glib::RefPtr<WebFrame>& web_frame), "print-requested", no_default_handler)
-  _WRAP_SIGNAL(bool move_cursor(Gtk::MovementStep step, int count), "move-cursor")
 
   // PROPERTIES
   // _WRAP_PROPERTY ("copy-target-list", ...)

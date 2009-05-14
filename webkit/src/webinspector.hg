@@ -1,0 +1,53 @@
+/* webview.h
+ *
+ * Copyright 2008 Jonathon Jongsma
+ *
+ * This library is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Library General Public
+ * License as published by the Free Software Foundation; either
+ * version 2 of the License, or (at your option) any later version.
+ *
+ * This library is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ * Library General Public License for more details.
+ *
+ * You should have received a copy of the GNU Library General Public
+ * License along with this library; if not, write to the Free
+ * Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
+ */
+ 
+_DEFS(webkitmm,webkit)
+_PINCLUDE(glibmm/private/object_p.h)
+
+#include <glibmm/object.h>
+
+namespace WebKit
+{
+
+class WebView;
+
+class WebInspector : public Glib::Object
+{
+  _CLASS_GOBJECT(WebInspector, WebKitWebInspector, WEBKIT_WEB_INSPECTOR, Glib::Object, GObject)
+
+public:
+  _WRAP_METHOD(std::string get_inspected_uri() const, webkit_web_inspector_get_inspected_uri)
+  _WRAP_METHOD(WebView& get_web_view(), webkit_web_inspector_get_web_view)
+  _WRAP_METHOD(const WebView& get_web_view() const, webkit_web_inspector_get_web_view, constversion)
+
+  // Signals
+  _WRAP_SIGNAL(bool attach_window(), "attach-window", no_default_handler)
+  _WRAP_SIGNAL(bool close_window(), "close-window", no_default_handler)
+  _WRAP_SIGNAL(bool detach_window(), "detach-window", no_default_handler)
+  _WRAP_SIGNAL(void finished(), "finished", no_default_handler)
+  _WRAP_SIGNAL(WebView& inspect_web_view(WebView& web_view), "inspect-web-view", no_default_handler)
+  _WRAP_SIGNAL(bool show_window(), "show-window", no_default_handler)
+
+  // Properties
+  _WRAP_PROPERTY("inspected-uri", std::string)
+  _WRAP_PROPERTY("javascript-profiling-enabled", bool)
+  _WRAP_PROPERTY("web-view", WebView&)
+};
+
+} // namespace WebKit

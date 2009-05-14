@@ -28,7 +28,12 @@ scripts/config.guess
 scripts/config.sub
 scripts/depcomp
 scripts/install-sh
+scripts/libtool.m4
 scripts/ltmain.sh
+scripts/ltoptions.m4
+scripts/ltsugar.m4
+scripts/ltversion.m4
+scripts/lt~obsolete.m4
 scripts/missing
 
 tools/extra_defs_gen/generate_extra_defs

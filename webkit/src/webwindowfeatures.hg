@@ -19,6 +19,7 @@
  
 _DEFS(webkitmm,webkit)
 _PINCLUDE(glibmm/private/object_p.h)
+_PINCLUDE(webkit/webkitwebview.h)
 
 #include <glibmm/object.h>
 
@@ -33,8 +34,10 @@ class WebWindowFeatures : public Glib::Object
   _CTOR_DEFAULT()
   public:
   _WRAP_CREATE()
-  // TODO: _equal()
 
+  _WRAP_METHOD(bool equal(const Glib::RefPtr<WebWindowFeatures>& other), webkit_web_window_features_equal)
+
+  // Properties
   _WRAP_PROPERTY("fullscreen", bool)
   _WRAP_PROPERTY("height", int)
   _WRAP_PROPERTY("locationbar-visible", bool)

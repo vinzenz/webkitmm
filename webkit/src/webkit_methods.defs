@@ -110,6 +110,57 @@
   )
 )
 
+(define-enum NetworkError
+  (in-module "WebKit")
+  (c-name "WebKitNetworkError")
+  (gtype-id "WEBKIT_TYPE_NETWORK_ERROR")
+  (values
+    '("failed" "WEBKIT_NETWORK_ERROR_FAILED")
+    '("transport" "WEBKIT_NETWORK_ERROR_TRANSPORT")
+    '("unknown-protocol" "WEBKIT_NETWORK_ERROR_UNKNOWN_PROTOCOL")
+    '("cancelled" "WEBKIT_NETWORK_ERROR_CANCELLED")
+    '("file-does-not-exist" "WEBKIT_NETWORK_ERROR_FILE_DOES_NOT_EXIST")
+  )
+)
+
+(define-enum PolicyError
+  (in-module "WebKit")
+  (c-name "WebKitPolicyError")
+  (gtype-id "WEBKIT_TYPE_POLICY_ERROR")
+  (values
+    '("failed" "WEBKIT_POLICY_ERROR_FAILED")
+    '("cannot-show-mime-type" "WEBKIT_POLICY_ERROR_CANNOT_SHOW_MIME_TYPE")
+    '("cannot-show-url" "WEBKIT_POLICY_ERROR_CANNOT_SHOW_URL")
+    '("frame-load-interrupted-by-policy-change" "WEBKIT_POLICY_ERROR_FRAME_LOAD_INTERRUPTED_BY_POLICY_CHANGE")
+    '("cannot-use-restricted-port" "WEBKIT_POLICY_ERROR_CANNOT_USE_RESTRICTED_PORT")
+  )
+)
+
+(define-enum PluginError
+  (in-module "WebKit")
+  (c-name "WebKitPluginError")
+  (gtype-id "WEBKIT_TYPE_PLUGIN_ERROR")
+  (values
+    '("failed" "WEBKIT_PLUGIN_ERROR_FAILED")
+    '("cannot-find-plugin" "WEBKIT_PLUGIN_ERROR_CANNOT_FIND_PLUGIN")
+    '("cannot-load-plugin" "WEBKIT_PLUGIN_ERROR_CANNOT_LOAD_PLUGIN")
+    '("java-unavailable" "WEBKIT_PLUGIN_ERROR_JAVA_UNAVAILABLE")
+    '("connection-cancelled" "WEBKIT_PLUGIN_ERROR_CONNECTION_CANCELLED")
+    '("will-handle-load" "WEBKIT_PLUGIN_ERROR_WILL_HANDLE_LOAD")
+  )
+)
+
+(define-enum LoadStatus
+  (in-module "WebKit")
+  (c-name "WebKitLoadStatus")
+  (gtype-id "WEBKIT_TYPE_LOAD_STATUS")
+  (values
+    '("provisional" "WEBKIT_LOAD_PROVISIONAL")
+    '("committed" "WEBKIT_LOAD_COMMITTED")
+    '("finished" "WEBKIT_LOAD_FINISHED")
+  )
+)
+
 (define-enum WebNavigationReason
   (in-module "WebKit")
   (c-name "WebKitWebNavigationReason")
@@ -144,6 +195,10 @@
     '("text" "WEBKIT_WEB_VIEW_TARGET_INFO_TEXT")
   )
 )
+
+
+;; From webkit.h
+
 
 
 ;; From webkitdefines.h
@@ -255,6 +310,26 @@
   (return-type "GType")
 )
 
+(define-function webkit_network_error_get_type
+  (c-name "webkit_network_error_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_policy_error_get_type
+  (c-name "webkit_policy_error_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_plugin_error_get_type
+  (c-name "webkit_plugin_error_get_type")
+  (return-type "GType")
+)
+
+(define-function webkit_load_status_get_type
+  (c-name "webkit_load_status_get_type")
+  (return-type "GType")
+)
+
 (define-function webkit_web_navigation_reason_get_type
   (c-name "webkit_web_navigation_reason_get_type")
   (return-type "GType")
@@ -272,7 +347,22 @@
 
 
 
-;; From webkit.h
+;; From webkiterror.h
+
+(define-function webkit_network_error_quark
+  (c-name "webkit_network_error_quark")
+  (return-type "GQuark")
+)
+
+(define-function webkit_policy_error_quark
+  (c-name "webkit_policy_error_quark")
+  (return-type "GQuark")
+)
+
+(define-function webkit_plugin_error_quark
+  (c-name "webkit_plugin_error_quark")
+  (return-type "GQuark")
+)
 
 
 
@@ -542,6 +632,17 @@
   )
 )
 
+(define-method load_alternate_string
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_load_alternate_string")
+  (return-type "none")
+  (parameters
+    '("const-gchar*" "content")
+    '("const-gchar*" "base_url")
+    '("const-gchar*" "unreachable_url")
+  )
+)
+
 (define-method load_request
   (of-object "WebKitWebFrame")
   (c-name "webkit_web_frame_load_request")
@@ -593,6 +694,12 @@
   (of-object "WebKitWebFrame")
   (c-name "webkit_web_frame_print")
   (return-type "none")
+)
+
+(define-method get_load_status
+  (of-object "WebKitWebFrame")
+  (c-name "webkit_web_frame_get_load_status")
+  (return-type "WebKitLoadStatus")
 )
 
 
@@ -1205,6 +1312,18 @@
     '("GtkMovementStep" "step")
     '("gint" "count")
   )
+)
+
+(define-method get_load_status
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_get_load_status")
+  (return-type "WebKitLoadStatus")
+)
+
+(define-method get_progress
+  (of-object "WebKitWebView")
+  (c-name "webkit_web_view_get_progress")
+  (return-type "gdouble")
 )
 
 

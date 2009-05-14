@@ -1,26 +1,113 @@
-;; From WebKitWebView
+;; From WebKitDownload
 
-(define-signal load-committed
-  (of-object "WebKitWebView")
-  (return-type "void")
+(define-signal error
+  (of-object "WebKitDownload")
+  (return-type "gboolean")
   (when "last")
   (parameters
-    '("WebKitWebFrame*" "p0")
+    '("gint" "p0")
+    '("gint" "p1")
+    '("const-gchar*" "p2")
   )
 )
 
+(define-property network-request
+  (of-object "WebKitDownload")
+  (prop-type "GParamObject")
+  (docs "The network request for the URI that should be downloaded")
+  (readable #t)
+  (writable #t)
+  (construct-only #t)
+)
+
+(define-property destination-uri
+  (of-object "WebKitDownload")
+  (prop-type "GParamString")
+  (docs "The destination URI where to save the file")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property suggested-filename
+  (of-object "WebKitDownload")
+  (prop-type "GParamString")
+  (docs "The filename suggested as default when saving")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property progress
+  (of-object "WebKitDownload")
+  (prop-type "GParamDouble")
+  (docs "Determines the current progress of the download")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property status
+  (of-object "WebKitDownload")
+  (prop-type "GParamEnum")
+  (docs "Determines the current status of the download")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property total-size
+  (of-object "WebKitDownload")
+  (prop-type "GParamUInt64")
+  (docs "The total size of the file")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property current-size
+  (of-object "WebKitDownload")
+  (prop-type "GParamUInt64")
+  (docs "The length of the data already downloaded")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+;; From WebKitNetworkRequest
+
+;; From WebKitSoupAuthDialog
+
+(define-signal current-toplevel
+  (of-object "WebKitSoupAuthDialog")
+  (return-type "GtkWidget*")
+  (when "last")
+  (parameters
+    '("SoupMessage*" "p0")
+  )
+)
+
+;; From WebKitWebBackForwardList
+
+;; From WebKitWebFrame
+
+(define-signal load-committed
+  (of-object "WebKitWebFrame")
+  (return-type "void")
+  (when "last")
+)
+
 (define-signal title-changed
-  (of-object "WebKitWebView")
+  (of-object "WebKitWebFrame")
   (return-type "void")
   (when "last")
   (parameters
-    '("WebKitWebFrame*" "p0")
-    '("const-gchar*" "p1")
+    '("const-gchar*" "p0")
   )
 )
 
 (define-signal hovering-over-link
-  (of-object "WebKitWebView")
+  (of-object "WebKitWebFrame")
   (return-type "void")
   (when "last")
   (parameters
@@ -28,6 +115,497 @@
     '("const-gchar*" "p1")
   )
 )
+
+(define-signal cleared
+  (of-object "WebKitWebFrame")
+  (return-type "void")
+  (when "last")
+)
+
+(define-signal load-done
+  (of-object "WebKitWebFrame")
+  (return-type "void")
+  (when "last")
+  (parameters
+    '("gboolean" "p0")
+  )
+)
+
+(define-property name
+  (of-object "WebKitWebFrame")
+  (prop-type "GParamString")
+  (docs "The name of the frame")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property title
+  (of-object "WebKitWebFrame")
+  (prop-type "GParamString")
+  (docs "The document title of the frame")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property uri
+  (of-object "WebKitWebFrame")
+  (prop-type "GParamString")
+  (docs "The current URI of the contents displayed by the frame")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+;; From WebKitWebHistoryItem
+
+(define-property title
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamString")
+  (docs "The title of the history item")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property alternate-title
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamString")
+  (docs "The alternate title of the history item")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property uri
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamString")
+  (docs "The URI of the history item")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property original-uri
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamString")
+  (docs "The original URI of the history item")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property last-visited-time
+  (of-object "WebKitWebHistoryItem")
+  (prop-type "GParamDouble")
+  (docs "The time at which the history item was last visited")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+;; From WebKitWebInspector
+
+(define-signal inspect-web-view
+  (of-object "WebKitWebInspector")
+  (return-type "WebKitWebView*")
+  (when "last")
+  (parameters
+    '("WebKitWebView*" "p0")
+  )
+)
+
+(define-signal show-window
+  (of-object "WebKitWebInspector")
+  (return-type "gboolean")
+  (when "last")
+)
+
+(define-signal attach-window
+  (of-object "WebKitWebInspector")
+  (return-type "gboolean")
+  (when "last")
+)
+
+(define-signal detach-window
+  (of-object "WebKitWebInspector")
+  (return-type "gboolean")
+  (when "last")
+)
+
+(define-signal close-window
+  (of-object "WebKitWebInspector")
+  (return-type "gboolean")
+  (when "last")
+)
+
+(define-signal finished
+  (of-object "WebKitWebInspector")
+  (return-type "void")
+  (when "last")
+)
+
+(define-property web-view
+  (of-object "WebKitWebInspector")
+  (prop-type "GParamObject")
+  (docs "The Web View that renders the Web Inspector itself")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property inspected-uri
+  (of-object "WebKitWebInspector")
+  (prop-type "GParamString")
+  (docs "The URI that is currently being inspected")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property javascript-profiling-enabled
+  (of-object "WebKitWebInspector")
+  (prop-type "GParamBoolean")
+  (docs "Profile the executed JavaScript.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+;; From WebKitWebNavigationAction
+
+(define-property reason
+  (of-object "WebKitWebNavigationAction")
+  (prop-type "GParamEnum")
+  (docs "The reason why this navigation is occurring")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property original-uri
+  (of-object "WebKitWebNavigationAction")
+  (prop-type "GParamString")
+  (docs "The URI that was requested as the target for the navigation")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property button
+  (of-object "WebKitWebNavigationAction")
+  (prop-type "GParamInt")
+  (docs "The button used to click")
+  (readable #t)
+  (writable #t)
+  (construct-only #t)
+)
+
+(define-property modifier-state
+  (of-object "WebKitWebNavigationAction")
+  (prop-type "GParamInt")
+  (docs "A bitmask representing the state of the modifier keys")
+  (readable #t)
+  (writable #t)
+  (construct-only #t)
+)
+
+;; From WebKitWebPolicyDecision
+
+;; From WebKitWebSettings
+
+(define-property default-encoding
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "The default encoding used to display text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property cursive-font-family
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "The default Cursive font family used to display text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property default-font-family
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "The default font family used to display text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property fantasy-font-family
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "The default Fantasy font family used to display text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property monospace-font-family
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "The default font family used to display monospace text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property sans-serif-font-family
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "The default Sans Serif font family used to display text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property serif-font-family
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "The default Serif font family used to display text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property default-font-size
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamInt")
+  (docs "The default font size used to display text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property default-monospace-font-size
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamInt")
+  (docs "The default font size used to display monospace text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property minimum-font-size
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamInt")
+  (docs "The minimum font size used to display text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property minimum-logical-font-size
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamInt")
+  (docs "The minimum logical font size used to display text.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enforce-96-dpi
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Enforce a resolution of 96 DPI")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property auto-load-images
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Load images automatically.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property auto-shrink-images
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Automatically shrink standalone images to fit.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property print-backgrounds
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Whether background images should be printed.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-scripts
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Enable embedded scripting languages.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-plugins
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Enable embedded plugin objects.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property resizable-text-areas
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Whether text areas are resizable.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property user-stylesheet-uri
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "The URI of a stylesheet that is applied to every page.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property zoom-step
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamFloat")
+  (docs "The value by which the zoom level is changed when zooming in or out.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-developer-extras
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Enables special extensions that help developers")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-private-browsing
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Enables private browsing mode")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+;; From WebKitWebWindowFeatures
+
+(define-property x
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamInt")
+  (docs "The starting x position of the window on the screen.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property y
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamInt")
+  (docs "The starting y position of the window on the screen.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property width
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamInt")
+  (docs "The width of the window on the screen.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property height
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamInt")
+  (docs "The height of the window on the screen.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property toolbar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the toolbar should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property statusbar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the statusbar should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property scrollbar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the scrollbars should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property menubar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the menubar should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property locationbar-visible
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether the locationbar should be visible for the window.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property fullscreen
+  (of-object "WebKitWebWindowFeatures")
+  (prop-type "GParamBoolean")
+  (docs "Controls whether window will be displayed fullscreen.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+;; From WebKitWebView
 
 (define-signal create-web-view
   (of-object "WebKitWebView")
@@ -96,8 +674,8 @@
   (when "last")
   (parameters
     '("WebKitWebFrame*" "p0")
-    '("gpointer" "p1")
-    '("gpointer" "p2")
+    '("JSGlobalContextRef" "p1")
+    '("JSObjectRef" "p2")
   )
 )
 
@@ -111,6 +689,15 @@
 )
 
 (define-signal load-started
+  (of-object "WebKitWebView")
+  (return-type "void")
+  (when "last")
+  (parameters
+    '("WebKitWebFrame*" "p0")
+  )
+)
+
+(define-signal load-committed
   (of-object "WebKitWebView")
   (return-type "void")
   (when "last")
@@ -134,6 +721,26 @@
   (when "last")
   (parameters
     '("WebKitWebFrame*" "p0")
+  )
+)
+
+(define-signal title-changed
+  (of-object "WebKitWebView")
+  (return-type "void")
+  (when "last")
+  (parameters
+    '("WebKitWebFrame*" "p0")
+    '("const-gchar*" "p1")
+  )
+)
+
+(define-signal hovering-over-link
+  (of-object "WebKitWebView")
+  (return-type "void")
+  (when "last")
+  (parameters
+    '("const-gchar*" "p0")
+    '("const-gchar*" "p1")
   )
 )
 
@@ -182,7 +789,7 @@
   (when "last")
   (parameters
     '("const-gchar*" "p0")
-    '("gint" "p1")
+    '("guint" "p1")
     '("const-gchar*" "p2")
   )
 )
@@ -204,7 +811,7 @@
   (parameters
     '("WebKitWebFrame*" "p0")
     '("const-gchar*" "p1")
-    '("gpointer" "p2")
+    '("gboolean*" "p2")
   )
 )
 
@@ -216,7 +823,7 @@
     '("WebKitWebFrame*" "p0")
     '("const-gchar*" "p1")
     '("const-gchar*" "p2")
-    '("gpointer" "p3")
+    '("gchar**" "p3")
   )
 )
 
@@ -610,418 +1217,6 @@
   (of-object "WebKitWebView")
   (prop-type "GParamString")
   (docs "The custom encoding of the web view")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-;; From WebKitNetworkRequest
-
-;; From WebKitWebBackForwardList
-
-;; From WebKitWebFrame
-
-(define-signal cleared
-  (of-object "WebKitWebFrame")
-  (return-type "void")
-  (when "last")
-)
-
-(define-signal load-committed
-  (of-object "WebKitWebFrame")
-  (return-type "void")
-  (when "last")
-)
-
-(define-signal load-done
-  (of-object "WebKitWebFrame")
-  (return-type "void")
-  (when "last")
-  (parameters
-    '("gboolean" "p0")
-  )
-)
-
-(define-signal title-changed
-  (of-object "WebKitWebFrame")
-  (return-type "void")
-  (when "last")
-  (parameters
-    '("const-gchar*" "p0")
-  )
-)
-
-(define-signal hovering-over-link
-  (of-object "WebKitWebFrame")
-  (return-type "void")
-  (when "last")
-  (parameters
-    '("const-gchar*" "p0")
-    '("const-gchar*" "p1")
-  )
-)
-
-(define-property name
-  (of-object "WebKitWebFrame")
-  (prop-type "GParamString")
-  (docs "The name of the frame")
-  (readable #t)
-  (writable #f)
-  (construct-only #f)
-)
-
-(define-property title
-  (of-object "WebKitWebFrame")
-  (prop-type "GParamString")
-  (docs "The document title of the frame")
-  (readable #t)
-  (writable #f)
-  (construct-only #f)
-)
-
-(define-property uri
-  (of-object "WebKitWebFrame")
-  (prop-type "GParamString")
-  (docs "The current URI of the contents displayed by the frame")
-  (readable #t)
-  (writable #f)
-  (construct-only #f)
-)
-
-;; From WebKitWebHistoryItem
-
-(define-property title
-  (of-object "WebKitWebHistoryItem")
-  (prop-type "GParamString")
-  (docs "The title of the history item")
-  (readable #t)
-  (writable #f)
-  (construct-only #f)
-)
-
-(define-property alternate-title
-  (of-object "WebKitWebHistoryItem")
-  (prop-type "GParamString")
-  (docs "The alternate title of the history item")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property uri
-  (of-object "WebKitWebHistoryItem")
-  (prop-type "GParamString")
-  (docs "The URI of the history item")
-  (readable #t)
-  (writable #f)
-  (construct-only #f)
-)
-
-(define-property original-uri
-  (of-object "WebKitWebHistoryItem")
-  (prop-type "GParamString")
-  (docs "The original URI of the history item")
-  (readable #t)
-  (writable #f)
-  (construct-only #f)
-)
-
-(define-property last-visited-time
-  (of-object "WebKitWebHistoryItem")
-  (prop-type "GParamDouble")
-  (docs "The time at which the history item was last visited")
-  (readable #t)
-  (writable #f)
-  (construct-only #f)
-)
-
-;; From WebKitWebSettings
-
-(define-property default-encoding
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamString")
-  (docs "The default encoding used to display text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property cursive-font-family
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamString")
-  (docs "The default Cursive font family used to display text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property default-font-family
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamString")
-  (docs "The default font family used to display text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property fantasy-font-family
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamString")
-  (docs "The default Fantasy font family used to display text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property monospace-font-family
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamString")
-  (docs "The default font family used to display monospace text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property sans-serif-font-family
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamString")
-  (docs "The default Sans Serif font family used to display text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property serif-font-family
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamString")
-  (docs "The default Serif font family used to display text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property default-font-size
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamInt")
-  (docs "The default font size used to display text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property default-monospace-font-size
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamInt")
-  (docs "The default font size used to display monospace text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property minimum-font-size
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamInt")
-  (docs "The minimum font size used to display text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property minimum-logical-font-size
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamInt")
-  (docs "The minimum logical font size used to display text.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property enforce-96-dpi
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamBoolean")
-  (docs "Enforce a resolution of 96 DPI")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property auto-load-images
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamBoolean")
-  (docs "Load images automatically.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property auto-shrink-images
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamBoolean")
-  (docs "Automatically shrink standalone images to fit.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property print-backgrounds
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamBoolean")
-  (docs "Whether background images should be printed.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property enable-scripts
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamBoolean")
-  (docs "Enable embedded scripting languages.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property enable-plugins
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamBoolean")
-  (docs "Enable embedded plugin objects.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property resizable-text-areas
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamBoolean")
-  (docs "Whether text areas are resizable.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property user-stylesheet-uri
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamString")
-  (docs "The URI of a stylesheet that is applied to every page.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property zoom-step
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamFloat")
-  (docs "The value by which the zoom level is changed when zooming in or out.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property enable-developer-extras
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamBoolean")
-  (docs "Enables special extensions that help developers")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property enable-private-browsing
-  (of-object "WebKitWebSettings")
-  (prop-type "GParamBoolean")
-  (docs "Enables private browsing mode")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-;; From WebKitWebWindowFeatures
-
-(define-property x
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamInt")
-  (docs "The starting x position of the window on the screen.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property y
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamInt")
-  (docs "The starting y position of the window on the screen.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property width
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamInt")
-  (docs "The width of the window on the screen.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property height
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamInt")
-  (docs "The height of the window on the screen.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property toolbar-visible
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamBoolean")
-  (docs "Controls whether the toolbar should be visible for the window.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property statusbar-visible
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamBoolean")
-  (docs "Controls whether the statusbar should be visible for the window.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property scrollbar-visible
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamBoolean")
-  (docs "Controls whether the scrollbars should be visible for the window.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property menubar-visible
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamBoolean")
-  (docs "Controls whether the menubar should be visible for the window.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property locationbar-visible
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamBoolean")
-  (docs "Controls whether the locationbar should be visible for the window.")
-  (readable #t)
-  (writable #t)
-  (construct-only #f)
-)
-
-(define-property fullscreen
-  (of-object "WebKitWebWindowFeatures")
-  (prop-type "GParamBoolean")
-  (docs "Controls whether window will be displayed fullscreen.")
   (readable #t)
   (writable #t)
   (construct-only #f)
