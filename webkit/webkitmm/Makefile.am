@@ -1,23 +1,13 @@
-## Copyright (c) 2001
-## The webkitmm development team.
+# This file is part of webkitmm
 
-SUBDIRS			= private
+lib_LTLIBRARIES = libwebkitmm-1.0.la
 
-sublib_name		= webkitmm
-sublib_libname = webkitmm-1.0
-sublib_libversion = $(WEBKITMM_SO_VERSION)
-sublib_namespace	= WebKit
-sublib_cflags		= $(WEBKITMM_CFLAGS)
-sublib_topdir = webkit
+include $(srcdir)/../src/filelist.am
+include $(srcdir)/filelist.am
+include $(top_srcdir)/scripts/compile-binding.am
 
-
-files_extra_h	= init.h wrap_init.h
-files_extra_cc = init.cc
-
-include $(top_srcdir)/build_shared/Makefile_build_gensrc.am_fragment
-
-lib_LTLIBRARIES			= libwebkitmm-1.0.la
-libwebkitmm_1_0_la_SOURCES	= $(files_all_cc)
-libwebkitmm_1_0_la_LDFLAGS	= $(common_ldflags)
+libwebkitmm_1_0_la_SOURCES	= $(binding_sources)
+libwebkitmm_1_0_la_LDFLAGS	= -no-undefined -version-info $(WEBKITMM_SO_VERSION)
 libwebkitmm_1_0_la_LIBADD	= $(WEBKITMM_LIBS)
 
+AM_CXXFLAGS = $(WEBKITMM_CFLAGS)

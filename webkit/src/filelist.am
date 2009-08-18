@@ -1,0 +1,24 @@
+# this file is part of webkitmm
+
+files_defs = \
+    webkit.defs \
+    webkit_enums.defs \
+    webkit_methods.defs \
+    webkit_others.defs \
+    webkit_signals.defs \
+    webkit_vfuncs.defs
+
+files_hg = \
+    download.hg \
+    networkrequest.hg \
+    webbackforwardlist.hg \
+    webframe.hg \
+    webhistoryitem.hg \
+    webinspector.hg \
+    webpolicydecision.hg \
+    websettings.hg \
+    webnavigationaction.hg \
+    webview.hg \
+    webwindowfeatures.hg
+
+files_ccg = $(files_hg:.hg:.ccg)

@@ -78,15 +78,11 @@ AM_CONDITIONAL([BUILD_REFERENCE], [true])
 AC_CONFIG_FILES([
   Makefile
 
-  webkit/Makefile
   webkit/webkitmm-1.0.pc
   webkit/src/Makefile
   webkit/webkitmm/Makefile
-  webkit/webkitmm/private/Makefile
-  
+
   tools/Makefile
-    tools/extra_defs_gen/Makefile
-    tools/m4/Makefile
 
   scripts/Makefile
 
@@ -98,7 +94,6 @@ AC_CONFIG_FILES([
     examples/simple/Makefile
     examples/browser/Makefile
 ])
-
 
 AC_OUTPUT()
 

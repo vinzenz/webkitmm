@@ -1,11 +1,9 @@
-## Copyright (c) 2001
-## The libgdamm development team.
+# This file is part of webkitmm
 
-sublib_name	= webkitmm
-sublib_namespace = WebKit
-sublib_parentdir = webkitmm
-files_defs	= webkit.defs webkit_methods.defs webkit_signals.defs \
-                  webkit_enums.defs webkit_others.defs webkit_docs.xml
+binding_name = webkitmm
+wrap_init_flags = --namespace=WebKit --parent_dir=webkitmm
+codegen_srcdir  = $(top_srcdir)/tools
 
-include $(top_srcdir)/build_shared/Makefile_gensrc.am_fragment
-
+include $(srcdir)/filelist.am
+include $(top_srcdir)/tools/m4/filelist.am
+include $(top_srcdir)/scripts/generate-binding.am
