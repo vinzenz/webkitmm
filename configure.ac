@@ -16,16 +16,15 @@
 # License along with this library; if not, write to the Free
 # Software Foundation, Inc., 675 Mass Ave, Cambridge, MA 02139, USA.
 
-dnl We use define() here because we can't use shell variables before AC_INIT, but
-dnl we want to use a variable with AC_INIT:
-define([WEBKITMM_MAJOR_VERSION],     [1])
-define([WEBKITMM_MINOR_VERSION],     [1])
-define([WEBKITMM_MICRO_VERSION],     [6])
-define([WEBKITMM_EXTRA_VERSION],     [])
-define([WEBKITMM_VERSION], WEBKITMM_MAJOR_VERSION.WEBKITMM_MINOR_VERSION.WEBKITMM_MICRO_VERSION[]WEBKITMM_EXTRA_VERSION)
-AC_INIT([webkitmm], WEBKITMM_VERSION, [gtkmm-list@gnome.org])
+AC_INIT([webkitmm], [1.1.6], [gtkmm-list@gnome.org])
+AC_PREREQ([2.59])
+
 AC_CONFIG_SRCDIR([webkit/webkitmmconfig.h.in])
 AC_CONFIG_MACRO_DIR([scripts])
+AC_CONFIG_AUX_DIR(scripts)
+AC_CONFIG_HEADERS([webkit/webkitmmconfig.h])
+
+MM_INIT_MODULE([webkitmm-1.0])
 
 # +1 : ? : +1  == new interface that does not break old one
 # +1 : ? : 0   == new interface that breaks old one
@@ -36,88 +35,20 @@ AC_CONFIG_MACRO_DIR([scripts])
 WEBKITMM_SO_VERSION=0:0:0
 AC_SUBST(WEBKITMM_SO_VERSION)
 
-dnl Add to the config.h header.  This double-quoting seems like a nasty hack, but it gets the job done
-AC_DEFINE_UNQUOTED([[WEBKITMM_MAJOR_VERSION]], WEBKITMM_MAJOR_VERSION, [Major version of webkitmm])
-AC_DEFINE_UNQUOTED([[WEBKITMM_MINOR_VERSION]], WEBKITMM_MINOR_VERSION, [Minor version of webkitmm])
-AC_DEFINE_UNQUOTED([[WEBKITMM_MICRO_VERSION]], WEBKITMM_MICRO_VERSION, [Micro version of webkitmm])
-AC_DEFINE_UNQUOTED([[WEBKITMM_EXTRA_VERSION]], WEBKITMM_EXTRA_VERSION, [Extra version of webkitmm])
-AC_DEFINE_UNQUOTED([[WEBKITMM_VERSION]], WEBKITMM_VERSION, [version of webkitmm])
-
-AC_CONFIG_AUX_DIR(scripts)
-
 dnl Initialize automake stuff
 dnl tar-ustar asks it to use a sensible tar format that can handle long filenames.
 AM_INIT_AUTOMAKE([1.9 tar-ustar])
 
-dnl Specify a configuration file (no autoheader)
-AM_CONFIG_HEADER(webkit/webkitmmconfig.h)
 AM_MAINTAINER_MODE
-AL_ACLOCAL_INCLUDE(scripts)
-
-
-#########################################################################
-#  Configure arguments 
-#########################################################################
-
-dnl Add an --enable-documentation option:
-AC_ARG_ENABLE(documentation,
-              AC_HELP_STRING([--enable-documentation=yes|no],
-                             [Build the reference documentation (default=yes)]),
-              BUILD_REFERENCE=$enableval,
-              BUILD_REFERENCE=yes)
-
-AM_CONDITIONAL(BUILD_REFERENCE, test x$BUILD_REFERENCE = xyes)
-
+AC_ARG_VAR([ACLOCAL_FLAGS], [aclocal flags, e.g. -I <macro dir>])
 
 #########################################################################
 #  Environment Checks
 #########################################################################
-AC_PROG_CC
-AC_PROG_CPP
-AC_PROG_MAKE_SET
-AC_CANONICAL_HOST
-
-dnl Used for enabling the "-no-undefined" flag while generating DLLs
-dnl Copied from the official gtk+-2 configure.in
-AC_MSG_CHECKING([for some Win32 platform])
-case "$host" in
-  *-*-mingw*|*-*-cygwin*)
-    platform_win32=yes
-    ;;
-  *)
-    platform_win32=no
-    ;;
-esac
-AC_MSG_RESULT([$platform_win32])
-AM_CONDITIONAL(PLATFORM_WIN32, test "$platform_win32" = "yes")
-
-AC_MSG_CHECKING([for native Win32])
-case "$host" in
-  *-*-mingw*)
-    os_win32=yes
-    ;;
-  *)
-    os_win32=no
-    ;;
-esac
-AC_MSG_RESULT([$os_win32])
-AM_CONDITIONAL(OS_WIN32, test "$os_win32" = "yes")
-
-AM_DISABLE_STATIC
+AC_PROG_CXX
+AC_DISABLE_STATIC
 AC_LIBTOOL_WIN32_DLL
-AM_PROG_LIBTOOL
-
-AL_PROG_GNU_M4(AC_MSG_ERROR([dnl
-SUN m4 does not work for building webkitmm. 
-Please install GNU m4.]))
-
-AL_PROG_GNU_MAKE(AC_MSG_ERROR([dnl
-SUN make does not work for building webkitmm.
-Please install GNU make.]))
-
-AL_PROG_PERL(AC_MSG_ERROR([Perl is required to build webkitmm.]))
-
-AC_CHECK_PROGS(PERL, perl5 perl)
+AC_PROG_LIBTOOL
 
 #########################################################################
 #  Dependancy checks
@@ -135,36 +66,14 @@ AM_CONDITIONAL(BUILD_BROWSER, test x$BUILD_BROWSER = xyes)
 AC_SUBST(WEBKITMM_CFLAGS)
 AC_SUBST(WEBKITMM_LIBS)
 
-GLIBMM_PREFIX=`pkg-config --variable=prefix glibmm-2.4`
-GMM_PROCDIR=$GLIBMM_PREFIX/lib/glibmm-2.4/proc
-AC_SUBST(GMM_PROCDIR)
-GMM_PROC=$GMM_PROCDIR/gmmproc
-AC_SUBST(GMM_PROC)
-
-#########################################################################
-#  C++ checks
-#########################################################################
-AC_PROG_CXX
 AC_LANG([C++])
 
-# Create a list of input directories for Doxygen.  We have to check wether
-# we are building in the source directory, because Doxygen doesn't like
-# duplicated directories in the input list.
-WEBKITMM_DOXYGEN_INPUT=''
-webkitmm_srcdir=`cd "$srcdir" && pwd`
-webkitmm_builddir=`pwd`
-for sublib in webkit
-do
-  WEBKITMM_DOXYGEN_INPUT="$WEBKITMM_DOXYGEN_INPUT $webkitmm_builddir/$sublib/$sublib""mm/"
-  test "x$webkitmm_builddir" = "x$webkitmm_srcdir" || \
-    WEBKITMM_DOXYGEN_INPUT="$WEBKITMM_DOXYGEN_INPUT $webkitmm_srcdir/$sublib/$sublib""mm/"
-done
-WEBKITMM_DOXYGEN_INPUT="$WEBKITMM_DOXYGEN_INPUT $webkitmm_builddir/webkit/webkitmmconfig.h"
-AC_SUBST(WEBKITMM_DOXYGEN_INPUT)
-
-# HACK:  Assign a dummy in order to prevent execution of autoheader by the
-# maintainer-mode rules.  That would fail since we aren't using autoheader.
-AUTOHEADER=':'
+# TODO: remove dummies
+MM_PKG_CONFIG_SUBST([GMM_PROCDIR], [--variable=gmmprocdir glibmm-2.4])
+AC_SUBST([GMM_PROC], ['${GMM_PROCDIR}/gmmproc'])
+AM_CONDITIONAL([OS_WIN32], [false])
+AM_CONDITIONAL([PLATFORM_WIN32], [false])
+AM_CONDITIONAL([BUILD_REFERENCE], [true])
 
 AC_CONFIG_FILES([
   Makefile
