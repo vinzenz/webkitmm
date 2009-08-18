@@ -1,5 +1,5 @@
 DISTCHECK_CONFIGURE_FLAGS = --enable-warnings=fatal
-ACLOCAL_AMFLAGS = -I scripts ${ACLOCAL_FLAGS}
+ACLOCAL_AMFLAGS = -I build ${ACLOCAL_FLAGS}
 
 if MAINTAINER_MODE
     src_subdirs = tools webkit/src
@@ -13,7 +13,7 @@ else
     docs_subdirs =
 endif
 SUBDIRS = $(src_subdirs) webkit/webkitmm examples $(docs_subdirs)
-DIST_SUBDIRS = tools webkit/src webkit/webkitmm docs scripts
+DIST_SUBDIRS = tools webkit/src webkit/webkitmm docs build
 
 webkitmm_includedir		= $(includedir)/webkitmm-1.0
 webkitmm_include_HEADERS	= webkit/webkitmm.h

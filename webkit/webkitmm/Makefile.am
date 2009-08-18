@@ -4,7 +4,7 @@ lib_LTLIBRARIES = libwebkitmm-1.0.la
 
 include $(srcdir)/../src/filelist.am
 include $(srcdir)/filelist.am
-include $(top_srcdir)/scripts/compile-binding.am
+include $(top_srcdir)/build/compile-binding.am
 
 libwebkitmm_1_0_la_SOURCES	= $(binding_sources)
 libwebkitmm_1_0_la_LDFLAGS	= -no-undefined -version-info $(WEBKITMM_SO_VERSION)

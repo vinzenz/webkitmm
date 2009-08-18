@@ -12,4 +12,4 @@ doc_input = $(addprefix $(top_srcdir)/webkit/webkitmm/,$(webkitmm_files_h))
 # directory components.
 htmlrefpub = http://www.gtkmm.org/docs/$(book_name)/docs/reference/html
 
-include $(top_srcdir)/scripts/doc-reference.am
+include $(top_srcdir)/build/doc-reference.am

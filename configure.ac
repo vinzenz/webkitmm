@@ -20,8 +20,8 @@ AC_INIT([webkitmm], [1.1.6], [gtkmm-list@gnome.org])
 AC_PREREQ([2.59])
 
 AC_CONFIG_SRCDIR([webkit/webkitmmconfig.h.in])
-AC_CONFIG_MACRO_DIR([scripts])
-AC_CONFIG_AUX_DIR(scripts)
+AC_CONFIG_MACRO_DIR([build])
+AC_CONFIG_AUX_DIR(build)
 AC_CONFIG_HEADERS([webkit/webkitmmconfig.h])
 
 MM_INIT_MODULE([webkitmm-1.0])
@@ -88,8 +88,6 @@ AC_CONFIG_FILES([
   webkit/webkitmm/Makefile
 
   tools/Makefile
-
-  scripts/Makefile
 
   docs/Makefile
   docs/reference/Makefile

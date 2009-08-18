@@ -23,21 +23,20 @@ docs/reference/webkitmm*.devhelp2
 examples/browser/browser
 examples/simple/simple
 
-scripts/config.guess
-scripts/config.sub
-scripts/depcomp
-scripts/install-sh
-scripts/libtool.m4
-scripts/ltmain.sh
-scripts/ltoptions.m4
-scripts/ltsugar.m4
-scripts/ltversion.m4
-scripts/lt~obsolete.m4
-scripts/missing
-scripts/compile-binding.am
-scripts/dist-changelog.am
-scripts/doc-reference.am
-scripts/generate-binding.am
+build/config.guess
+build/config.sub
+build/depcomp
+build/install-sh
+build/libtool.m4
+build/ltmain.sh
+build/ltoptions.m4
+build/ltsugar.m4
+build/ltversion.m4
+build/missing
+build/compile-binding.am
+build/dist-changelog.am
+build/doc-reference.am
+build/generate-binding.am
 
 tools/extra_defs_gen/generate_extra_defs
 
