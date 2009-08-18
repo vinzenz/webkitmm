@@ -2,10 +2,10 @@ Makefile
 Makefile.in
 .libs
 .deps
-*.la
-*.lo
+*.l[oa]
 *.[oa]
 *.swp
+stamp-h?
 
 aclocal.m4
 autom4te.cache/
@@ -35,6 +35,10 @@ scripts/ltsugar.m4
 scripts/ltversion.m4
 scripts/lt~obsolete.m4
 scripts/missing
+scripts/compile-binding.am
+scripts/dist-changelog.am
+scripts/doc-reference.am
+scripts/generate-binding.am
 
 tools/extra_defs_gen/generate_extra_defs
 
@@ -44,20 +48,10 @@ webkit/stamp-h1
 webkit/webkitmm-1.0.pc
 webkit/webkitmmconfig.h
 
-webkit/webkitmm/webview.cc
-webkit/webkitmm/webview.h
-webkit/webkitmm/wrap_init.cc
-webkit/webkitmm/webframe.cc
-webkit/webkitmm/webframe.h
-webkit/webkitmm/webhistoryitem.cc
-webkit/webkitmm/webhistoryitem.h
-webkit/webkitmm/networkrequest.cc
-webkit/webkitmm/networkrequest.h
-webkit/webkitmm/webbackforwardlist.cc
-webkit/webkitmm/webbackforwardlist.h
-webkit/webkitmm/websettings.cc
-webkit/webkitmm/websettings.h
-webkit/webkitmm/webwindowfeatures.cc
-webkit/webkitmm/webwindowfeatures.h
+webkit/webkitmm/*.cc
+!webkit/webkitmm/init.cc
+webkit/webkitmm/*.h
+!webkit/webkitmm/init.h
+!webkit/webkitmm/wrap_init.h
 
 webkit/webkitmm/private/*_p.h
