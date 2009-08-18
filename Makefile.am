@@ -6,7 +6,13 @@ if MAINTAINER_MODE
 else
     src_subdirs =
 endif
-SUBDIRS = $(src_subdirs) webkit/webkitmm examples
+
+if ENABLE_DOCUMENTATION
+    docs_subdirs = docs
+else
+    docs_subdirs =
+endif
+SUBDIRS = $(src_subdirs) webkit/webkitmm examples $(docs_subdirs)
 DIST_SUBDIRS = tools webkit/src webkit/webkitmm docs scripts
 
 webkitmm_includedir		= $(includedir)/webkitmm-1.0

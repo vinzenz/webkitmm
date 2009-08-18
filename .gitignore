@@ -15,11 +15,10 @@ configure
 libtool
 
 docs/reference/Doxyfile
-docs/reference/doxygen-output.txt
-docs/reference/doxygen-warnings.txt
+docs/reference/doxygen.log
 docs/reference/html/
-docs/reference/webkitmm_doxygen_tags
-docs/reference/xml/
+docs/reference/webkitmm*.tag
+docs/reference/webkitmm*.devhelp2
 
 examples/browser/browser
 examples/simple/simple

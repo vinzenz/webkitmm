@@ -68,12 +68,17 @@ AC_SUBST(WEBKITMM_LIBS)
 
 AC_LANG([C++])
 
+MM_ARG_ENABLE_DOCUMENTATION
+MM_ARG_WITH_TAGFILE_DOC([libstdc++.tag], [mm-common-libstdc++])
+MM_ARG_WITH_TAGFILE_DOC([libsigc++-2.0.tag], [sigc++-2.0])
+MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [glibmm-2.4])
+MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [gtkmm-2.4])
+
 # TODO: remove dummies
 MM_PKG_CONFIG_SUBST([GMM_PROCDIR], [--variable=gmmprocdir glibmm-2.4])
 AC_SUBST([GMM_PROC], ['${GMM_PROCDIR}/gmmproc'])
 AM_CONDITIONAL([OS_WIN32], [false])
 AM_CONDITIONAL([PLATFORM_WIN32], [false])
-AM_CONDITIONAL([BUILD_REFERENCE], [true])
 
 AC_CONFIG_FILES([
   Makefile
@@ -111,5 +116,5 @@ webkitmm WEBKITMM_VERSION
 
  OPTIONAL FEATURES:
     Build Example Browser           : ${BUILD_BROWSER}
-    Build Reference Documentation   : ${BUILD_REFERENCE}
+    Build Reference Documentation   : ${ENABLE_DOCUMENTATION}
 EOT

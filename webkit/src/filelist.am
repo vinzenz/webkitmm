@@ -21,4 +21,4 @@ files_hg = \
     webview.hg \
     webwindowfeatures.hg
 
-files_ccg = $(files_hg:.hg:.ccg)
+files_ccg = $(files_hg:.hg=.ccg)
