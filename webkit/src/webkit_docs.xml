@@ -1,1 +1,2538 @@
-<root></root>
+<root>
+<function name="webkit_web_frame_load_string">
+<description>
+Requests loading of the given @content with the specified @mime_type,
+@encoding and @base_uri.
+
+If @mime_type is %NULL, &quot;text/html&quot; is assumed.
+
+If @encoding is %NULL, &quot;UTF-8&quot; is assumed.
+
+Since: 1.1.1
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+<parameter name="content">
+<parameter_description> an URI string
+</parameter_description>
+</parameter>
+<parameter name="mime_type">
+<parameter_description> the MIME type, or %NULL
+</parameter_description>
+</parameter>
+<parameter name="encoding">
+<parameter_description> the encoding, or %NULL
+</parameter_description>
+</parameter>
+<parameter name="base_uri">
+<parameter_description> the base URI for relative locations
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_go_to_back_forward_item">
+<description>
+Go to the specified #WebKitWebHistoryItem
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="item">
+<parameter_description> a #WebKitWebHistoryItem*
+</parameter_description>
+</parameter>
+</parameters>
+<return> %TRUE if loading of item is successful, %FALSE if not
+</return>
+</function>
+
+<function name="webkit_web_view_get_uri">
+<description>
+Return value: the URI of @web_view
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> the URI of @web_view
+</return>
+</function>
+
+<function name="webkit_web_policy_decision_ignore">
+<description>
+Will send the IGNORE decision to the policy implementer.
+
+Since: 1.0.3
+
+</description>
+<parameters>
+<parameter name="decision">
+<parameter_description> a #WebKitWebPolicyDecision
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_history_item_get_title">
+<description>
+
+</description>
+<parameters>
+<parameter name="web_history_item">
+<parameter_description> a #WebKitWebHistoryItem
+</parameter_description>
+</parameter>
+</parameters>
+<return> the page title of @web_history_item
+</return>
+</function>
+
+<function name="webkit_network_request_set_uri">
+<description>
+Sets the URI held and used by the given request. When the request
+has an associated #SoupMessage, its URI will also be set by this
+call.
+
+
+</description>
+<parameters>
+<parameter name="request">
+<parameter_description> a #WebKitNetworkRequest
+</parameter_description>
+</parameter>
+<parameter name="uri">
+<parameter_description> an URI
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_reload_bypass_cache">
+<description>
+Reloads the @web_view without using any cached data.
+
+Since: 1.0.3
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_policy_decision_use">
+<description>
+Will send the USE decision to the policy implementer.
+
+Since: 1.0.3
+
+</description>
+<parameters>
+<parameter name="decision">
+<parameter_description> a #WebKitWebPolicyDecision
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_full_content_zoom">
+<description>
+Return value: %FALSE if only text should be scaled (the default),
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> %FALSE if only text should be scaled (the default),
+%TRUE if the full content of the view should be scaled.
+
+Since: 1.0.1
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_get_current_item">
+<description>
+Returns a NULL value if the back forward list is empty
+Return value: a #WebKitWebHistoryItem
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #WebKitWebHistoryItem
+</return>
+</function>
+
+<function name="webkit_download_get_current_size">
+<description>
+Current already downloaded size.
+
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return> the already downloaded size
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_web_navigation_action_get_modifier_state">
+<description>
+Return value: a bitmask with the state of the modifier keys
+
+</description>
+<parameters>
+<parameter name="navigationAction">
+<parameter_description> a #WebKitWebNavigationAction
+</parameter_description>
+</parameter>
+</parameters>
+<return> a bitmask with the state of the modifier keys
+
+Since: 1.0.3
+</return>
+</function>
+
+<function name="webkit_download_start">
+<description>
+Initiates the download. Notice that you must have set the
+destination-uri property before calling this method.
+
+Since: 1.1.2
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_settings_new">
+<description>
+Creates a new #WebKitWebSettings instance with default values. It must
+be manually attached to a WebView.
+
+
+</description>
+<parameters>
+</parameters>
+<return> a new #WebKitWebSettings instance
+</return>
+</function>
+
+<function name="webkit_web_navigation_action_set_reason">
+<description>
+Sets the reason why WebKit is requesting a navigation.
+
+Since: 1.0.3
+
+</description>
+<parameters>
+<parameter name="navigationAction">
+<parameter_description> a #WebKitWebNavigationAction
+</parameter_description>
+</parameter>
+<parameter name="reason">
+<parameter_description> a #WebKitWebNavigationReason
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_frame_get_children">
+<description>
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return> child frames of @frame
+</return>
+</function>
+
+<function name="webkit_web_frame_get_inner_text">
+<description>
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return> inner text of @frame
+</return>
+</function>
+
+<function name="webkit_web_view_unmark_text_matches">
+<description>
+Removes highlighting previously set by webkit_web_view_mark_text_matches.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_zoom_level">
+<description>
+Return value: the zoom level of @web_view
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> the zoom level of @web_view
+
+Since: 1.0.1
+</return>
+</function>
+
+<function name="webkit_download_get_network_request">
+<description>
+Retrieves the #WebKitNetworkRequest object that backs the download
+process.
+
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #WebKitNetworkRequest instance
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_get_forward_item">
+<description>
+Returns a NULL value if there nothing that succeeds the current item
+Return value: a #WebKitWebHistoryItem
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #WebKitWebHistoryItem
+</return>
+</function>
+
+<function name="webkit_web_frame_get_parent">
+<description>
+Return value: the parent #WebKitWebFrame or %NULL in case there is none
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return> the parent #WebKitWebFrame or %NULL in case there is none
+</return>
+</function>
+
+<function name="webkit_web_view_go_back">
+<description>
+Loads the previous history item.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_set_editable">
+<description>
+Sets whether @web_view allows the user to edit its HTML document.
+
+If @flag is %TRUE, @web_view allows the user to edit the document. If @flag is
+%FALSE, an element in @web_view's document can only be edited if the
+CONTENTEDITABLE attribute has been set on the element or one of its parent
+elements. You can change @web_view's document programmatically regardless of
+this setting. By default a #WebKitWebView is not editable.
+
+Normally, an HTML document is not editable unless the elements within the
+document are editable. This function provides a low-level way to make the
+contents of a #WebKitWebView editable without altering the document or DOM
+structure.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="flag">
+<parameter_description> a #gboolean indicating the editable state
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="void">
+<description>
+    WebKitWebFrame* frame = webView-&gt;priv-&gt;mainFrame;
+    webkit_web_frame_load_string(frame, content, mimeType, encoding, baseUri);
+}
+/**
+webkit_web_view_load_html_string:
+@web_view: a #WebKitWebView
+@content: an URI string
+@base_uri: the base URI for relative locations
+
+Requests loading of the given @content with the specified @base_uri.
+
+Deprecated: 1.1.1: Use webkit_web_view_load_string() instead.
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_paste_target_list">
+<description>
+This function returns the list of targets this #WebKitWebView can
+provide for clipboard pasting and as DND destination. The targets in the list are
+added with %info values from the #WebKitWebViewTargetInfo enum,
+using gtk_target_list_add() and
+gtk_target_list_add_text_targets().
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #GtkTargetList
+</return>
+</function>
+
+<function name="webkit_web_view_can_go_forward">
+<description>
+Determines whether #web_view has a next history item.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> %TRUE if able to move forward, %FALSE otherwise
+</return>
+</function>
+
+<function name="webkit_web_view_load_uri">
+<description>
+Requests loading of the specified URI string.
+
+Since: 1.1.1
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="uri">
+<parameter_description> an URI string
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_progress">
+<description>
+Determines the current progress of the load.
+
+Since: 1.1.7
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_download_set_destination_uri">
+<description>
+Defines the URI that should be used to save the downloaded file to.
+
+Since: 1.1.2
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+<parameter name="destination_uri">
+<parameter_description> the destination URI
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_back_forward_list_get_back_list_with_limit">
+<description>
+Return value: a #GList of items preceding the current item, limited by @limit
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+<parameter name="limit">
+<parameter_description> the number of items to retrieve
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #GList of items preceding the current item, limited by @limit
+</return>
+</function>
+
+<function name="webkit_web_view_set_custom_encoding">
+<description>
+Sets the current #WebKitWebView encoding, without modifying the default one,
+and reloads the page.
+
+Since: 1.1.1
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="encoding">
+<parameter_description> the new encoding, or %NULL to restore the default encoding
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_back_forward_list_get_nth_item">
+<description>
+Return value: the #WebKitWebHistoryItem located at the specified index relative to the current item
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+<parameter name="index">
+<parameter_description> the index of the item
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #WebKitWebHistoryItem located at the specified index relative to the current item
+</return>
+</function>
+
+<function name="webkit_web_view_open">
+<description>
+Requests loading of the specified URI string.
+
+Deprecated: 1.1.1: Use webkit_web_view_load_uri() instead.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="uri">
+<parameter_description> an URI
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_network_request_get_uri">
+<description>
+
+</description>
+<parameters>
+<parameter name="request">
+<parameter_description> a #WebKitNetworkRequest
+</parameter_description>
+</parameter>
+</parameters>
+<return> the uri of the #WebKitNetworkRequest
+
+Since: 1.0.0
+</return>
+</function>
+
+<function name="webkit_web_frame_print_full">
+<description>
+Prints the given #WebKitFrame, using the given #GtkPrintOperation
+and #GtkPrintOperationAction. This function wraps a call to
+gtk_print_operation_run() for printing the contents of the
+#WebKitWebFrame.
+
+Since: 1.1.5
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame to be printed
+</parameter_description>
+</parameter>
+<parameter name="operation">
+<parameter_description> the #GtkPrintOperation to be carried
+</parameter_description>
+</parameter>
+<parameter name="action">
+<parameter_description> the #GtkPrintOperationAction to be performed
+</parameter_description>
+</parameter>
+<parameter name="error">
+<parameter_description> #GError for error return
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_encoding">
+<description>
+Return value: the default encoding
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> the default encoding
+
+Since: 1.1.1
+</return>
+</function>
+
+<function name="webkit_download_get_progress">
+<description>
+Determines the current progress of the download.
+
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> a #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #gdouble ranging from 0.0 to 1.0.
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_go_to_item">
+<description>
+Go to the specified @web_history_item in the back forward list
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+<parameter name="history_item">
+<parameter_description> the #WebKitWebHistoryItem to go to
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_download_get_uri">
+<description>
+Convenience method to retrieve the URI from the
+#WebKitNetworkRequest which is being downloaded.
+
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return> the uri
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_web_settings_get_user_agent">
+<description>
+
+</description>
+<parameters>
+<parameter name="web_settings">
+<parameter_description> a #WebKitWebSettings
+</parameter_description>
+</parameter>
+</parameters>
+<return>the User-Agent string currently used by the web view(s) associated
+with the @web_settings.
+
+Since: 1.1.11
+</return>
+</function>
+
+<function name="webkit_web_frame_get_title">
+<description>
+Return value: the title of @frame
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return> the title of @frame
+</return>
+</function>
+
+<function name="webkit_web_view_zoom_in">
+<description>
+Increases the zoom level of @web_view. The current zoom
+level is incremented by the value of the &quot;zoom-step&quot;
+property of the #WebKitWebSettings associated with @web_view.
+
+Since: 1.0.1
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_download_cancel">
+<description>
+Cancels the download. Calling this will not free the
+#WebKitDownload object, so you still need to call
+g_object_unref() on it, if you are the owner of a reference. Notice
+that cancelling the download provokes the emission of the
+WebKitDownload::error signal, reporting that the download was
+cancelled.
+
+Since: 1.1.2
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_settings_copy">
+<description>
+Copies an existing #WebKitWebSettings instance.
+
+
+</description>
+<parameters>
+</parameters>
+<return> a new #WebKitWebSettings instance
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_new_with_web_view">
+<description>
+Creates an instance of the back forward list with a controlling #WebKitWebView
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> the back forward list's #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #WebKitWebBackForwardList
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_add_item">
+<description>
+Adds the item to the #WebKitWebBackForwardList.
+
+The @webBackForwardList will add a reference to the @webHistoryItem, so you
+don't need to keep a reference once you've added it to the list.
+
+Since: 1.1.1
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+<parameter name="history_item">
+<parameter_description> the #WebKitWebHistoryItem to add
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="WebKitWebSettings">
+<description>
+Whether to enable HTML5 offline web application cache support. Offline
+Web Application Cache ensures web applications are available even when
+the user is not connected to the network.
+
+Since 1.1.13
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_back_forward_list_get_back_item">
+<description>
+Return value: the #WebKitWebHistoryItem preceding the current item
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebBackForwardList
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #WebKitWebHistoryItem preceding the current item
+</return>
+</function>
+
+<function name="webkit_web_view_set_maintains_back_forward_list">
+<description>
+Set the view to maintain a back or forward list of history items.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="flag">
+<parameter_description> to tell the view to maintain a back or forward list
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_navigation_action_set_original_uri">
+<description>
+Sets the URI that was originally requested. This may differ from the
+navigation target, for instance because of a redirect.
+
+Since: 1.0.3
+
+</description>
+<parameters>
+<parameter name="navigationAction">
+<parameter_description> a #WebKitWebNavigationAction
+</parameter_description>
+</parameter>
+<parameter name="originalUri">
+<parameter_description> a URI
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_frame_new">
+<description>
+Creates a new #WebKitWebFrame initialized with a controlling #WebKitWebView.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> the controlling #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> a new #WebKitWebFrame
+
+Deprecated: 1.0.2: #WebKitWebFrame can only be used to inspect existing
+frames.
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_get_forward_length">
+<description>
+Return value: a #gint corresponding to the nuber of items succeeding the current item
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #gint corresponding to the nuber of items succeeding the current item
+</return>
+</function>
+
+<function name="webkit_web_view_move_cursor">
+<description>
+Move the cursor in @view as described by @step and @count.
+
+Since: 1.1.4
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="step">
+<parameter_description> a #GtkMovementStep
+</parameter_description>
+</parameter>
+<parameter name="count">
+<parameter_description> integer describing the direction of the movement. 1 for forward, -1 for backwards.
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_back_forward_list_contains_item">
+<description>
+Checks if @web_history_item is in the back forward list
+
+Return: %TRUE if @web_history_item is in the back forward list, %FALSE if it doesn't
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+<parameter name="history_item">
+<parameter_description> the #WebKitWebHistoryItem to check
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_select_all">
+<description>
+Attempts to select everything inside the @web_view.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_paste_clipboard">
+<description>
+Pastes the current contents of the clipboard to the @web_view.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_title">
+<description>
+Return value: the title of @web_view
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> the title of @web_view
+</return>
+</function>
+
+<function name="webkit_web_history_item_get_last_visisted_time">
+<description>
+Return value: the time in seconds this @web_history_item was last visited
+
+</description>
+<parameters>
+<parameter name="web_history_item">
+<parameter_description> a #WebKitWebHistoryItem
+</parameter_description>
+</parameter>
+</parameters>
+<return> the time in seconds this @web_history_item was last visited
+</return>
+</function>
+
+<function name="webkit_web_view_can_show_mime_type">
+<description>
+This functions returns whether or not a MIME type can be displayed using this view.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="mime_type">
+<parameter_description> a MIME type
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #gboolean indicating if the MIME type can be displayed
+
+Since: 1.0.3
+</return>
+</function>
+
+<function name="webkit_download_new">
+<description>
+Creates a new #WebKitDownload object for the given
+#WebKitNetworkRequest object.
+
+
+</description>
+<parameters>
+<parameter name="request">
+<parameter_description> a #WebKitNetworkRequest
+</parameter_description>
+</parameter>
+</parameters>
+<return> the new #WebKitDownload
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_web_frame_load_uri">
+<description>
+Requests loading of the specified URI string.
+
+Since: 1.1.1
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+<parameter name="uri">
+<parameter_description> an URI string
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_load_request">
+<description>
+Requests loading of the specified asynchronous client request.
+
+Creates a provisional data source that will transition to a committed data
+source once any data has been received. Use webkit_web_view_stop_loading() to
+stop the load.
+
+Since: 1.1.1
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="request">
+<parameter_description> a #WebKitNetworkRequest
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_navigation_action_get_original_uri">
+<description>
+Return value: the originally requested URI
+
+</description>
+<parameters>
+<parameter name="navigationAction">
+<parameter_description> a #WebKitWebNavigationAction
+</parameter_description>
+</parameter>
+</parameters>
+<return> the originally requested URI
+
+Since: 1.0.3
+</return>
+</function>
+
+<function name="webkit_web_view_search_text">
+<description>
+Looks for a specified string inside #web_view.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="text">
+<parameter_description> a string to look for
+</parameter_description>
+</parameter>
+<parameter name="forward">
+<parameter_description> whether to find forward or not
+</parameter_description>
+</parameter>
+<parameter name="case_sensitive">
+<parameter_description> whether to respect the case of text
+</parameter_description>
+</parameter>
+<parameter name="wrap">
+<parameter_description> whether to continue looking at the beginning after reaching the end
+</parameter_description>
+</parameter>
+</parameters>
+<return> %TRUE on success or %FALSE on failure
+</return>
+</function>
+
+<function name="WebKitWebInspector">
+<description>
+This is enabling JavaScript profiling in the Inspector. This means
+that Console.profiles will return the profiles.
+
+Since: 1.1.1
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_history_item_get_uri">
+<description>
+Return value: the URI of @web_history_item
+
+</description>
+<parameters>
+<parameter name="web_history_item">
+<parameter_description> a #WebKitWebHistoryItem
+</parameter_description>
+</parameter>
+</parameters>
+<return> the URI of @web_history_item
+</return>
+</function>
+
+<function name="webkit_web_settings_add_extra_plugin_directory">
+<description>
+Adds the @directory to paths where @web_view will search for plugins.
+
+Since: 1.0.3
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="directory">
+<parameter_description> the directory to add
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_download_get_total_size">
+<description>
+Returns: the expected total size of the downloaded file
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return> the expected total size of the downloaded file
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_web_view_get_inspector">
+<description>
+Obtains the #WebKitWebInspector associated with the
+#WebKitWebView. Every #WebKitWebView object has a
+#WebKitWebInspector object attached to it as soon as it is created,
+so this function will only return NULL if the argument is not a
+valid #WebKitWebView.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #WebKitWebInspector instance associated with the
+#WebKitWebView; %NULL is only returned if the argument is not a
+valid #WebKitWebView.
+
+Since: 1.0.3
+</return>
+</function>
+
+<function name="webkit_web_history_item_get_original_uri">
+<description>
+Return value: the original URI of @web_history_item
+
+</description>
+<parameters>
+<parameter name="web_history_item">
+<parameter_description> a #WebKitWebHistoryItem
+</parameter_description>
+</parameter>
+</parameters>
+<return> the original URI of @web_history_item
+</return>
+</function>
+
+<function name="webkit_get_default_session">
+<description>
+Retrieves the default #SoupSession used by all web views.
+Note that the session features are added by WebKit on demand,
+so if you insert your own #SoupCookieJar before any network
+traffic occurs, WebKit will use it instead of the default.
+
+
+</description>
+<parameters>
+</parameters>
+<return> the default #SoupSession
+
+Since: 1.1.1
+</return>
+</function>
+
+<function name="webkit_download_get_destination_uri">
+<description>
+Obtains the URI to which the downloaded file will be written. This
+must have been set by the application before calling
+webkit_download_start(), and may be %NULL.
+
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return> the destination URI or %NULL
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_go_back">
+<description>
+Steps backward in the back forward list
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_copy_target_list">
+<description>
+This function returns the list of targets this #WebKitWebView can
+provide for clipboard copying and as DND source. The targets in the list are
+added with %info values from the #WebKitWebViewTargetInfo enum,
+using gtk_target_list_add() and
+gtk_target_list_add_text_targets().
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #GtkTargetList
+</return>
+</function>
+
+<function name="webkit_web_view_can_go_back">
+<description>
+Determines whether #web_view has a previous history item.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> %TRUE if able to move back, %FALSE otherwise
+</return>
+</function>
+
+<function name="WebKitWebNavigationAction">
+<description>
+The target frame for the navigation.
+
+Since: 1.1.13
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_frame_load_request">
+<description>
+Connects to a given URI by initiating an asynchronous client request.
+
+Creates a provisional data source that will transition to a committed data
+source once any data has been received. Use webkit_web_frame_stop_loading() to
+stop the load. This function is typically invoked on the main frame.
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+<parameter name="request">
+<parameter_description> a #WebKitNetworkRequest
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_frame_load_alternate_string">
+<description>
+Request loading of an alternate content for a URL that is unreachable.
+Using this method will preserve the back-forward list. The URI passed in
+@base_url has to be an absolute URI.
+
+Since: 1.1.6
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+<parameter name="content">
+<parameter_description> the alternate content to display as the main page of the @frame
+</parameter_description>
+</parameter>
+<parameter name="base_url">
+<parameter_description> the base URI for relative locations
+</parameter_description>
+</parameter>
+<parameter name="unreachable_url">
+<parameter_description> the URL for the alternate page content
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_set_transparent">
+<description>
+Sets whether the #WebKitWebView has a transparent background.
+
+Pass %FALSE to have the #WebKitWebView draw a solid background
+(the default), otherwise %TRUE.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_window_features_new">
+<description>
+Creates a new #WebKitWebWindowFeatures instance with default values. It must
+be manually attached to a WebView.
+
+
+</description>
+<parameters>
+</parameters>
+<return> a new #WebKitWebWindowFeatures instance
+
+Since 1.0.3
+</return>
+</function>
+
+<function name="SECTION">
+<description>
+#WebKitWebView is the central class of the WebKitGTK+ API. It is a
+#GtkWidget implementing the scrolling interface which means you can
+embed in a #GtkScrolledWindow. It is responsible for managing the
+drawing of the content, forwarding of events. You can load any URI
+into the #WebKitWebView or any kind of data string. With #WebKitWebSettings
+you can control various aspects of the rendering and loading of the content.
+Each #WebKitWebView has exactly one #WebKitWebFrame as main frame. A
+#WebKitWebFrame can have n children.
+
+&lt;programlisting&gt;
+/&lt;!-- --&gt;* Create the widgets *&lt;!-- --&gt;/
+GtkWidget *main_window = gtk_window_new (GTK_WIDGET_TOPLEVEL);
+GtkWidget *scrolled_window = gtk_scrolled_window_new (NULL, NULL);
+GtkWidget *web_view = webkit_web_view_new ();
+
+/&lt;!-- --&gt;* Place the WebKitWebView in the GtkScrolledWindow *&lt;!-- --&gt;/
+gtk_container_add (GTK_CONTAINER (scrolled_window), web_view);
+gtk_container_add (GTK_CONTAINER (main_window), scrolled_window);
+
+/&lt;!-- --&gt;* Open a webpage *&lt;!-- --&gt;/
+webkit_web_view_open (WEBKIT_WEB_VIEW (web_view), &quot;http://www.gnome.org&quot;);
+
+/&lt;!-- --&gt;* Show the result *&lt;!-- --&gt;/
+gtk_window_set_default_size (GTK_WINDOW (main_window), 800, 600);
+gtk_widget_show_all (main_window);
+&lt;/programlisting&gt;
+
+</description>
+<parameters>
+<parameter name="short_description">
+<parameter_description> The central class of the WebKitGTK+ API
+</parameter_description>
+</parameter>
+<parameter name="see_also">
+<parameter_description> #WebKitWebSettings, #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_transparent">
+<description>
+Return value: %FALSE when the #WebKitWebView draws a solid background
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> %FALSE when the #WebKitWebView draws a solid background
+(the default), otherwise %TRUE.
+</return>
+</function>
+
+<function name="WebKitWebFrame">
+<description>
+Determines the current status of the load.
+
+Since: 1.1.7
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_frame_find_frame">
+<description>
+For pre-defined names, returns @frame if @name is &quot;_self&quot; or &quot;_current&quot;,
+Return value: the found #WebKitWebFrame or %NULL in case none is found
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+<parameter name="name">
+<parameter_description> the name of the frame to be found
+</parameter_description>
+</parameter>
+</parameters>
+<return> the found #WebKitWebFrame or %NULL in case none is found
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_go_forward">
+<description>
+Steps forward in the back forward list
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_window_features_equal">
+<description>
+Decides if a #WebKitWebWindowFeatures instance equals another, as
+in has the same values.
+
+
+</description>
+<parameters>
+<parameter name="features1">
+<parameter_description> a #WebKitWebWindowFeatures instance
+</parameter_description>
+</parameter>
+<parameter name="features2">
+<parameter_description> another #WebKitWebWindowFeatures instance
+</parameter_description>
+</parameter>
+</parameters>
+<return> %TRUE if the instances have the same values, %FALSE
+otherwise
+
+Since 1.0.3
+</return>
+</function>
+
+<function name="webkit_web_view_copy_clipboard">
+<description>
+Copies the current selection inside the @web_view to the clipboard.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_frame_get_web_view">
+<description>
+Return value: the #WebKitWebView that manages @frame
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #WebKitWebView that manages @frame
+</return>
+</function>
+
+<function name="webkit_web_view_get_load_status">
+<description>
+Determines the current status of the load.
+
+Since: 1.1.7
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_minor_version">
+<description>
+The minor version number of the WebKit that is linked against.
+
+
+</description>
+<parameters>
+</parameters>
+<return> The minor version
+
+Since: 1.0.1
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_set_limit">
+<description>
+Sets the maximum limit of the back forward list. If the back forward list
+exceeds its capacity, items will be removed everytime a new item has been
+added.
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+<parameter name="limit">
+<parameter_description> the limit to set the back forward list to
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="WebKitDownload">
+<description>
+The total size of the file
+
+Since: 1.1.2
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="WebKitWebHistoryItem">
+<description>
+The time at which the history item was last visited.
+
+Since: 1.0.2
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_focused_frame">
+<description>
+Return value: The focused #WebKitWebFrame or %NULL if no frame is focused
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> The focused #WebKitWebFrame or %NULL if no frame is focused
+</return>
+</function>
+
+<function name="webkit_web_view_get_selected_text">
+<description>
+Retrieves the selected text if any.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> a newly allocated string with the selection or %NULL
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_get_forward_list_with_limit">
+<description>
+Return value: a #GList of items succeeding the current item, limited by @limit
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+<parameter name="limit">
+<parameter_description> the number of items to retrieve
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #GList of items succeeding the current item, limited by @limit
+</return>
+</function>
+
+<function name="webkit_web_history_item_new">
+<description>
+Creates a new #WebKitWebHistoryItem instance
+
+
+</description>
+<parameters>
+</parameters>
+<return> the new #WebKitWebHistoryItem
+</return>
+</function>
+
+<function name="webkit_web_view_set_full_content_zoom">
+<description>
+Sets whether the zoom level affects only text or all elements.
+
+Since: 1.0.1
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="full_content_zoom">
+<parameter_description> %FALSE if only text should be scaled (the default),
+%TRUE if the full content of the view should be scaled.
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_history_item_set_alternate_title">
+<description>
+Sets an alternate title for @web_history_item
+
+</description>
+<parameters>
+<parameter name="web_history_item">
+<parameter_description> a #WebKitWebHistoryItem
+</parameter_description>
+</parameter>
+<parameter name="title">
+<parameter_description> the alternate title for @this history item
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_navigation_action_get_reason">
+<description>
+Return value: a #WebKitWebNavigationReason
+
+</description>
+<parameters>
+<parameter name="navigationAction">
+<parameter_description> a #WebKitWebNavigationAction
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #WebKitWebNavigationReason
+
+Since: 1.0.3
+</return>
+</function>
+
+<function name="webkit_web_frame_reload">
+<description>
+Reloads the initial request.
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="WebKitWebView">
+<description>
+Determines the current progress of the load.
+
+Since: 1.1.7
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_major_version">
+<description>
+The major version number of the WebKit that is linked against.
+
+
+</description>
+<parameters>
+</parameters>
+<return> The major version
+
+Since: 1.0.1
+</return>
+</function>
+
+<function name="webkit_web_back_forward_list_get_limit">
+<description>
+Return value: a #gint indicating the number of #WebHistoryItem the back forward list can hold
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #gint indicating the number of #WebHistoryItem the back forward list can hold
+</return>
+</function>
+
+<function name="webkit_web_policy_decision_download">
+<description>
+Will send the DOWNLOAD decision to the policy implementer.
+
+Since: 1.0.3
+
+</description>
+<parameters>
+<parameter name="decision">
+<parameter_description> a #WebKitWebPolicyDecision
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_navigation_action_get_button">
+<description>
+Return value: the mouse button used to click
+
+</description>
+<parameters>
+<parameter name="navigationAction">
+<parameter_description> a #WebKitWebNavigationAction
+</parameter_description>
+</parameter>
+</parameters>
+<return> the mouse button used to click
+
+Since: 1.0.3
+</return>
+</function>
+
+<function name="webkit_web_history_item_new_with_data">
+<description>
+Creates a new #WebKitWebHistoryItem with the given URI and title
+
+
+</description>
+<parameters>
+<parameter name="uri">
+<parameter_description> the uri of the page
+</parameter_description>
+</parameter>
+<parameter name="title">
+<parameter_description> the title of the page
+</parameter_description>
+</parameter>
+</parameters>
+<return> the new #WebKitWebHistoryItem
+</return>
+</function>
+
+<function name="WebKitWebWindowFeatures">
+<description>
+Controls whether window will be displayed fullscreen.
+
+Since: 1.0.3
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_network_request_get_soup_message">
+<description>
+Obtains the #SoupMessage held and used by the given request. Notice
+that modification of the SoupMessage of a request by signal
+handlers is only supported (as in, will only affect what is
+actually sent to the server) where explicitly documented.
+
+
+</description>
+<parameters>
+<parameter name="request">
+<parameter_description> a #WebKitNetworkRequest
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #SoupMessage
+Since: 1.1.9
+</return>
+</function>
+
+<function name="webkit_download_get_elapsed_time">
+<description>
+Elapsed time for the download in seconds, including any fractional
+part. If the download is finished, had an error or was cancelled
+this is the time between its start and the event.
+
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> a #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return> seconds since the download was started, as a #gdouble
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_web_frame_get_uri">
+<description>
+Return value: the URI of @frame
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return> the URI of @frame
+</return>
+</function>
+
+<function name="webkit_web_inspector_get_web_view">
+<description>
+Obtains the #WebKitWebView that is used to render the
+inspector. The #WebKitWebView instance is created by the
+application, by handling the #WebKitWebInspector::inspect-web-view signal. This means
+that this method may return %NULL if the user hasn't inspected
+anything.
+
+
+</description>
+<parameters>
+</parameters>
+<return> the #WebKitWebView instance that is used to render the
+inspector or %NULL if it is not yet created.
+
+Since: 1.0.3
+</return>
+</function>
+
+<function name="webkit_web_frame_stop_loading">
+<description>
+Stops any pending loads on @frame's data source, and those of its children.
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_has_selection">
+<description>
+Determines whether text was selected.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> %TRUE if there is selected text, %FALSE if not
+</return>
+</function>
+
+<function name="webkit_web_view_zoom_out">
+<description>
+Decreases the zoom level of @web_view. The current zoom
+level is decremented by the value of the &quot;zoom-step&quot;
+property of the #WebKitWebSettings associated with @web_view.
+
+Since: 1.0.1
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_set_highlight_text_matches">
+<description>
+Highlights text matches previously marked by webkit_web_view_mark_text_matches.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="highlight">
+<parameter_description> whether to highlight text matches
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_go_forward">
+<description>
+Loads the next history item.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_inspector_get_inspected_uri">
+<description>
+Obtains the URI that is currently being inspected.
+
+
+</description>
+<parameters>
+</parameters>
+<return> a pointer to the URI as an internally allocated string; it
+should not be freed, modified or stored.
+
+Since: 1.0.3
+</return>
+</function>
+
+<function name="webkit_web_settings_get_spell_languages">
+<description>
+Internal use only. Retrieves a GSList of SpellLanguages from the
+#WebKitWebSettings of @web_view.
+
+Since: 1.1.6
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_back_forward_list">
+<description>
+Return value: the #WebKitWebBackForwardList
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #WebKitWebBackForwardList
+</return>
+</function>
+
+<function name="webkit_web_frame_print">
+<description>
+Prints the given #WebKitFrame, by presenting a print dialog to the
+user. If you need more control over the printing process, see
+webkit_web_frame_print_full().
+
+Since: 1.1.5
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_network_request_new">
+<description>
+Creates a new #WebKitNetworkRequest initialized with an URI.
+
+
+</description>
+<parameters>
+<parameter name="uri">
+<parameter_description> an URI
+</parameter_description>
+</parameter>
+</parameters>
+<return> a new #WebKitNetworkRequest, or %NULL if the URI is
+invalid.
+</return>
+</function>
+
+<function name="webkit_web_view_cut_clipboard">
+<description>
+Cuts the current selection inside the @web_view to the clipboard.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_navigation_action_get_target_frame">
+<description>
+Return value: the target frame of the action or NULL
+
+</description>
+<parameters>
+<parameter name="navigationAction">
+<parameter_description> a #WebKitWebNavigationAction
+</parameter_description>
+</parameter>
+</parameters>
+<return> the target frame of the action or NULL
+if there is no target.
+
+Since: 1.1.13
+</return>
+</function>
+
+<function name="webkit_web_view_get_custom_encoding">
+<description>
+Return value: a string containing the current custom encoding for @web_view, or %NULL if there's none set.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> a string containing the current custom encoding for @web_view, or %NULL if there's none set.
+
+Since: 1.1.1
+</return>
+</function>
+
+<function name="webkit_web_frame_get_name">
+<description>
+Return value: the name of @frame
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return> the name of @frame
+</return>
+</function>
+
+<function name="webkit_web_history_item_get_alternate_title">
+<description>
+Return value: the alternate title of @web_history_item
+
+</description>
+<parameters>
+<parameter name="web_history_item">
+<parameter_description> a #WebKitWebHistoryItem
+</parameter_description>
+</parameter>
+</parameters>
+<return> the alternate title of @web_history_item
+</return>
+</function>
+
+<function name="webkit_web_view_set_zoom_level">
+<description>
+Sets the zoom level of @web_view, i.e. the factor by which elements in
+the page are scaled with respect to their original size.
+If the &quot;full-content-zoom&quot; property is set to %FALSE (the default)
+the zoom level changes the text size, or if %TRUE, scales all
+elements in the page.
+
+Since: 1.0.1
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="zoom_level">
+<parameter_description> the new zoom level
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_get_editable">
+<description>
+Returns %TRUE if @web_view allows the user to edit the HTML document, %FALSE if
+Return value: a #gboolean indicating the editable state
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #gboolean indicating the editable state
+</return>
+</function>
+
+<function name="webkit_web_view_get_window_features">
+<description>
+Return value: the #WebKitWebWindowFeatures
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return> the #WebKitWebWindowFeatures
+
+Since: 1.0.3
+</return>
+</function>
+
+<function name="webkit_web_frame_get_global_context">
+<description>
+Gets the global JavaScript execution context. Use this function to bridge
+between the WebKit and JavaScriptCore APIs.
+
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return> the global JavaScript context
+</return>
+</function>
+
+<function name="webkit_web_view_delete_selection">
+<description>
+Deletes the current selection inside the @web_view.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_back_forward_list_get_back_length">
+<description>
+Return value: a #gint corresponding to the number of items preceding the current item
+
+</description>
+<parameters>
+<parameter name="web_back_forward_list">
+<parameter_description> a #WebKitWebBackForwardList
+</parameter_description>
+</parameter>
+</parameters>
+<return> a #gint corresponding to the number of items preceding the current item
+</return>
+</function>
+
+<function name="webkit_web_frame_dump_render_tree">
+<description>
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebFrame
+</parameter_description>
+</parameter>
+</parameters>
+<return> Non-recursive render tree dump of @frame
+</return>
+</function>
+
+<function name="webkit_micro_version">
+<description>
+The micro version number of the WebKit that is linked against.
+
+
+</description>
+<parameters>
+</parameters>
+<return> The micro version
+
+Since: 1.0.1
+</return>
+</function>
+
+<function name="webkit_download_get_status">
+<description>
+Obtains the current status of the download, as a
+#WebKitDownloadStatus.
+
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return> the current #WebKitDownloadStatus
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_download_get_suggested_filename">
+<description>
+Retrieves the filename that was suggested by the server, or the one
+derived by WebKit from the URI.
+
+
+</description>
+<parameters>
+<parameter name="download">
+<parameter_description> the #WebKitDownload
+</parameter_description>
+</parameter>
+</parameters>
+<return> the suggested filename
+
+Since: 1.1.2
+</return>
+</function>
+
+<function name="webkit_web_frame_get_load_status">
+<description>
+Determines the current status of the load.
+
+Since: 1.1.7
+
+</description>
+<parameters>
+<parameter name="frame">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+<function name="WebKitNetworkRequest">
+<description>
+The #SoupMessage that backs the request.
+
+Since: 1.1.10
+
+</description>
+<parameters>
+</parameters>
+<return></return>
+</function>
+
+<function name="webkit_web_view_mark_text_matches">
+<description>
+Attempts to highlight all occurances of #string inside #web_view.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="string">
+<parameter_description> a string to look for
+</parameter_description>
+</parameter>
+<parameter name="case_sensitive">
+<parameter_description> whether to respect the case of text
+</parameter_description>
+</parameter>
+<parameter name="limit">
+<parameter_description> the maximum number of strings to look for or %0 for all
+</parameter_description>
+</parameter>
+</parameters>
+<return> the number of strings highlighted
+</return>
+</function>
+
+<function name="webkit_web_view_can_go_back_or_forward">
+<description>
+Determines whether #web_view has a history item of @steps. Negative values
+represent steps backward while positive values represent steps forward.
+
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="steps">
+<parameter_description> the number of steps
+</parameter_description>
+</parameter>
+</parameters>
+<return> %TRUE if able to move back or forward the given number of
+steps, %FALSE otherwise
+</return>
+</function>
+
+<function name="webkit_web_view_go_back_or_forward">
+<description>
+Loads the history item that is the number of @steps away from the current
+item. Negative values represent steps backward while positive values
+represent steps forward.
+
+</description>
+<parameters>
+<parameter name="web_view">
+<parameter_description> a #WebKitWebView
+</parameter_description>
+</parameter>
+<parameter name="steps">
+<parameter_description> the number of steps
+</parameter_description>
+</parameter>
+</parameters>
+<return></return>
+</function>
+
+</root>

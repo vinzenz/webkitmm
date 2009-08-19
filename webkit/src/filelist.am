@@ -6,7 +6,9 @@ files_defs = \
     webkit_methods.defs \
     webkit_others.defs \
     webkit_signals.defs \
-    webkit_vfuncs.defs
+    webkit_vfuncs.defs \
+    webkit_docs.xml \
+    webkit_docs_override.xml
 
 files_hg = \
     download.hg \
