@@ -56,15 +56,6 @@
   (construct-only #f)
 )
 
-(define-property total-size
-  (of-object "WebKitDownload")
-  (prop-type "GParamUInt64")
-  (docs "The total size of the file")
-  (readable #t)
-  (writable #f)
-  (construct-only #f)
-)
-
 (define-property current-size
   (of-object "WebKitDownload")
   (prop-type "GParamUInt64")
@@ -74,7 +65,34 @@
   (construct-only #f)
 )
 
+(define-property total-size
+  (of-object "WebKitDownload")
+  (prop-type "GParamUInt64")
+  (docs "The total size of the file")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
 ;; From WebKitNetworkRequest
+
+(define-property uri
+  (of-object "WebKitNetworkRequest")
+  (prop-type "GParamString")
+  (docs "The URI to which the request will be made.")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property message
+  (of-object "WebKitNetworkRequest")
+  (prop-type "GParamObject")
+  (docs "The SoupMessage that backs the request.")
+  (readable #t)
+  (writable #t)
+  (construct-only #t)
+)
 
 ;; From WebKitSoupAuthDialog
 
@@ -153,6 +171,15 @@
   (of-object "WebKitWebFrame")
   (prop-type "GParamString")
   (docs "The current URI of the contents displayed by the frame")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property load-status
+  (of-object "WebKitWebFrame")
+  (prop-type "GParamEnum")
+  (docs "Determines the current status of the load")
   (readable #t)
   (writable #f)
   (construct-only #f)
@@ -513,6 +540,78 @@
   (construct-only #f)
 )
 
+(define-property enable-spell-checking
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Enables spell checking while typing")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property spell-checking-languages
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "Comma separated list of languages to use for spell checking")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-caret-browsing
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Whether to enable accesibility enhanced keyboard navigation")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-html5-database
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Whether to enable HTML5 database support")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-html5-local-storage
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Whether to enable HTML5 Local Storage support")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property enable-xss-auditor
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Whether to enable teh XSS auditor")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property user-agent
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamString")
+  (docs "The User-Agent string used by WebKitGtk")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
+(define-property javascript-can-open-windows-automatically
+  (of-object "WebKitWebSettings")
+  (prop-type "GParamBoolean")
+  (docs "Whether JavaScript can open windows automatically")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
 ;; From WebKitWebWindowFeatures
 
 (define-property x
@@ -622,6 +721,12 @@
   (when "last")
 )
 
+(define-signal close-web-view
+  (of-object "WebKitWebView")
+  (return-type "gboolean")
+  (when "last")
+)
+
 (define-signal navigation-requested
   (of-object "WebKitWebView")
   (return-type "WebKitNavigationResponse")
@@ -712,6 +817,17 @@
   (when "last")
   (parameters
     '("gint" "p0")
+  )
+)
+
+(define-signal load-error
+  (of-object "WebKitWebView")
+  (return-type "gboolean")
+  (when "last")
+  (parameters
+    '("WebKitWebFrame*" "p0")
+    '("const-gchar*" "p1")
+    '("gpointer" "p2")
   )
 )
 
@@ -858,6 +974,17 @@
   (parameters
     '("GtkMovementStep" "p0")
     '("gint" "p1")
+  )
+)
+
+(define-signal create-plugin-widget
+  (of-object "WebKitWebView")
+  (return-type "GtkWidget*")
+  (when "last")
+  (parameters
+    '("const-gchar*" "p0")
+    '("const-gchar*" "p1")
+    '("GHashTable*" "p2")
   )
 )
 
@@ -1078,6 +1205,15 @@
   (construct-only #f)
 )
 
+(define-property double-buffered
+  (of-object "WebKitWebView")
+  (prop-type "GParamBoolean")
+  (docs "Whether or not the widget is double buffered")
+  (readable #t)
+  (writable #t)
+  (construct-only #f)
+)
+
 (define-property border-width
   (of-object "WebKitWebView")
   (prop-type "GParamUInt")
@@ -1201,6 +1337,24 @@
   (docs "Whether the full content is scaled when zooming")
   (readable #t)
   (writable #t)
+  (construct-only #f)
+)
+
+(define-property load-status
+  (of-object "WebKitWebView")
+  (prop-type "GParamEnum")
+  (docs "Determines the current status of the load")
+  (readable #t)
+  (writable #f)
+  (construct-only #f)
+)
+
+(define-property progress
+  (of-object "WebKitWebView")
+  (prop-type "GParamDouble")
+  (docs "Determines the current progress of the load")
+  (readable #t)
+  (writable #f)
   (construct-only #f)
 )
 
