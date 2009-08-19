@@ -21,10 +21,12 @@ webkitmm_configdir = $(libdir)/@WEBKITMM_MODULE_NAME@/include
 webkitmm_config_DATA = webkit/webkitmmconfig.h
 
 pkgconfigdir = $(libdir)/pkgconfig
-pkgconfig_DATA = webkit/webkitmm-1.0.pc
+pkgconfig_DATA = webkit/@WEBKITMM_MODULE_NAME@.pc
 
-dist_noinst_DATA =  \
-              COPYING.examples
+dist_noinst_DATA = COPYING.examples
 dist_noinst_SCRIPTS = autogen.sh
 
 include $(top_srcdir)/build/dist-changelog.am
+
+DISTCLEANFILES = webkit/@WEBKITMM_MODULE_NAME@.pc \
+                 webkit/@WEBKITMM_MODULE_NAME@-uninstalled.pc

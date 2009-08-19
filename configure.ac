@@ -77,10 +77,10 @@ MM_PKG_CONFIG_SUBST([GMMPROC_DIR], [--variable=gmmprocdir glibmm-2.4])
 MM_ARG_ENABLE_WARNINGS([WEBKITMM_WFLAGS], [-Wall], [-Wall -Wextra])
 
 AC_CONFIG_FILES([
+  webkit/$WEBKITMM_MODULE_NAME.pc:webkit/webkitmm.pc.in
+  webkit/$WEBKITMM_MODULE_NAME-uninstalled.pc:webkit/webkitmm-uninstalled.pc.in
   Makefile
 
-  webkit/webkitmm-1.0.pc
-  webkit/webkitmm-1.0-uninstalled.pc
   webkit/src/Makefile
   webkit/webkitmm/Makefile
 
