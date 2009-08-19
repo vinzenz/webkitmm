@@ -13,17 +13,19 @@ else
     docs_subdirs =
 endif
 SUBDIRS = $(src_subdirs) webkit/webkitmm examples $(docs_subdirs)
-DIST_SUBDIRS = tools webkit/src webkit/webkitmm docs build
+DIST_SUBDIRS = examples docs tools webkit/src webkit/webkitmm
 
-webkitmm_includedir		= $(includedir)/webkitmm-1.0
-webkitmm_include_HEADERS	= webkit/webkitmm.h
+webkitmm_includedir = $(includedir)/webkitmm-1.0
+webkitmm_include_HEADERS = webkit/webkitmm.h
 
-webkitmm_configdir		= $(libdir)/webkitmm-1.0/include
-webkitmm_config_DATA	= webkit/webkitmmconfig.h
+webkitmm_configdir = $(libdir)/webkitmm-1.0/include
+webkitmm_config_DATA = webkit/webkitmmconfig.h
 
-pkgconfigdir		= $(libdir)/pkgconfig
-pkgconfig_DATA		= webkit/webkitmm-1.0.pc
+pkgconfigdir = $(libdir)/pkgconfig
+pkgconfig_DATA = webkit/webkitmm-1.0.pc
 
 dist_noinst_DATA =  \
               COPYING.examples
 dist_noinst_SCRIPTS = autogen.sh
+
+include $(top_srcdir)/build/dist-changelog.am

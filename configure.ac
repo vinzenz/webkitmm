@@ -84,13 +84,13 @@ AC_CONFIG_FILES([
   Makefile
 
   webkit/webkitmm-1.0.pc
+  webkit/webkitmm-1.0-uninstalled.pc
   webkit/src/Makefile
   webkit/webkitmm/Makefile
 
   tools/Makefile
 
   docs/Makefile
-  docs/reference/Makefile
     docs/reference/Doxyfile
 
   examples/Makefile
