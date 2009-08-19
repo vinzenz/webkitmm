@@ -94,8 +94,6 @@ AC_CONFIG_FILES([
     docs/reference/Doxyfile
 
   examples/Makefile
-    examples/simple/Makefile
-    examples/browser/Makefile
 ])
 
 AC_OUTPUT()

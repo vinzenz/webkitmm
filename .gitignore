@@ -7,12 +7,14 @@ Makefile.in
 *.swp
 stamp-h?
 *~
+.dirstamp
 
 /aclocal.m4
 /autom4te.cache/
 /config.*
 /configure
 /libtool
+/webkitmm-*.tar.gz
 
 docs/reference/Doxyfile
 docs/reference/doxygen.log
@@ -27,6 +29,7 @@ build/config.*
 build/depcomp
 build/install-sh
 build/libtool.m4
+build/libtool
 build/ltmain.sh
 build/ltoptions.m4
 build/ltsugar.m4
@@ -43,6 +46,7 @@ webkit/src/.stamps/
 
 webkit/stamp-h1
 webkit/webkitmm-1.0.pc
+webkit/webkitmm-1.0-uninstalled.pc
 webkit/webkitmmconfig.h
 
 webkit/webkitmm/*.cc
