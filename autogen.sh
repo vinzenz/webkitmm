@@ -1,5 +1,5 @@
 #!/bin/sh -e
-test -n "$srcdir" || srcdir=`dirname $0`
+test -n "$srcdir" || srcdir=`dirname "$0"`
 test -n "$srcdir" || srcdir=.
 
 mm-common-prepare --force --copy "$srcdir"

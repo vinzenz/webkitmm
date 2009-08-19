@@ -13,12 +13,11 @@ else
     docs_subdirs =
 endif
 SUBDIRS = $(src_subdirs) webkit/webkitmm examples $(docs_subdirs)
-DIST_SUBDIRS = examples docs tools webkit/src webkit/webkitmm
 
-webkitmm_includedir = $(includedir)/webkitmm-1.0
+webkitmm_includedir = $(includedir)/@WEBKITMM_MODULE_NAME@
 webkitmm_include_HEADERS = webkit/webkitmm.h
 
-webkitmm_configdir = $(libdir)/webkitmm-1.0/include
+webkitmm_configdir = $(libdir)/@WEBKITMM_MODULE_NAME@/include
 webkitmm_config_DATA = webkit/webkitmmconfig.h
 
 pkgconfigdir = $(libdir)/pkgconfig

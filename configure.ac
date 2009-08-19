@@ -24,6 +24,7 @@ AC_CONFIG_MACRO_DIR([build])
 AC_CONFIG_AUX_DIR(build)
 AC_CONFIG_HEADERS([config.h webkit/webkitmmconfig.h])
 
+MM_PREREQ([0.4])
 MM_INIT_MODULE([webkitmm-1.0])
 
 # +1 : ? : +1  == new interface that does not break old one
@@ -37,7 +38,7 @@ AC_SUBST(WEBKITMM_SO_VERSION)
 
 dnl Initialize automake stuff
 dnl tar-ustar asks it to use a sensible tar format that can handle long filenames.
-AM_INIT_AUTOMAKE([1.9 tar-ustar])
+AM_INIT_AUTOMAKE([1.9 tar-pax -Wno-portability])
 
 AM_MAINTAINER_MODE
 AC_ARG_VAR([ACLOCAL_FLAGS], [aclocal flags, e.g. -I <macro dir>])
@@ -63,18 +64,17 @@ PKG_CHECK_MODULES(BROWSER_DEPS,
                   BUILD_BROWSER=no)
 AM_CONDITIONAL(BUILD_BROWSER, test x$BUILD_BROWSER = xyes)
 
-AC_SUBST(WEBKITMM_CFLAGS)
-AC_SUBST(WEBKITMM_LIBS)
-
 AC_LANG([C++])
 
 MM_ARG_ENABLE_DOCUMENTATION
 MM_ARG_WITH_TAGFILE_DOC([libstdc++.tag], [mm-common-libstdc++])
 MM_ARG_WITH_TAGFILE_DOC([libsigc++-2.0.tag], [sigc++-2.0])
 MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [glibmm-2.4])
-MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [gtkmm-2.4])
+MM_ARG_WITH_TAGFILE_DOC([ggtkmm-2.4.tag], [gtkmm-2.4])
 
 MM_PKG_CONFIG_SUBST([GMMPROC_DIR], [--variable=gmmprocdir glibmm-2.4])
+
+MM_ARG_ENABLE_WARNINGS([WEBKITMM_WFLAGS], [-Wall], [-Wall -Wextra])
 
 AC_CONFIG_FILES([
   Makefile
@@ -105,6 +105,7 @@ webkitmm WEBKITMM_VERSION
     CXXFLAGS                        : ${CXXFLAGS}
     WEBKITMM_LIBS                   : ${WEBKITMM_LIBS}
     WEBKITMM_CFLAGS                 : ${WEBKITMM_CFLAGS}
+    Warning flags                   : ${WEBKITMM_WFLAGS}
 
  OPTIONAL FEATURES:
     Build Example Browser           : ${BUILD_BROWSER}

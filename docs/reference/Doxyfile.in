@@ -224,8 +224,7 @@ INCLUDE_PATH           =
 INCLUDE_FILE_PATTERNS  =
 PREDEFINED             = __cplusplus \
                          DOXYGEN_SHOULD_SKIP_THIS \
-                         GTKMM_USING_STD(x)= \
-                         GTKMM_API \
+                         WEBKITMM_API \
                          GTKMM_ATKMM_ENABLED \
                          GLIBMM_VFUNCS_ENABLED \
                          GLIBMM_PROPERTIES_ENABLED \

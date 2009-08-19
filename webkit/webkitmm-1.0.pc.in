@@ -6,6 +6,6 @@ includedir=@includedir@
 Name: webkitmm
 Description: C++ wrapper for webkit/Gtk+
 Requires: gtkmm-2.4 webkit-1.0 gthread-2.0
-Version: @VERSION@
+Version: @PACKAGE_VERSION@
 Libs: -L${libdir} -lwebkitmm-1.0
-Cflags: -I${includedir}/webkitmm-1.0 -I${libdir}/webkitmm-1.0/include
+Cflags: -I${includedir}/@WEBKITMM_MODULE_NAME@ -I${libdir}/@WEBKITMM_MODULE_NAME@/include
