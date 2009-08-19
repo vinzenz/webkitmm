@@ -56,7 +56,7 @@ AC_PROG_LIBTOOL
 PKG_CHECK_MODULES(WEBKITMM,
                   gthread-2.0
                   gtkmm-2.4 >= 2.10
-                  webkit-1.0 >= 1.1.6)
+                  webkit-1.0 >= 1.1.7)
 PKG_CHECK_MODULES(BROWSER_DEPS,
                   [glibmm-2.4 >= 2.16],
                   BUILD_BROWSER=yes,

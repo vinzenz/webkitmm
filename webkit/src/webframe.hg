@@ -45,8 +45,8 @@ class WebFrame : public Glib::Object
   _WRAP_METHOD(Glib::RefPtr<WebFrame> find_frame(const std::string& name), webkit_web_frame_find_frame)
   _WRAP_METHOD(Glib::RefPtr<const WebFrame> find_frame(const std::string& name) const, webkit_web_frame_find_frame, constversion)
   _WRAP_METHOD(JSGlobalContextRef get_global_context() const, webkit_web_frame_get_global_context)
-  // 1.1.7 API
-  //_WRAP_METHOD(LoadStatus get_load_status() const, webkit_web_frame_get_load_status)
+  /** @since 1.1.7 */
+  _WRAP_METHOD(LoadStatus get_load_status() const, webkit_web_frame_get_load_status)
   _WRAP_METHOD(std::string get_name() const, webkit_web_frame_get_name)
   _WRAP_METHOD(Glib::RefPtr<WebFrame> get_parent(), webkit_web_frame_get_parent)
   _WRAP_METHOD(Glib::RefPtr<const WebFrame> get_parent() const, webkit_web_frame_get_parent, constversion)

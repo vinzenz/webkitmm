@@ -120,9 +120,10 @@ class WebView : public Gtk::Container
   _WRAP_METHOD(void zoom_out(), webkit_web_view_zoom_out)
   _WRAP_METHOD(Glib::RefPtr<WebWindowFeatures> get_window_features(), webkit_web_view_get_window_features)
   _WRAP_METHOD(Glib::RefPtr<const WebWindowFeatures> get_window_features() const, webkit_web_view_get_window_features, constversion)
-  // 1.1.7 API
-  //_WRAP_METHOD(LoadStatus get_load_status() const, webkit_web_view_get_load_status)
-  //_WRAP_METHOD(double get_progress() const, webkit_web_view_get_progress)
+  /** @since 1.1.7 */
+  _WRAP_METHOD(LoadStatus get_load_status() const, webkit_web_view_get_load_status)
+  /** @since 1.1.7 */
+  _WRAP_METHOD(double get_progress() const, webkit_web_view_get_progress)
 
   // Signals
   _WRAP_SIGNAL(bool console_message(const std::string& message, guint line, const std::string& source_id), "console-message")
@@ -131,6 +132,9 @@ class WebView : public Gtk::Container
 #m4 _CONVERSION(`WebKitWebFrame*',`const Glib::RefPtr<WebFrame>&',`Glib::wrap($3, true)')
 #m4 _CONVERSION(`WebKitNetworkRequest*',`const Glib::RefPtr<NetworkRequest>&',`Glib::wrap($3, true)')
 
+  _WRAP_SIGNAL(bool close_web_view(), "close-web-view")
+  // TODO: need to wrap manually due to the GHashTable?
+  // _WRAP_SIGNAL(Gtk::Widget& create_plugin_widget(const std::string& mime_type, const Glib::ustring& uri, GHashTable *param), "create-plugin-widget")
   _WRAP_SIGNAL(WebView& create_web_view(const Glib::RefPtr<WebFrame>& frame), "create-web-view")
   _WRAP_SIGNAL(void cut_clipboard(), "cut-clipboard")
 
