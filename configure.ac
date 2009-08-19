@@ -74,11 +74,7 @@ MM_ARG_WITH_TAGFILE_DOC([libsigc++-2.0.tag], [sigc++-2.0])
 MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [glibmm-2.4])
 MM_ARG_WITH_TAGFILE_DOC([glibmm-2.4.tag], [gtkmm-2.4])
 
-# TODO: remove dummies
-MM_PKG_CONFIG_SUBST([GMM_PROCDIR], [--variable=gmmprocdir glibmm-2.4])
-AC_SUBST([GMM_PROC], ['${GMM_PROCDIR}/gmmproc'])
-AM_CONDITIONAL([OS_WIN32], [false])
-AM_CONDITIONAL([PLATFORM_WIN32], [false])
+MM_PKG_CONFIG_SUBST([GMMPROC_DIR], [--variable=gmmprocdir glibmm-2.4])
 
 AC_CONFIG_FILES([
   Makefile
