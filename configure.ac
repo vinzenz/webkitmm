@@ -22,7 +22,7 @@ AC_PREREQ([2.59])
 AC_CONFIG_SRCDIR([webkit/webkitmmconfig.h.in])
 AC_CONFIG_MACRO_DIR([build])
 AC_CONFIG_AUX_DIR(build)
-AC_CONFIG_HEADERS([webkit/webkitmmconfig.h])
+AC_CONFIG_HEADERS([config.h webkit/webkitmmconfig.h])
 
 MM_INIT_MODULE([webkitmm-1.0])
 

@@ -6,13 +6,13 @@ Makefile.in
 *.[oa]
 *.swp
 stamp-h?
+*~
 
-aclocal.m4
-autom4te.cache/
-config.log
-config.status
-configure
-libtool
+/aclocal.m4
+/autom4te.cache/
+/config.*
+/configure
+/libtool
 
 docs/reference/Doxyfile
 docs/reference/doxygen.log
@@ -23,8 +23,7 @@ docs/reference/webkitmm*.devhelp2
 examples/browser/browser
 examples/simple/simple
 
-build/config.guess
-build/config.sub
+build/config.*
 build/depcomp
 build/install-sh
 build/libtool.m4
